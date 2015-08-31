@@ -48,6 +48,7 @@ public class RuleSetToDocsTest extends TestBase {
 
         String basicRuleset = IOUtils.toString(new File(TEST_DIR + "target/java/basic.md").toURI());
         assertTrue(basicRuleset.contains("t i = 0; i &lt; 10; i++)"));
+        assertTrue(basicRuleset.contains("java 1.5"));
     }
 
     @Test

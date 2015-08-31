@@ -48,5 +48,32 @@ public class JumbledIncrementerRule1 {
      </example>
      </rule>
 
+    <rule name="RuleWithAMinimumLanguageVersion"
+          language="java"
+          minimumLanguageVersion="1.5"
+          since="5.4.0"
+          message="The minimum language version should be in the docs"
+          class="net.sourceforge.pmd.lang.rule.XPathRule"
+          externalInfoUrl="http://pmd.sourceforge.net/rules/java/clone.html#CloneMethodReturnTypeMustMatchClassName">
+     <description>
+The minimum language version should be in the generated docs.
+     </description>
+     <priority>3</priority>
+     <properties>
+         <property name="xpath">
+             <value>
+ <![CDATA[
+//ForStatement
+ ]]>
+             </value>
+         </property>
+     </properties>
+     <example>
+ <![CDATA[
+public class Foo {}
+ ]]>
+     </example>
+     </rule>
+
      <rule deprecated="true" ref="rulesets/java/codesize.xml/NPathComplexity"/>
 </ruleset>

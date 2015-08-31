@@ -10,6 +10,7 @@
     <!-- FUTURE: Externalising text to allow i18n generation -->
     <xsl:variable name="Since" select="'Since: PMD '" />
     <xsl:variable name="Priority" select="'Priority'" />
+    <xsl:variable name="MinimumLanguageVersion" select="'Minimum Language Version'" />
     <xsl:variable name="definedByJavaClass" select="'This rule is defined by the following Java class'" />
     <xsl:variable name="ExampleLabel" select="'Example(s)'" />
     <xsl:variable name="PropertiesLabel" select="'This rule has the following properties'" />
@@ -42,6 +43,11 @@
 
 <xsl:value-of select="$newline"/><xsl:value-of select="$Since" /> <xsl:value-of select="concat(@since, $newline, $newline)" />
 <xsl:value-of select="$newline"/><xsl:value-of select="$Priority" />: <xsl:value-of select="concat(priority, $newline, $newline)" />
+<xsl:choose>
+    <xsl:when test="@minimumLanguageVersion">
+        <xsl:value-of select="$newline"/><xsl:value-of select="$MinimumLanguageVersion" />: <xsl:value-of select="concat(@language, ' ', @minimumLanguageVersion, $newline, $newline)" />
+    </xsl:when>
+</xsl:choose>
 <xsl:value-of select="$newline"/><xsl:value-of select="description" />
 
             <xsl:choose>

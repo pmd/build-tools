@@ -17,8 +17,8 @@ Step by step:
 -------------
 1. Checkout master branch:
 
-git clone https://github.com/pmd/pmd.git
-cd pmd/maven-plugin-pmd-build
+git clone https://github.com/pmd/build-tools.git
+cd build-tools
  
 2. Prepare the release (creates a new release tag).
    This will be done for you: http://maven.apache.org/plugins/maven-release-plugin/examples/prepare-release.html

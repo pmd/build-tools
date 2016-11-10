@@ -10,7 +10,7 @@
         <plugins>
             <plugin>
               <groupId>net.sourceforge.pmd</groupId>
-              <artifactId>pmd-build</artifactId>
+              <artifactId>pmd-build-tools-plugin</artifactId>
               <version>0.7-SNAPSHOT</version>
               <configuration>
                 <siteXml>${basedir}/target/unit/sample-pmd/src/site/site.pre.xml</siteXml>

@@ -1,6 +1,7 @@
 /**
  * BSD-style license; for more info see http://pmd.sourceforge.net/license.html
  */
+
 package net.sourceforge.pmd.build.xml;
 
 import java.io.File;
@@ -17,15 +18,15 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
 import net.sourceforge.pmd.build.PmdBuildException;
 import net.sourceforge.pmd.build.filefilter.DirectoryFileFilter;
 import net.sourceforge.pmd.build.filefilter.RulesetFilenameFilter;
 import net.sourceforge.pmd.build.util.ConfigUtil;
 import net.sourceforge.pmd.build.util.FileUtil;
 import net.sourceforge.pmd.build.util.XmlUtil;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 
 /**
  *

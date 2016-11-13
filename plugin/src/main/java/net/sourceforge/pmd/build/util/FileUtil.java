@@ -1,6 +1,7 @@
 /**
  * BSD-style license; for more info see http://pmd.sourceforge.net/license.html
  */
+
 package net.sourceforge.pmd.build.util;
 
 import java.io.BufferedReader;
@@ -78,12 +79,13 @@ public final class FileUtil {
 
     public static File createDirIfMissing(String dirname) {
         File dir = new File(dirname);
-        if (!dir.exists() && !dir.mkdirs()) {// no directory, creating it
-            throw new IllegalStateException("Target directory '" + dir.getAbsolutePath()
-                    + "' does not exist and can't be created");
+        if (!dir.exists() && !dir.mkdirs()) {
+            // no directory, creating it failed
+            throw new IllegalStateException(
+                    "Target directory '" + dir.getAbsolutePath() + "' does not exist and can't be created");
         } else if (dir.exists() && dir.isFile()) {
-            throw new IllegalStateException("Target directory '" + dir.getAbsolutePath()
-                    + "' already exist and is a file.");
+            throw new IllegalStateException(
+                    "Target directory '" + dir.getAbsolutePath() + "' already exist and is a file.");
         }
         return dir;
     }
@@ -120,9 +122,8 @@ public final class FileUtil {
             // Copy , and suppress tmp file
             FileUtil.copy(tmp, file);
             tmp.delete();
-        }
-        // Catches any error conditions
-        catch (IOException e) {
+        } catch (IOException e) {
+            // Catches any error conditions
             e.printStackTrace();
         }
     }
@@ -152,8 +153,8 @@ public final class FileUtil {
             target.createNewFile();
             copy(source, target);
         } catch (IOException e) {
-            throw new IllegalArgumentException("Can't copy " + source.getAbsolutePath() + " over "
-                    + target.getAbsolutePath());
+            throw new IllegalArgumentException(
+                    "Can't copy " + source.getAbsolutePath() + " over " + target.getAbsolutePath());
         }
         return target;
     }

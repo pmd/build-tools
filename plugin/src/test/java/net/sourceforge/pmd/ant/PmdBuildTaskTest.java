@@ -4,15 +4,15 @@
 
 package net.sourceforge.pmd.ant;
 
-import static org.junit.Assert.assertTrue;
-
 import java.io.File;
 import java.net.URL;
 
-import net.sourceforge.pmd.TestBase;
-
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
+
+import net.sourceforge.pmd.TestBase;
+
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author rpelisse

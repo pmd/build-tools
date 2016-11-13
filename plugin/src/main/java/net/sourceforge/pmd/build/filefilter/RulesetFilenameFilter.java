@@ -1,6 +1,7 @@
 /**
  * BSD-style license; for more info see http://pmd.sourceforge.net/license.html
  */
+
 package net.sourceforge.pmd.build.filefilter;
 
 import java.io.File;
@@ -15,14 +16,14 @@ import java.util.regex.Pattern;
 
 public class RulesetFilenameFilter implements FilenameFilter {
 
-    // FUTURE: Make this somehow configurable ? Turn into an array passed by constructor ?
+    // FUTURE: Make this somehow configurable ? Turn into an array passed by
+    // constructor ?
     private static final Pattern EXCLUDE = Pattern.compile(
-        "(^[0-9][0-9].*\\.xml)" +
-        "|(^.*dogfood.*\\.xml)" +
-        "|(^all-.*\\.xml)" +
-        "|(^migrating_.*\\.xml)" +
-        "|(^pmdspecific.xml)"
-    );
+          "(^[0-9][0-9].*\\.xml)"
+        + "|(^.*dogfood.*\\.xml)"
+        + "|(^all-.*\\.xml)"
+        + "|(^migrating_.*\\.xml)"
+        + "|(^pmdspecific.xml)");
 
     public boolean accept(File file, String name) {
         if (doesNotMatchExcludeNames(name)) {

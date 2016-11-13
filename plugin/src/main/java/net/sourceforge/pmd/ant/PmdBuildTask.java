@@ -1,16 +1,17 @@
 /**
  * BSD-style license; for more info see http://pmd.sourceforge.net/license.html
  */
+
 package net.sourceforge.pmd.ant;
 
 import java.net.URL;
 
+import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.Task;
+
 import net.sourceforge.pmd.build.PmdBuildException;
 import net.sourceforge.pmd.build.PmdBuildTools;
 import net.sourceforge.pmd.build.RuleSetToDocs;
-
-import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.Task;
 
 /**
  * @author Romain PELISSE, belaran@gmail.com

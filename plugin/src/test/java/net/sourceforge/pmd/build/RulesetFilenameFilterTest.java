@@ -1,16 +1,17 @@
 /**
  * BSD-style license; for more info see http://pmd.sourceforge.net/license.html
  */
-package net.sourceforge.pmd.build;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+package net.sourceforge.pmd.build;
 
 import java.io.File;
 
+import org.junit.Test;
+
 import net.sourceforge.pmd.build.filefilter.RulesetFilenameFilter;
 
-import org.junit.Test;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class RulesetFilenameFilterTest {
 

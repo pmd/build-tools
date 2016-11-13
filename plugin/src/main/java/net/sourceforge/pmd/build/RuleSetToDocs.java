@@ -1,10 +1,8 @@
 /**
  * BSD-style license; for more info see http://pmd.sourceforge.net/license.html
  */
-package net.sourceforge.pmd.build;
 
-import static net.sourceforge.pmd.build.util.ConfigUtil.getString;
-import static net.sourceforge.pmd.build.util.XmlUtil.createXmlBackbone;
+package net.sourceforge.pmd.build;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -20,17 +18,20 @@ import java.util.logging.Logger;
 
 import javax.xml.transform.dom.DOMSource;
 
+import org.apache.commons.io.FilenameUtils;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
 import net.sourceforge.pmd.build.filefilter.DirectoryFileFilter;
 import net.sourceforge.pmd.build.filefilter.RulesetFilenameFilter;
 import net.sourceforge.pmd.build.util.FileUtil;
 import net.sourceforge.pmd.build.util.XmlUtil;
 import net.sourceforge.pmd.build.xml.RulesetFileTemplater;
 
-import org.apache.commons.io.FilenameUtils;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import static net.sourceforge.pmd.build.util.ConfigUtil.getString;
+import static net.sourceforge.pmd.build.util.XmlUtil.createXmlBackbone;
 
 /**
  * A small class to convert files from pmd rulesets fmt to xdoc fmt
@@ -139,7 +140,8 @@ public class RuleSetToDocs implements PmdBuildTools {
         } else if (!rulesDir.exists()) {
             throw new PmdBuildException("The rulesets directory specified '" + rulesDirectory + "' does not exist");
         } else if (!rulesDir.isDirectory()) {
-            throw new PmdBuildException("The rulesets directory '" + rulesDirectory + "' provided is not a directory !");
+            throw new PmdBuildException(
+                    "The rulesets directory '" + rulesDirectory + "' provided is not a directory !");
         }
     }
 
@@ -184,7 +186,7 @@ public class RuleSetToDocs implements PmdBuildTools {
                 for (Node prop : properties) {
                     List<Node> property = findChildren(prop, "property");
                     for (Node n : property) {
-                        if (((Element)n).getAttribute("name").equals("xpath")) {
+                        if (((Element) n).getAttribute("name").equals("xpath")) {
                             escapeTextContent(findChildren(n, "value"));
                         }
                     }
@@ -208,14 +210,17 @@ public class RuleSetToDocs implements PmdBuildTools {
         }
         return result;
     }
+
     private static boolean isElement(Node node, String name) {
         return node.getNodeType() == Node.ELEMENT_NODE && name.equals(node.getNodeName());
     }
+
     private static void escapeTextContent(Collection<Node> nodes) {
         for (Node node : nodes) {
             escapeTextContent(node);
         }
     }
+
     private static void escapeTextContent(Node node) {
         String content = node.getTextContent();
         content = content.replaceAll("&", "&amp;");
@@ -261,7 +266,8 @@ public class RuleSetToDocs implements PmdBuildTools {
         // file.
         FileUtil.replaceAllInFile(mergedFile, "xmlns=\"http://pmd.sourceforge.net/ruleset/2.0.0\"", "");
         if (LOGGER.isLoggable(Level.FINE)) {
-            LOGGER.fine("Creating index file:" + this.indexRuleSetFilename + ", using merged file:" + mergedFile.toString());
+            LOGGER.fine("Creating index file:" + this.indexRuleSetFilename + ", using merged file:"
+                    + mergedFile.toString());
         }
         return backbone;
     }
@@ -270,11 +276,12 @@ public class RuleSetToDocs implements PmdBuildTools {
         if (LOGGER.isLoggable(Level.FINE)) {
             LOGGER.fine("Merging all rules into " + this.mergedRuleSetFilename);
         }
-        File mergedFile = new File(this.targetDirectory + File.separator + FileUtil.pathToParent + File.separator
-                + mergedRuleSetFilename);
+        File mergedFile = new File(
+                this.targetDirectory + File.separator + FileUtil.pathToParent + File.separator + mergedRuleSetFilename);
         DOMSource backbone = createMergedFile(mergedFile);
         if (LOGGER.isLoggable(Level.FINE)) {
-            LOGGER.fine("Creating index file:" + this.indexRuleSetFilename + ", using merged file:" + mergedFile.toString());
+            LOGGER.fine("Creating index file:" + this.indexRuleSetFilename + ", using merged file:"
+                    + mergedFile.toString());
         }
         // Create index from ruleset merge
         xmlFileTemplater.transform(mergedFile, new File(this.targetDirectory + File.separator + indexRuleSetFilename),

@@ -1,10 +1,8 @@
 /**
  * BSD-style license; for more info see http://pmd.sourceforge.net/license.html
  */
-package net.sourceforge.pmd.build;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+package net.sourceforge.pmd.build;
 
 import java.io.File;
 import java.lang.reflect.Field;
@@ -13,10 +11,13 @@ import java.net.URL;
 import java.util.List;
 import java.util.Map;
 
-import net.sourceforge.pmd.TestBase;
-
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
+
+import net.sourceforge.pmd.TestBase;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author Romain PELISSE, belaran@gmail.com

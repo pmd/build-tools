@@ -1,6 +1,7 @@
 /**
  * BSD-style license; for more info see http://pmd.sourceforge.net/license.html
  */
+
 package net.sourceforge.pmd.maven;
 
 import java.io.File;
@@ -8,10 +9,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-
-import net.sourceforge.pmd.build.PmdBuildException;
-import net.sourceforge.pmd.build.PmdBuildTools;
-import net.sourceforge.pmd.build.RuleSetToDocs;
 
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.plugin.AbstractMojo;
@@ -22,10 +19,14 @@ import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.plugins.annotations.ResolutionScope;
 import org.apache.maven.project.MavenProject;
 
+import net.sourceforge.pmd.build.PmdBuildException;
+import net.sourceforge.pmd.build.PmdBuildTools;
+import net.sourceforge.pmd.build.RuleSetToDocs;
+
 /**
  * Generates markdown sites for each ruleset.
  */
-@Mojo( name = "pmd-pre-site", requiresDependencyResolution = ResolutionScope.RUNTIME, defaultPhase = LifecyclePhase.PRE_SITE )
+@Mojo(name = "pmd-pre-site", requiresDependencyResolution = ResolutionScope.RUNTIME, defaultPhase = LifecyclePhase.PRE_SITE)
 public class PmdPreSite extends AbstractMojo {
     /**
      * Path to the existing site descriptor

@@ -1,6 +1,7 @@
 /**
  * BSD-style license; for more info see http://pmd.sourceforge.net/license.html
  */
+
 package net.sourceforge.pmd.build.util;
 
 import java.io.ByteArrayOutputStream;
@@ -18,12 +19,12 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
-import net.sourceforge.pmd.build.PmdBuildException;
-import net.sourceforge.pmd.build.xml.XmlFileTemplater;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
+
+import net.sourceforge.pmd.build.PmdBuildException;
+import net.sourceforge.pmd.build.xml.XmlFileTemplater;
 
 /**
  *

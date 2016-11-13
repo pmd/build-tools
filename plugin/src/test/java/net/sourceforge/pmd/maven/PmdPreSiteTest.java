@@ -1,6 +1,7 @@
 /**
  * BSD-style license; for more info see http://pmd.sourceforge.net/license.html
  */
+
 package net.sourceforge.pmd.maven;
 
 import java.io.File;
@@ -33,16 +34,16 @@ public class PmdPreSiteTest extends AbstractMojoTestCase {
         assertNotNull(myMojo);
         myMojo.execute();
 
-        String codeSizeRuleset = IOUtils.toString(new File(
-                "target/unit/sample-pmd/target/generated-xdocs/rules/java/codesize.md").toURI());
+        String codeSizeRuleset = IOUtils
+                .toString(new File("target/unit/sample-pmd/target/generated-xdocs/rules/java/codesize.md").toURI());
         assertTrue(codeSizeRuleset.contains("minimum"));
 
-        String basicRuleset = IOUtils.toString(new File(
-                "target/unit/sample-pmd/target/generated-xdocs/rules/java/basic.md").toURI());
+        String basicRuleset = IOUtils
+                .toString(new File("target/unit/sample-pmd/target/generated-xdocs/rules/java/basic.md").toURI());
         assertEquals(3, StringUtils.countMatches(basicRuleset, "## "));
 
-        String indexPage = IOUtils.toString(new File("target/unit/sample-pmd/target/generated-xdocs/rules/index.md")
-                .toURI());
+        String indexPage = IOUtils
+                .toString(new File("target/unit/sample-pmd/target/generated-xdocs/rules/index.md").toURI());
         assertFalse(indexPage.contains("<li>: </li>"));
 
         String site = IOUtils.toString(new File("target/unit/sample-pmd/src/site/site.xml").toURI());

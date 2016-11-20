@@ -4,6 +4,9 @@
 
 package net.sourceforge.pmd.build;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -15,9 +18,6 @@ import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 
 import net.sourceforge.pmd.TestBase;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 /**
  * @author Romain PELISSE, belaran@gmail.com

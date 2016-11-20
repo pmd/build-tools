@@ -86,8 +86,8 @@
     </module>
     <module name="ImportOrder">
       <property name="severity" value="error"/>
-      <property name="option" value="bottom"/>
-      <property name="groups" value="java,javax,org,net.sourceforge.pmd"/>
+      <property name="option" value="top"/>
+      <property name="groups" value="/^javax?\./,/^org\./,/^net\.sourceforge\.pmd/"/>
       <property name="separated" value="true"/>
       <property name="sortStaticImportsAlphabetically" value="true"/>
     </module>
@@ -232,6 +232,7 @@
     </module>
     <module name="Indentation">
       <property name="severity" value="error"/>
+      <property name="caseIndent" value="0"/>
     </module>
     <module name="CommentsIndentation">
       <property name="severity" value="error"/>

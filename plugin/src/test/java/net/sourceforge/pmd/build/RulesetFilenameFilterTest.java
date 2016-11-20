@@ -4,14 +4,14 @@
 
 package net.sourceforge.pmd.build;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import java.io.File;
 
 import org.junit.Test;
 
 import net.sourceforge.pmd.build.filefilter.RulesetFilenameFilter;
-
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 public class RulesetFilenameFilterTest {
 

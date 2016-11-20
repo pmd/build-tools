@@ -4,6 +4,9 @@
 
 package net.sourceforge.pmd.build;
 
+import static net.sourceforge.pmd.build.util.ConfigUtil.getString;
+import static net.sourceforge.pmd.build.util.XmlUtil.createXmlBackbone;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -29,9 +32,6 @@ import net.sourceforge.pmd.build.filefilter.RulesetFilenameFilter;
 import net.sourceforge.pmd.build.util.FileUtil;
 import net.sourceforge.pmd.build.util.XmlUtil;
 import net.sourceforge.pmd.build.xml.RulesetFileTemplater;
-
-import static net.sourceforge.pmd.build.util.ConfigUtil.getString;
-import static net.sourceforge.pmd.build.util.XmlUtil.createXmlBackbone;
 
 /**
  * A small class to convert files from pmd rulesets fmt to xdoc fmt

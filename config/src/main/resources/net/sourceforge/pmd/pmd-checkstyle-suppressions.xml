@@ -9,8 +9,4 @@
     <suppress checks="RegexpHeaderCheck" files="net/sourceforge/pmd/lang/vm/.*"/>
     <!-- Part of pmd-scala is under LGPL -->
     <suppress checks="RegexpHeadercheck" files="org/sonar/plugins/scala/.*"/>
-    
-    <!-- ModifiedControlVariable / JumbledIncrementer -->
-    <suppress checks="ModifiedControlVariable" files="net/sourceforge/pmd/cpd/MatchAlgorithm\.java"/>
-    <suppress checks="ModifiedControlVariable" files="net/sourceforge/pmd/lang/dfa/SequenceChecker\.java"/>
 </suppressions>

@@ -11,6 +11,7 @@
 <module name="Checker">
   <property name="severity" value="warning"/>
   <module name="TreeWalker">
+    <module name="FileContentsHolder"/>
     <module name="AnnotationUseStyle">
       <property name="severity" value="error"/>
     </module>
@@ -270,4 +271,5 @@
   <module name="NewlineAtEndOfFile">
     <property name="severity" value="error"/>
   </module>
+  <module name="SuppressWithNearbyCommentFilter"/>
 </module>

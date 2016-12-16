@@ -22,7 +22,7 @@
       <property name="severity" value="warning"/>
     </module>
     <module name="PackageAnnotation">
-      <property name="severity" value="warning"/>
+      <property name="severity" value="error"/>
     </module>
     <module name="JavadocMethod">
       <property name="severity" value="warning"/>
@@ -249,6 +249,53 @@
       <property name="severity" value="error"/>
     </module>
     <module name="OuterTypeFilename">
+      <property name="severity" value="error"/>
+    </module>
+    <module name="HideUtilityClassConstructor">
+      <property name="severity" value="error"/>
+    </module>
+    <module name="EmptyStatement">
+      <property name="severity" value="error"/>
+    </module>
+    <module name="EqualsAvoidNull">
+      <property name="severity" value="error"/>
+    </module>
+    <module name="AnnotationLocation">
+      <property name="severity" value="error"/>
+      <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="error"/>
+    </module>
+    <module name="ConstantName">
+      <property name="severity" value="error"/>
+    </module>
+    <module name="LocalVariableName">
+      <property name="severity" value="error"/>
+      <property name="allowOneCharVarInForLoop" value="true"/>
+    </module>
+    <module name="MemberName">
+      <property name="severity" value="error"/>
+    </module>
+    <module name="MethodName">
+      <property name="severity" value="error"/>
+    </module>
+    <module name="PackageName">
+      <property name="severity" value="error"/>
+    </module>
+    <module name="ParameterName">
+      <property name="severity" value="error"/>
+    </module>
+    <module name="StaticVariableName">
+      <property name="severity" value="error"/>
+    </module>
+    <module name="TypeName">
+      <property name="severity" value="error"/>
+    </module>
+    <module name="ClassTypeParameterName">
+      <property name="severity" value="error"/>
+    </module>
+    <module name="MethodTypeParameterName">
+      <property name="severity" value="error"/>
+    </module>
+    <module name="InterfaceTypeParameterName">
       <property name="severity" value="error"/>
     </module>
   </module>

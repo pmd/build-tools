@@ -28,13 +28,13 @@ public class RuleSetToDocsTest extends TestBase {
     @Test
     public void convertRulesetsTest() throws Exception {
         RuleSetToDocs builder = new RuleSetToDocs();
-        builder.setRulesDirectory(TEST_DIR + "src/main/resources/rulesets");
-        builder.setTargetDirectory(TEST_DIR + "target");
+        builder.setRulesDirectory(testDirName + "src/main/resources/rulesets");
+        builder.setTargetDirectory(testDirName + "target");
         builder.setRuntimeClasspath(new URL[] { new File("target/test-classes").toURI().toURL() });
 
         builder.convertRulesets();
 
-        String codeSizeRuleset = IOUtils.toString(new File(TEST_DIR + "target/java/codesize.md").toURI());
+        String codeSizeRuleset = IOUtils.toString(new File(testDirName + "target/java/codesize.md").toURI());
 
         assertTrue(codeSizeRuleset.contains("# Code Size"));
         assertTrue(codeSizeRuleset.contains("minimum"));
@@ -47,7 +47,7 @@ public class RuleSetToDocsTest extends TestBase {
 
         assertTrue(codeSizeRuleset.contains("SoonToBeRemoved"));
 
-        String basicRuleset = IOUtils.toString(new File(TEST_DIR + "target/java/basic.md").toURI());
+        String basicRuleset = IOUtils.toString(new File(testDirName + "target/java/basic.md").toURI());
         assertTrue(basicRuleset.contains("t i = 0; i &lt; 10; i++)"));
         assertTrue(basicRuleset.contains("java 1.5"));
     }

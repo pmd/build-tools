@@ -17,8 +17,8 @@ import org.junit.Before;
  */
 public abstract class TestBase {
 
-    protected static String TEST_DIR = "target/test-environment/";
-    protected static File testDir = new File(TEST_DIR);
+    protected static String testDirName = "target/test-environment/";
+    protected static File testDir = new File(testDirName);
 
     /**
      * @throws java.lang.Exception

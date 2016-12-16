@@ -33,6 +33,9 @@ import net.sourceforge.pmd.build.xml.XmlFileTemplater;
  */
 public final class XmlUtil {
 
+    private XmlUtil() {
+    }
+
     private static InputStream loadXsl(String xsl) {
         InputStream xslAsStream = FileUtil.createInputStream(xsl);
         if (xslAsStream == null) {

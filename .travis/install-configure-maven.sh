@@ -11,5 +11,4 @@ chmod +x apache-maven-3.3.9/bin/mvn
 
 echo "MAVEN_OPTS='-Xms1g -Xmx1g'" > .mavenrc
 mkdir -p .m2
-cp $SOURCE_HOME/.travis/travis-toolchains.xml .m2/toolchains.xml
 cp $SOURCE_HOME/.travis/travis-settings.xml .m2/settings.xml

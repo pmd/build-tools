@@ -30,7 +30,7 @@ import net.sourceforge.pmd.build.util.XmlUtil;
 
 /**
  *
- * @author Romain Pelisse <belaran@gmail.com>
+ * @author Romain Pelisse &lt;belaran@gmail.com&gt;
  *
  */
 public class RulesetFileTemplater implements XmlFileTemplater {

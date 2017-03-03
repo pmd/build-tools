@@ -24,7 +24,7 @@ import java.util.List;
 import net.sourceforge.pmd.build.PmdBuildException;
 
 /**
- * @author Romain Pelisse <belaran@gmail.com>
+ * @author Romain Pelisse &lt;belaran@gmail.com&gt;
  *
  */
 public final class FileUtil {

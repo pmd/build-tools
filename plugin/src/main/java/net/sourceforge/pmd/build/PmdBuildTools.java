@@ -46,7 +46,7 @@ public interface PmdBuildTools {
 
     /**
      *
-     * @param siteXmlTaget
+     * @param siteXmlTarget
      */
     void setSiteXmlTarget(String siteXmlTarget);
 

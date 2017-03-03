@@ -1,0 +1,45 @@
+sudo: false
+addons:
+  apt:
+    packages:
+      - oracle-java8-installer
+language: java
+jdk: oraclejdk8
+before_install:
+  - bash .travis/setup-secrets.sh
+  - bash .travis/install-configure-maven.sh
+  - export M2_HOME=$HOME/apache-maven-3.3.9
+  - export PATH=$HOME/apache-maven-3.3.9/bin:${PATH}
+install: mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+before_script: true
+script:
+  - 'if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then bash .travis/build-pull-request; fi'
+  - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ] && [ "${TRAVIS_SECURE_ENV_VARS}" = "true" ]; then bash .travis/build-push.sh; fi'
+after_success: true
+
+notifications:
+  email:
+    recipients:
+    - adangel@users.sourceforge.net
+    on_success: always
+    on_failure: always
+cache:
+  directories:
+  - "$HOME/.m2"
+
+#
+# Required Secure Variables:
+#
+# CI_DEPLOY_USERNAME - the user which can upload net.sourceforge.pmd:* to https://oss.sonatype.org/
+# CI_DEPLOY_PASSWORD
+#
+# CI_SIGN_KEYNAME - GPG key used to sign the release jar before uploading to maven central
+# CI_SIGN_PASSPHRASE
+
+env:
+  global:
+  - secure: "irfh3kJZsEKsUgL0EwPFEOK0pl8aO0wHm5PRr/HSURhL179xQA5gmVFZFg9gtaH4xNgqGuqvVmnhB9MmhAa1vmns/wnTQyZzYl+JfzaAZTAMxazOXKh/qtOZtZZGauueuSpTJpJeBTbNgYcqpvSUkOAbAl68GJbmnJUco7IauD3SmpcG8tDL5nzW0hIcuXg/R5FrG5lw/G3LkOtVxBEhgUFD6nYPlIm4v2HHycI8nTv2csWTiyGITpML7CMawywVlQ3mZ4BTwSOy1bdJBXk8Y3fDsrxs3aLizMkgYWvcfQl505gXsTbzQ7OOOs2E83XR7Ubsw+yPaCH1u65nwEMBrLFPOXpGgFCTckbNyW0H1bcIH0Ym8cV4ji6gymyu+tncm42WZK4hdyvpNOutjnwC6j4fwTWvEfVa8mK6HEGFTXSniO1RxdOhgxqNjPdYnBLsxm/i5CHMtH3DBesq/i7Zfr6qK9h0Mzk2j+xXw8o71ecr3F7D7tUKnycQCglWYs9lS35Cwtj61BcLHXZ0alDoY6t8/WQCEFZSan1aLYXnHii7utuapQzV/sJiV422vWviXO1+qJrowVYARkYKven3A+uCd5Ki1/TecZfiXpWhCBIAJxSOgJGVE6vuhjp2MQnP8HTLXGH6cNGIKaHkqQIy9lC1L97NBXjd5MxiVuT4YT8="
+  - secure: "0exDuU/vTeQ4GdiY1RmfsN9+eMcMgEU93Wmh5rO6BvYvZfD/nI8a1/S8WsBG0poMksf6ZQe/P1mILByRlCRagmBqVKqprE1ennYP1GY+T6i5JMjE9R7iAaY35eISbU45f/UhQjfRgBuWYYYlFpAbj8pyBf0AyFjgQh+2CJI/tm8Bx2aUPoaA8TM6llK7SOR/Hzo04DWLMV/PDJOPqntcp9oKWl5KuV3SklJmYFJ9TSSTtE350ibM8emnoPMaXKSuSbrbfT70PbOXcQ92AukEb3XRbKwlPxx70Z0UagWfat4z1+MZvGUgR3MyumfbmZFLzxaFYVJy6v4n0n5WYV4aWiNbVnJtqHBjNPGAM8QKgj/RStQG+OI15SktrfS4gS0+pQaoLMOTI7t9w9dOj9q29BK1832Bcxr11oydCKnS6wyliSCnlYPJWTIRhzZ20ZSmLkXzGukMv+zw2l9/hcPEFiASdVJ84QaaW7Sy8Krfat8YDP2y9ZOtMj7STzv/oltlIgJKfQN/+35DHYB3dxERF0fxgtNNFUtWcYuGjwLbk3Bxar/mdWK7LWi/4GA+T+6gHHdY8/yp6LTXPDMf6nVEOircEm9BdRhUTiW85+OjmapVyEcDOFyJdE8arRE9J/2k8glPHHGyZqkHNO0MBpt+563I8syDTX1rx7uahC4pUIQ="
+  - secure: "gfyYZIVM1uaJKabNr5BcgsuB+HmnPgQUNtY/w30z3Zkluc39c/qwqdkeuGJL0VaTW4fgt4PfLgIlZ6u2vrut6SAdyIZCcFMVac5YUB6hrqbqvboDbwUmHaRA4whBACkK+Wqtez5nFByXobMiUbGX/3g0R+9SN290eB1QRqHAJkaLTs/3T+3chrSCnOvVNJSJQBScULq/hXaN3gzb75cMaTX89Lb9nCpHNjZHAco1XjvBNBaHJm789LnE/s6NwPBXmSUgS0+kvBntfEMnI9HVzvirYHYvZwp7QDAYMCO+S+e6FSvUQPO7FyqnNfqg5hPOZhrYnA1zJmbz011pGqBJnE+yW4iabfDvbkqlukAwHe+20TlRbHu+YRIMr74B3mGaC4nOw+W+cQZ3Va4sKEi18tv/xDD/nV6MZmJiOd22Rf3EdqQ157R/crhlqRk+NysmOXCIQghgjmfb5CKps+PDIE2wZQks2xfiEK+0VoCisNAujS0JqpeuuC9UoVfwrwQeyy88rzkwm12yxIHIesH5afqCwa3/KZH+HZa4VHXx3zs6eED7Rde6h9otHdmHLEl++5R8a2Laj6rT2SMwdJzhwunouaVa27rqwwo5zLHF0d4oYikucxMT3oT2DB8nNjdUkq+V7x14gNzvFpJpljSMN4io+sPdJ31hqgfGNKeoPrU="
+  - secure: "YtFM3iMg2R6K73Ap4iEFEmcn+2SmyGzseGbF+uphW5OnoH8CDlz1kMijWJhj5eD4Iw5BX4Zv2OJExXZ/Q+zDpwRVpTsu1I3WaeAn4y4QKc+wJVVdgsk9QoPUqcMv685OVFavWbYjntYCJ/PpCuMBmdTvFl3QORRWnpOVhQWff2uBy+ThKZC4Y/xezArdVoFw95LDxDLOzhYsoTjYZDKzBWod/dsZ4yoUUMeUMh/axlts8oITndb7tRpcubUTwH4OhUp4WoVVjJC+3sMVEUOaVfmte3DxC2+eo1GUQZe3mdcE/cjbnbKd45l1v5ejG2eFKZ4AXXDbBN1WQKvwvAkWYQBKQRRi/fQT0l3U4FM7S0V9/ir5/iGKVgCyd7GIf19S7IynI6a/BKnBTmm60Rplx7k2ggO5wmPbNPDuK/ZlMNJOcqNhpjTPqlLR9HBZJuf4RcEWuUUaHhhDWJoGL6pilkHTxqtjdBdR7SrDAWIz/Ae3eo0YRuuZzD8Ak2twFbffW+hIZV1gbwzmLuTR64VFy44qd/Dv2uiCVxygJVr+Tw7PWdiCbawjBhTuWaQO76Eo3vWrvIJc33Z3bPHda6wSyNproZyL3DWrH/JdR6Xzkpp6eggFzpdZWocTJKNbv4oa4tD3ko9y/DjLlb3gJpdgOpdCDNqcDcTOUMU+pi5FTeQ="
+

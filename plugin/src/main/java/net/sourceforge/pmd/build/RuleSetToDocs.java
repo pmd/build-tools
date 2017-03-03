@@ -259,7 +259,7 @@ public class RuleSetToDocs implements PmdBuildTools {
     private DOMSource createMergedFile(File mergedFile) {
         DOMSource backbone = createXmlBackbone(xmlFileTemplater);
         if (LOGGER.isLoggable(Level.FINE)) {
-            LOGGER.fine(XmlUtil.transformDOMToString(backbone));
+            LOGGER.fine(XmlUtil.transformDomToString(backbone));
         }
         xmlFileTemplater.transform(backbone, mergedFile, xmlFileTemplater.getMergeRulesetXsl());
         // Fix, removing the xmlns field of each ruleset in the generated xml

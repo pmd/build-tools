@@ -298,6 +298,11 @@
     <module name="InterfaceTypeParameterName">
       <property name="severity" value="error"/>
     </module>
+    <module name="AbbreviationAsWordInName">
+      <property name="severity" value="warning"/>
+      <property name="allowedAbbreviationLength" value="1"/>
+      <property name="allowedAbbreviations" value="PMD,EOF"/>
+    </module>
   </module>
   <module name="JavadocPackage">
     <property name="severity" value="warning"/>

@@ -81,7 +81,7 @@ public final class XmlUtil {
         return new DOMSource(doc);
     }
 
-    public static String transformDOMToString(DOMSource source) {
+    public static String transformDomToString(DOMSource source) {
         try {
             // Use a Transformer for output
             TransformerFactory tFactory = TransformerFactory.newInstance();

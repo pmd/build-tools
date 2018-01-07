@@ -322,6 +322,7 @@
   </module>
   <module name="NewlineAtEndOfFile">
     <property name="severity" value="error"/>
+    <property name="lineSeparator" value="lf"/>
   </module>
   <module name="SuppressWithNearbyCommentFilter"/>
 </module>

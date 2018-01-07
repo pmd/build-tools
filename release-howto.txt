@@ -1,6 +1,8 @@
 Release Howto for pmd-build:
 ============================
 
+dummy
+
 Step by step:
 -------------
 1. Checkout master branch:

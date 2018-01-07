@@ -13,7 +13,7 @@ before_install:
 install: mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
 before_script: true
 script:
-  - 'if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then bash .travis/build-pull-request; fi'
+  - 'if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then bash .travis/build-pull-request.sh; fi'
   - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ] && [ "${TRAVIS_SECURE_ENV_VARS}" = "true" ]; then bash .travis/build-push.sh; fi'
 after_success: true
 

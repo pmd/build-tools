@@ -6,7 +6,6 @@ package net.sourceforge.pmd.build.xml;
 
 import java.io.File;
 import java.util.Map;
-
 import javax.xml.transform.dom.DOMSource;
 
 import org.w3c.dom.Document;

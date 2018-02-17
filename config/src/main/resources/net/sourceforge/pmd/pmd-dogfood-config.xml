@@ -18,4 +18,7 @@
      -->
 
     <rule ref="category/java/bestpractices.xml/UnusedPrivateField" />
+    <rule ref="category/java/errorprone.xml/AvoidCatchingThrowable" />
+    <rule ref="category/java/errorprone.xml/EmptyCatchBlock" />
+
 </ruleset>

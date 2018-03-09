@@ -55,6 +55,12 @@
     <rule ref="category/java/codestyle.xml/IfStmtsMustUseBraces" />
     <rule ref="category/java/codestyle.xml/WhileLoopsMustUseBraces" />
 
+    <rule ref="category/java/errorprone.xml/CloneMethodMustBePublic" />
+    <rule ref="category/java/errorprone.xml/CloneMethodMustImplementCloneable" />
+    <rule ref="category/java/errorprone.xml/CloneMethodReturnTypeMustMatchClassName" />
+    <rule ref="category/java/errorprone.xml/CloneThrowsCloneNotSupportedException" />
+    <rule ref="category/java/errorprone.xml/ProperCloneImplementation" />
+
 <!--
     Disabled rules:
 

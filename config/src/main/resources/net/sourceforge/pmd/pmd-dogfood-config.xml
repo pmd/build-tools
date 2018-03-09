@@ -19,6 +19,7 @@
 
     <rule ref="category/java/bestpractices.xml/AvoidUsingHardCodedIP" />
     <rule ref="category/java/bestpractices.xml/CheckResultSet" />
+    <rule ref="category/java/bestpractices.xml/LooseCoupling" />
     <rule ref="category/java/bestpractices.xml/OneDeclarationPerLine" />
     <rule ref="category/java/bestpractices.xml/UnusedFormalParameter" />
     <rule ref="category/java/bestpractices.xml/UnusedLocalVariable" />
@@ -45,11 +46,19 @@
     <rule ref="category/java/codestyle.xml/WhileLoopsMustUseBraces" />
 
 <!--     <rule ref="category/java/design.xml/CollapsibleIfStatements" /> -->
+<!--     <rule ref="category/java/design.xml/CouplingBetweenObjects" /> -->
+<!--     <rule ref="category/java/design.xml/ExcessiveImports" /> -->
+<!--     <rule ref="category/java/design.xml/LawOfDemeter" /> -->
+<!--     <rule ref="category/java/design.xml/LoosePackageCoupling" /> -->
     <rule ref="category/java/design.xml/SimplifiedTernary" />
 <!--     <rule ref="category/java/design.xml/UseObjectForClearerAPI" /> -->
     <rule ref="category/java/design.xml/UselessOverridingMethod" />
 
-<!--     <rule ref="category/java/errorprone.xml/AssignmentInOperand" /> -->
+    <rule ref="category/java/errorprone.xml/AssignmentInOperand">
+        <properties>
+            <property name="allowWhile" value="true"/>
+        </properties>
+    </rule>
     <rule ref="category/java/errorprone.xml/AvoidAccessibilityAlteration" />
     <rule ref="category/java/errorprone.xml/AvoidBranchingStatementAsLastInLoop" />
     <rule ref="category/java/errorprone.xml/AvoidCatchingThrowable" />

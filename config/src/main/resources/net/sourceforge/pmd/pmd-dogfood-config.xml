@@ -50,6 +50,11 @@
 
     <rule ref="category/java/design.xml/SimplifiedTernary" />
 
+    <rule ref="category/java/codestyle.xml/ForLoopsMustUseBraces" />
+    <rule ref="category/java/codestyle.xml/IfElseStmtsMustUseBraces" />
+    <rule ref="category/java/codestyle.xml/IfStmtsMustUseBraces" />
+    <rule ref="category/java/codestyle.xml/WhileLoopsMustUseBraces" />
+
 <!--
     Disabled rules:
 

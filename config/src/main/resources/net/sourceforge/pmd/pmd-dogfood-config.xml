@@ -69,4 +69,60 @@
 
     <rule ref="category/java/performance.xml/BigIntegerInstantiation" />
     <rule ref="category/java/performance.xml/BooleanInstantiation" />
+
+    <rule name="UseInstanceofToCompareClasses"
+          language="java"
+          since="5.0"
+          message="replace o.getClass().equals(MyClass.class) with o instanceof MyClass"
+          class="net.sourceforge.pmd.lang.rule.XPathRule">
+        <description>replace o.getClass().equals(MyClass.class) with o instanceof MyClass. Make sure MyClass doesn't have descendants</description>
+        <priority>3</priority>
+        <properties>
+            <property name="xpath">
+                <value>
+<![CDATA[
+//PrimaryExpression[
+(PrimaryPrefix[Name[ends-with(@Image, 'getClass')]] or PrimarySuffix[@Image='getClass'])
+and
+PrimarySuffix[Arguments[count(ArgumentList)=0]]
+and
+PrimarySuffix[@Image='equals']
+and
+PrimarySuffix/Arguments/ArgumentList/Expression/PrimaryExpression/PrimaryPrefix
+/ResultType/Type/ReferenceType/ClassOrInterfaceType
+]
+]]>
+                </value>
+            </property>
+        </properties>
+    </rule>
+
+    <rule name="ReversedUseInstanceofToCompareClasses"
+          language="java"
+          since="5.0"
+          message="replace MyClass.class.equals(o.getClass()) with o instanceof MyClass"
+          class="net.sourceforge.pmd.lang.rule.XPathRule">
+        <description>replace MyClass.class.equals(o.getClass()) with o instanceof MyClass. Make sure MyClass doesn't have descendants</description>
+        <priority>3</priority>
+        <properties>
+            <property name="xpath">
+                <value>
+<![CDATA[
+//PrimaryExpression[
+PrimaryPrefix[ResultType/Type/ReferenceType/ClassOrInterfaceType]
+and
+PrimarySuffix[@Image='equals']
+and
+PrimarySuffix/Arguments/ArgumentList/Expression/PrimaryExpression[
+  PrimaryPrefix[Name[ends-with(@Image, 'getClass')]]
+  and
+  PrimarySuffix[Arguments[count(ArgumentList)=0]]
+  ]
+]
+]]>
+                </value>
+            </property>
+        </properties>
+    </rule>
+
 </ruleset>

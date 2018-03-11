@@ -40,6 +40,8 @@
 <!--     <rule ref="category/java/bestpractices.xml/JUnitUseExpected" /> -->
     <rule ref="category/java/bestpractices.xml/LooseCoupling" />
 <!--     <rule ref="category/java/bestpractices.xml/MethodReturnsInternalArray" /> -->
+<!-- Enable MissingOverride once PMD 6.2.0 is released -->
+<!--     <rule ref="category/java/bestpractices.xml/MissingOverride" /> -->
     <rule ref="category/java/bestpractices.xml/OneDeclarationPerLine" />
     <rule ref="category/java/bestpractices.xml/PositionLiteralsFirstInCaseInsensitiveComparisons" />
     <rule ref="category/java/bestpractices.xml/PositionLiteralsFirstInComparisons" />

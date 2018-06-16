@@ -50,8 +50,9 @@
         <priority>1</priority>
     </rule>
 <!--     <rule ref="category/java/bestpractices.xml/MethodReturnsInternalArray" /> -->
-<!-- Enable MissingOverride once PMD 6.2.0 is released -->
-<!--     <rule ref="category/java/bestpractices.xml/MissingOverride" /> -->
+    <rule ref="category/java/bestpractices.xml/MissingOverride">
+        <priority>1</priority>
+    </rule>
     <rule ref="category/java/bestpractices.xml/OneDeclarationPerLine">
         <priority>1</priority>
     </rule>
@@ -112,6 +113,9 @@
 <!--     <rule ref="category/java/codestyle.xml/ClassNamingConventions" /> -->
 <!--     <rule ref="category/java/codestyle.xml/CommentDefaultAccessModifier" /> -->
 <!--     <rule ref="category/java/codestyle.xml/ConfusingTernary" /> -->
+    <rule ref="category/java/codestyle.xml/ControlStatementBraces">
+        <priority>1</priority>
+    </rule>
 <!--     <rule ref="category/java/codestyle.xml/DefaultPackage" /> -->
 <!--     <rule ref="category/java/codestyle.xml/DontImportJavaLang" /> -->
 <!--     <rule ref="category/java/codestyle.xml/DuplicateImports" /> -->
@@ -123,15 +127,9 @@
     <rule ref="category/java/codestyle.xml/ForLoopShouldBeWhileLoop">
         <priority>1</priority>
     </rule>
-    <rule ref="category/java/codestyle.xml/ForLoopsMustUseBraces">
-        <priority>1</priority>
-    </rule>
 <!--     <rule ref="category/java/codestyle.xml/GenericsNaming" /> -->
-    <rule ref="category/java/codestyle.xml/IfElseStmtsMustUseBraces">
-        <priority>1</priority>
-    </rule>
-    <rule ref="category/java/codestyle.xml/IfStmtsMustUseBraces">
-        <priority>1</priority>
+    <rule ref="category/java/codestyle.xml/IdenticalCatchBranches">
+        <priority>3</priority>
     </rule>
 <!--     <rule ref="category/java/codestyle.xml/LocalHomeNamingConvention" /> -->
 <!--     <rule ref="category/java/codestyle.xml/LocalInterfaceSessionNamingConvention" /> -->
@@ -152,6 +150,9 @@
 <!--     <rule ref="category/java/codestyle.xml/ShortVariable" /> -->
 <!--     <rule ref="category/java/codestyle.xml/SuspiciousConstantFieldName" /> -->
 <!--     <rule ref="category/java/codestyle.xml/TooManyStaticImports" /> -->
+    <rule ref="category/java/codestyle.xml/UnnecessaryAnnotationValueElement">
+        <priority>1</priority>
+    </rule>
     <rule ref="category/java/codestyle.xml/UnnecessaryConstructor">
         <priority>1</priority>
     </rule>
@@ -172,9 +173,6 @@
         <priority>1</priority>
     </rule>
 <!--     <rule ref="category/java/codestyle.xml/VariableNamingConventions" /> -->
-    <rule ref="category/java/codestyle.xml/WhileLoopsMustUseBraces">
-        <priority>1</priority>
-    </rule>
 
 <!--     <rule ref="category/java/design.xml/AbstractClassWithoutAnyMethod" /> -->
 <!--     <rule ref="category/java/design.xml/AvoidCatchingGenericException" /> -->

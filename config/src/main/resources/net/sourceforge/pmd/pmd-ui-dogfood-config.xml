@@ -28,7 +28,7 @@
                   [not(ends-with(@VariableName, 'Controller') and ends-with(Type/@TypeImage, 'Controller'))]
                   [not(Type/@TypeImage = 'TextField' and ends-with(@VariableName, 'Field'))]
                   [not(Type/@TypeImage = 'ToggleButton' and ends-with(@VariableName, 'Toggle'))]
-                  [not(Type/@TypeImage = ('TextArea', 'CustomCodeArea') and ends-with(@VariableName, 'Area'))]
+                  [not(Type/@TypeImage = 'TextArea' or ends-with(Type/@TypeImage, 'CodeArea') and ends-with(@VariableName, 'Area'))]
                   [not(Type/@TypeImage = 'TableColumn' and ends-with(@VariableName, 'Column'))]
                   (: This last clause allows variables to be named the same as their type, modulo Camel case :)
                   (: Ideally we would only allow this for our custom types, but there's currently no easy :)

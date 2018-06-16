@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/pmd/pmd.svg?branch=master)](https://travis-ci.org/pmd/pmd)
+[![Build Status](https://travis-ci.org/pmd/build-tools.svg?branch=master)](https://travis-ci.org/pmd/build-tools)
 
 # PMD build tools
 

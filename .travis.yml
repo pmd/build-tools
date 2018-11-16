@@ -1,10 +1,6 @@
 sudo: false
-addons:
-  apt:
-    packages:
-      - oracle-java9-installer
 language: java
-jdk: oraclejdk9
+jdk: openjdk11
 before_install:
   - bash .travis/setup-secrets.sh
   - bash .travis/configure-maven.sh

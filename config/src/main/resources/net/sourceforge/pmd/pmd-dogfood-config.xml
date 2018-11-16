@@ -573,6 +573,7 @@ PrimarySuffix/Arguments/ArgumentList/Expression/PrimaryExpression[
     <rule name="DontCallSuperVisitWhenUsingRuleChain"
           language="java"
           message="Don't call super.visit() when using the rulechain"
+          typeResolution="true"
           class="net.sourceforge.pmd.lang.rule.XPathRule">
         <description>Calling super.visit breaks the rulechain, by starting a full visitor run from the passed node downwards. Add all needed nodes to the rulechain instead.</description>
         <priority>1</priority>

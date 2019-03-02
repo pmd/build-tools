@@ -170,6 +170,9 @@
     <rule ref="category/java/codestyle.xml/UnnecessaryReturn">
         <priority>1</priority>
     </rule>
+    <rule ref="category/java/codestyle.xml/UseDiamondOperator">
+        <priority>1</priority>
+    </rule>
     <rule ref="category/java/codestyle.xml/UselessParentheses">
         <priority>1</priority>
     </rule>
@@ -600,29 +603,4 @@ PrimarySuffix/Arguments/ArgumentList/Expression/PrimaryExpression[
         </properties>
     </rule>
 
-    <rule name="UseDiamondOperator"
-          language="java"
-          message="Use diamond operator"
-          class="net.sourceforge.pmd.lang.rule.XPathRule"
-          minimumLanguageVersion="1.7">
-        <description>Use the diamond operator to let the type be inferred</description>
-        <priority>1</priority>
-        <properties>
-            <property name="xpath">
-                <value>
-<![CDATA[
-//VariableInitializer
-//PrimaryExpression[not(PrimarySuffix)]
-[not(ancestor::ArgumentList)]
-/PrimaryPrefix/AllocationExpression[ClassOrInterfaceType[@AnonymousClass='false']/TypeArguments//ReferenceType[not(.//TypeArguments)]]
-|
-//StatementExpression[AssignmentOperator][PrimaryExpression/PrimaryPrefix[not(Expression)]]
-//PrimaryExpression[not(PrimarySuffix)]
-[not(ancestor::ArgumentList)]
-/PrimaryPrefix/AllocationExpression[ClassOrInterfaceType[@AnonymousClass='false']/TypeArguments//ReferenceType[not(.//TypeArguments)]]
-]]>
-                </value>
-            </property>
-        </properties>
-    </rule>
 </ruleset>

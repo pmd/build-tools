@@ -467,7 +467,7 @@
     <rule ref="category/java/multithreading.xml/NonThreadSafeSingleton">
         <priority>1</priority>
     </rule>
-    <rule ref="category/java/multithreading.xml/UnsynchronizedStaticDateFormatter">
+    <rule ref="category/java/multithreading.xml/UnsynchronizedStaticFormatter">
         <priority>1</priority>
     </rule>
 <!--     <rule ref="category/java/multithreading.xml/UseConcurrentHashMap" /> -->

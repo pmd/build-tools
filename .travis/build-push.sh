@@ -9,7 +9,7 @@ if [[ "$VERSION" != *-SNAPSHOT && "$TRAVIS_TAG" != "" ]]; then
     ./mvnw deploy -Possrh,pmd-release -B -V
 elif [[ "$VERSION" == *-SNAPSHOT ]]; then
     # snapshot build
-    ./mvnw deploy -Possrh -B -V
+    ./mvnw deploy -Possrh,pmd-release -B -V
 else
     # other build. Can happen during release: the commit with a non snapshot version is built, but not from the tag.
     ./mvnw verify -Possrh -B -V

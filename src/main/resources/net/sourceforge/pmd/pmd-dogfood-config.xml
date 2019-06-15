@@ -126,9 +126,6 @@
     </rule>
     <rule ref="category/java/codestyle.xml/FormalParameterNamingConventions">
         <priority>1</priority>
-        <properties>
-            <property name="methodParameterPattern" value="(?!^in$|^out$|^in[A-Z].*$|^out[A-Z].*$)^[a-z][a-zA-Z0-9]*$" />
-        </properties>
     </rule>
 
 <!--     <rule ref="category/java/codestyle.xml/GenericsNaming" /> -->

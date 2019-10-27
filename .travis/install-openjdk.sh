@@ -8,7 +8,7 @@
 OPENJDK_ARCHIVE=OpenJDK11U-x64_linux_11.0.5_10.tar.gz
 COMPONENTS_TO_STRIP=1 # e.g. openjdk-11.0.3+7/bin/java
 
-DOWNLOAD_URL=https://pmd-code.org/${OPENJDK_ARCHIVE}
+DOWNLOAD_URL=https://pmd-code.org/openjdk/${OPENJDK_ARCHIVE}
 LOCAL_DIR=${HOME}/.cache/openjdk
 TARGET_DIR=${HOME}/openjdk11
 

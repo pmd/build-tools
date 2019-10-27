@@ -16,8 +16,8 @@ cd build-tools
    to use the default values.
 
 ``` shell
-mvn release:clean
-mvn release:prepare
+./mvnw release:clean
+./mvnw release:prepare
 ```
 
 3.  Wait, until release is ready. The maven plugin will directly push the tag. The tag will be

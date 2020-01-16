@@ -1,11 +1,9 @@
 #
-# Original sources:
-# Linux: https://github.com/AdoptOpenJDK/openjdk11-upstream-binaries/releases/jdk-11.0.5%2B10/
-#        https://github.com/AdoptOpenJDK/openjdk11-upstream-binaries/releases/download/jdk-11.0.5%2B10/OpenJDK11U-x64_linux_11.0.5_10.tar.gz
+# OpenJDK by AdoptOpenJDK (https://adoptopenjdk.net/)
 #
 
 # VERSION_TAG e.g. "11.0.4+11" or "13+33"
-VERSION_TAG=11.0.5+10
+VERSION_TAG=11.0.6+10
 OPENJDK_MAJOR=${VERSION_TAG/.*/}
 OPENJDK_MAJOR=${OPENJDK_MAJOR/+*/}
 #BASE_URL=https://github.com/AdoptOpenJDK/openjdk${OPENJDK_MAJOR}-binaries/releases/download

@@ -26,7 +26,6 @@
     <module name="JavadocMethod">
       <property name="severity" value="warning"/>
       <property name="scope" value="protected"/>
-      <property name="suppressLoadErrors" value="true"/>
     </module>
     <module name="JavadocStyle">
       <property name="severity" value="warning"/>

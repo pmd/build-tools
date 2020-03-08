@@ -3,7 +3,7 @@
 
     <groupId>net.sourceforge.pmd</groupId>
     <artifactId>pmd-build-tools-config</artifactId>
-    <version>6</version>
+    <version>7-SNAPSHOT</version>
 
     <name>PMD Build Tools Configurations</name>
     <url>https://github.com/pmd/build-tools</url>
@@ -30,7 +30,7 @@
         <connection>scm:git:git://github.com/pmd/build-tools.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/pmd/build-tools.git</developerConnection>
         <url>https://github.com/pmd/build-tools</url>
-        <tag>6</tag>
+        <tag>HEAD</tag>
     </scm>
     <distributionManagement>
         <snapshotRepository>

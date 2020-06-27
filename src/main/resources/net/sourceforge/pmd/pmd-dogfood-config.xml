@@ -169,6 +169,9 @@
     </rule>
     <rule ref="category/java/codestyle.xml/UseDiamondOperator">
         <priority>1</priority>
+        <properties>
+            <property name="java7Compatibility" value="true" />
+        </properties>
     </rule>
     <rule ref="category/java/codestyle.xml/UselessParentheses">
         <priority>1</priority>

@@ -56,10 +56,7 @@
     <rule ref="category/java/bestpractices.xml/OneDeclarationPerLine">
         <priority>1</priority>
     </rule>
-    <rule ref="category/java/bestpractices.xml/PositionLiteralsFirstInCaseInsensitiveComparisons">
-        <priority>1</priority>
-    </rule>
-    <rule ref="category/java/bestpractices.xml/PositionLiteralsFirstInComparisons">
+    <rule ref="category/java/bestpractices.xml/LiteralsFirstInComparisons">
         <priority>1</priority>
     </rule>
 <!--     <rule ref="category/java/bestpractices.xml/PreserveStackTrace" /> -->

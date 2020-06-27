@@ -297,7 +297,7 @@
     <module name="AbbreviationAsWordInName">
       <property name="severity" value="warning"/>
       <property name="allowedAbbreviationLength" value="1"/>
-      <property name="allowedAbbreviations" value="PMD,EOF"/>
+      <property name="allowedAbbreviations" value="PMD,EOF,AST"/>
     </module>
     <module name="SuppressWithNearbyCommentFilter"/>
   </module>

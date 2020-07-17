@@ -594,9 +594,9 @@ PrimarySuffix/Arguments/ArgumentList/Expression/PrimaryExpression[
 <![CDATA[
 //ClassOrInterfaceDeclaration[pmd-java:typeIs('net.sourceforge.pmd.Rule')]
   (: Using the rulechain :)
-  [.//ConstructorDeclaration//PrimaryExpression/PrimaryPrefix/Name[@Image = 'addRuleChainVisit']]
+  [./*/*/ConstructorDeclaration//PrimaryExpression/PrimaryPrefix/Name[@Image = 'addRuleChainVisit']]
   (: but calling super.visit! :)
-  [.//PrimaryExpression[./PrimaryPrefix[@SuperModifier = true()]][./PrimarySuffix[@Image = 'visit']]]
+  [./*/*/MethodDeclaration//PrimaryExpression[./PrimaryPrefix[@SuperModifier = true()]][./PrimarySuffix[@Image = 'visit']]]
 ]]>
                 </value>
             </property>

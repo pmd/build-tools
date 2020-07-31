@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test-data
+    xmlns="http://pmd.sourceforge.net/rule-tests"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://pmd.sourceforge.net/rule-tests http://pmd.sourceforge.net/rule-tests_1_0_0.xsd">
+    <test-code>
+        <description>Rule without RuleChain and without super</description>
+        <expected-problems>1</expected-problems>
+        <code><![CDATA[
+package net.sourceforge.pmd.buildtools.testsupport;
+
+import net.sourceforge.pmd.lang.java.ast.ASTCompilationUnit;
+import net.sourceforge.pmd.lang.java.rule.AbstractJavaRule;
+
+public class MyRule extends AbstractJavaRule {
+    @Override
+    public Object visit(ASTCompilationUnit node, Object data) {
+        return data;
+    }
+}
+     ]]></code>
+    </test-code>
+    <test-code>
+        <description>Rule without RuleChain and with super</description>
+        <expected-problems>0</expected-problems>
+        <code><![CDATA[
+package net.sourceforge.pmd.buildtools.testsupport;
+
+import net.sourceforge.pmd.lang.java.ast.ASTCompilationUnit;
+import net.sourceforge.pmd.lang.java.rule.AbstractJavaRule;
+
+public class MyRule extends AbstractJavaRule {
+    @Override
+    public Object visit(ASTCompilationUnit node, Object data) {
+        return super.visit(node, data);
+    }
+}
+     ]]></code>
+    </test-code>
+    <test-code>
+        <description>Ignore abstract rules</description>
+        <expected-problems>0</expected-problems>
+        <code><![CDATA[
+package net.sourceforge.pmd.buildtools.testsupport;
+
+import net.sourceforge.pmd.lang.java.ast.ASTCompilationUnit;
+import net.sourceforge.pmd.lang.java.ast.JavaNode;
+import net.sourceforge.pmd.lang.rule.AbstractRule;
+
+public abstract class AbstractJavaRule extends AbstractRule {
+    @Override
+    public Object visit(ASTCompilationUnit node, Object data) {
+        return visit((JavaNode) node, data);
+    }
+
+    @Override
+    public Object visit(JavaNode node, Object data) {
+        for (JavaNode child : node.children()) {
+            child.jjtAccept(this, data);
+        }
+        return data;
+    }
+}
+        ]]></code>
+    </test-code>
+    <test-code>
+        <description>Ignore interfaces</description>
+        <expected-problems>0</expected-problems>
+        <code><![CDATA[
+package net.sourceforge.pmd.buildtools.testsupport;
+
+import net.sourceforge.pmd.lang.java.ast.ASTCompilationUnit;
+import net.sourceforge.pmd.lang.java.ast.JavaNode;
+import net.sourceforge.pmd.lang.rule.AbstractRule;
+
+public interface AbstractJavaRule extends Rule {
+}
+        ]]></code>
+    </test-code>
+    <test-code>
+        <description>Only consider visit methods</description>
+        <expected-problems>0</expected-problems>
+        <code><![CDATA[
+package net.sourceforge.pmd.buildtools.testsupport;
+
+import net.sourceforge.pmd.lang.java.ast.ASTCompilationUnit;
+import net.sourceforge.pmd.lang.java.rule.AbstractJavaRule;
+
+public class MyRule extends AbstractJavaRule {
+    public void unrelatedMethod() { }
+}
+     ]]></code>
+    </test-code>
+</test-data>

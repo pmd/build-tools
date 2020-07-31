@@ -603,4 +603,27 @@ PrimarySuffix/Arguments/ArgumentList/Expression/PrimaryExpression[
         </properties>
     </rule>
 
+    <rule name="AlwaysCallSuperWhenNotUsingRuleChain"
+          language="java"
+          message="Always call super.visit() when not using rulechain"
+          typeResolution="true"
+          class="net.sourceforge.pmd.lang.rule.XPathRule">
+        <description>Just returning without calling super stops visiting of nested nodes like inner classes.</description>
+        <priority>1</priority>
+        <properties>
+            <property name="version" value="2.0"/>
+            <property name="xpath">
+                <value>
+<![CDATA[
+//ClassOrInterfaceDeclaration[pmd-java:typeIs('net.sourceforge.pmd.Rule')][@Abstract = false()][@Interface = false()]
+  (: Not using the rulechain :)
+  [not(./*/*/ConstructorDeclaration//PrimaryExpression/PrimaryPrefix/Name[@Image = 'addRuleChainVisit'])]
+  (: and not calling super.visit! :)
+  [./*/*/MethodDeclaration[@Name = 'visit'][not(.//PrimaryExpression[./PrimaryPrefix[@SuperModifier = true()]][./PrimarySuffix[@Image = 'visit']])]]
+]]>
+                </value>
+            </property>
+        </properties>
+    </rule>
+
 </ruleset>

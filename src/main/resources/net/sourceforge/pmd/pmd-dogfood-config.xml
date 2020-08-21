@@ -609,7 +609,7 @@ PrimarySuffix/Arguments/ArgumentList/Expression/PrimaryExpression[
           typeResolution="true"
           class="net.sourceforge.pmd.lang.rule.XPathRule">
         <description>Just returning without calling super stops visiting of nested nodes like inner classes.</description>
-        <priority>1</priority>
+        <priority>3</priority>
         <properties>
             <property name="version" value="2.0"/>
             <property name="xpath">

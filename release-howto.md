@@ -21,6 +21,6 @@ cd build-tools
 ```
 
 3.  Wait, until release is ready. The maven plugin will directly push the tag. The tag will be
-    built by [travis-ci.org](https://travis-ci.org/github/pmd/build-tools/builds). After it is done, the new release
+    built by [travis-ci.com](https://travis-ci.com/github/pmd/build-tools/builds). After it is done, the new release
     should be available under <https://repo.maven.apache.org/maven2/net/sourceforge/pmd/pmd-build-tools-config/>.
 

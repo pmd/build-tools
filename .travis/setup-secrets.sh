@@ -6,7 +6,7 @@ if [ "${TRAVIS_REPO_SLUG}" != "pmd/build-tools" ] || [ "${TRAVIS_PULL_REQUEST}" 
     exit 0
 fi
 
-openssl aes-256-cbc -K $encrypted_a5724fade5c6_key -iv $encrypted_a5724fade5c6_iv -in .travis/release-signing-key-D0BF1D737C9A1C22.gpg.enc -out .travis/release-signing-key-D0BF1D737C9A1C22.gpg -d
+openssl aes-256-cbc -K $encrypted_fe05c1e07587_key -iv $encrypted_fe05c1e07587_iv -in .travis/release-signing-key-D0BF1D737C9A1C22.gpg.enc -out .travis/release-signing-key-D0BF1D737C9A1C22.gpg -d
 
 mkdir -p "$HOME/.gpg"
 gpg --batch --import .travis/release-signing-key-D0BF1D737C9A1C22.gpg

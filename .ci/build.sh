@@ -48,7 +48,7 @@ function build() {
     # the build command is the same
     log_group_start "Build with mvnw"
     pmd_ci_maven_verify_version ${version}
-    ./mvnw clean deploy -Possrh,sign -B -V -e
+    ./mvnw clean deploy -Psign -B -V -e
     log_group_end
 }
 

@@ -61,11 +61,11 @@ function pmd_ci_determine_build_env() {
                 log_error "Unknown branch/tag: GITHUB_REF=${GITHUB_REF}"
                 return 1
             fi
-            PMD_CI_PUSH_COMMIT_COMPARE=$(cat ${GITHUB_EVENT_PATH} | jq .compare)
+            PMD_CI_PUSH_COMMIT_COMPARE=$(cat ${GITHUB_EVENT_PATH} | jq -r ".compare")
             unset PMD_CI_PULL_REQUEST_NUMBER
 
         elif [[ "${GITHUB_EVENT_NAME}" == "pull_request" ]]; then
-            PMD_CI_PULL_REQUEST_NUMBER=$(cat ${GITHUB_EVENT_PATH} | jq .number)
+            PMD_CI_PULL_REQUEST_NUMBER=$(cat ${GITHUB_EVENT_PATH} | jq -r ".number")
             PMD_CI_BRANCH=${GITHUB_BASE_REF}
             unset PMD_CI_TAG
             unset PMD_CI_PUSH_COMMIT_COMPARE

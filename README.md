@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/pmd/build-tools.svg?branch=master)](https://travis-ci.com/pmd/build-tools)
+[![Build Status](https://github.com/pmd/build-tools/workflows/build/badge.svg?branch=master)](https://github.com/pmd/build-tools/actions?query=workflow%3Abuild+branch%3Amaster)
 
 # PMD build tools
 

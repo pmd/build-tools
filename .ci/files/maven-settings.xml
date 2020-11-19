@@ -18,7 +18,7 @@
   <proxies/>
   <profiles>
     <profile>
-      <id>ossrh</id>
+      <id>sign</id>
       <properties>
         <gpg.keyname>${env.CI_SIGN_KEYNAME}</gpg.keyname>
         <gpg.passphrase>${env.CI_SIGN_PASSPHRASE}</gpg.passphrase>

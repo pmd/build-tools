@@ -118,7 +118,7 @@
                     <artifactId>maven-release-plugin</artifactId>
                     <version>2.5.3</version>
                     <configuration>
-                        <releaseProfiles>pmd-release</releaseProfiles>
+                        <releaseProfiles>sign</releaseProfiles>
                         <pushChanges>true</pushChanges>
                         <localCheckout>true</localCheckout>
                         <autoVersionSubmodules>true</autoVersionSubmodules>
@@ -207,7 +207,7 @@
 
     <profiles>
         <profile>
-            <id>pmd-release</id>
+            <id>sign</id>
             <build>
                 <plugins>
                     <plugin>
@@ -221,6 +221,14 @@
                                 <goals>
                                     <goal>sign</goal>
                                 </goals>
+                                <configuration>
+                                    <!-- https://issues.apache.org/jira/browse/MGPG-59 - once m-gpg-p 1.7. is released,
+                                         this should not be needed anymore -->
+                                    <gpgArguments>
+                                        <arg>--pinentry-mode</arg>
+                                        <arg>loopback</arg>
+                                    </gpgArguments>
+                                </configuration>
                             </execution>
                         </executions>
                     </plugin>

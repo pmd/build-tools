@@ -14,6 +14,7 @@ Artifact containing configuration data and tools to build pmd/pmd from source.
     *   [Usage](#usage)
         *   [inc/log.bash](#inc-log-bash)
         *   [inc/utils.bash](#inc-utils-bash)
+        *   [inc/openjdk.bash](#inc-openjdk-bash)
         *   [check-environment.sh](#check-environment-sh)
 
 ## build-env
@@ -116,6 +117,18 @@ Functions:
 *   pmd_ci_utils_is_fork_or_pull_request
 
 Test with: `bash -c "source inc/utils.bash; pmd_ci_utils_get_os" $(pwd)/test.sh`
+
+#### inc/openjdk.bash
+
+Namespace: pmd_ci_openjdk
+
+Functions:
+
+*   pmd_ci_openjdk_install_adoptopenjdk. Usage e.g. `pmd_ci_openjdk_install_adoptopenjdk 11`
+*   pmd_ci_openjdk_install_zuluopenjdk. Usage e.g. `pmd_ci_openjdk_install_zuluopenjdk 7`
+*   pmd_ci_openjdk_setdefault. Usage e.g. `pmd_ci_openjdk_setdefault 11`
+
+Test with: `bash -c "source inc/openjdk.bash; pmd_ci_openjdk_install_adoptopenjdk 11" $(pwd)/test.sh`
 
 #### check-environment.sh
 

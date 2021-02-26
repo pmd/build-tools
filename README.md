@@ -13,6 +13,7 @@ Artifact containing configuration data and tools to build pmd/pmd from source.
     *   [Overview](#overview)
     *   [Usage](#usage)
         *   [inc/log.bash](#inc-log-bash)
+        *   [inc/utils.bash](#inc-utils-bash)
         *   [check-environment.sh](#check-environment-sh)
 
 ## build-env
@@ -103,6 +104,18 @@ Vars:
 Used global vars:
 
 *   PMD_CI_DEBUG: true|false.
+
+#### inc/utils.bash
+
+Namespace: pmd_ci_utils
+
+Functions:
+
+*   pmd_ci_utils_get_os: returns one of "linux", "macos", "windows"
+*   pmd_ci_utils_determine_build_env
+*   pmd_ci_utils_is_fork_or_pull_request
+
+Test with: `bash -c "source inc/utils.bash; pmd_ci_utils_get_os" $(pwd)/test.sh`
 
 #### check-environment.sh
 

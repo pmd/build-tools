@@ -29,6 +29,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
       p7zip-full \
       pkg-config \
       rsync \
+      shellcheck \
       sqlite3 \
       ssh \
       sudo \

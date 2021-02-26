@@ -7,7 +7,7 @@ SCRIPT_INCLUDES="log.bash utils.bash"
 # The API is documented at https://api.adoptopenjdk.net/swagger-ui/
 #
 function pmd_ci_openjdk_install_adoptopenjdk() {
-    local -r openjdk_version=$1
+    local openjdk_version=$1
     local -r jdk_os=$(pmd_ci_utils_get_os)
 
     if [ -z "${openjdk_version}" ]; then
@@ -15,7 +15,14 @@ function pmd_ci_openjdk_install_adoptopenjdk() {
         return 1;
     fi
 
-    pmd_ci_log_info "Installing Adopt OpenJDK Version ${openjdk_version} (${jdk_os})"
+
+    local release_type="ga"
+    if [[ "${openjdk_version}" == *-ea ]]; then
+        release_type="ea"
+        openjdk_version=${openjdk_version%-ea}
+    fi
+
+    pmd_ci_log_info "Installing Adopt OpenJDK Version ${openjdk_version}-${release_type} (${jdk_os})"
 
     local components_to_strip
     case "${jdk_os}" in
@@ -34,7 +41,7 @@ function pmd_ci_openjdk_install_adoptopenjdk() {
         ;;
     esac
 
-    local -r api_url="https://api.adoptopenjdk.net/v3/assets/feature_releases/${openjdk_version}/ga?architecture=x64&heap_size=normal&image_type=jdk&jvm_impl=hotspot&os=${jdk_os}&page=0&page_size=1&project=jdk&sort_method=DEFAULT&sort_order=DESC&vendor=adoptopenjdk"
+    local -r api_url="https://api.adoptopenjdk.net/v3/assets/feature_releases/${openjdk_version}/${release_type}?architecture=x64&heap_size=normal&image_type=jdk&jvm_impl=hotspot&os=${jdk_os}&page=0&page_size=1&project=jdk&sort_method=DEFAULT&sort_order=DESC&vendor=adoptopenjdk"
     pmd_ci_log_debug "api: ${api_url}"
     local -r download_url=$(curl --silent -X GET "${api_url}" \
         -H "accept: application/json" \
@@ -167,11 +174,15 @@ function pmd_ci_openjdk_install_zuluopenjdk() {
 # Configures both JAVA_HOME and PATH
 #
 function pmd_ci_openjdk_setdefault() {
-    local -r openjdk_version=$1
+    local openjdk_version=$1
 
     if [ -z "${openjdk_version}" ]; then
         pmd_ci_log_error "OpenJDK Version is missing!"
         return 1;
+    fi
+
+    if [[ "${openjdk_version}" == *-ea ]]; then
+        openjdk_version=${openjdk_version%-ea}
     fi
 
     local -r target_dir=${HOME}/openjdk${openjdk_version}

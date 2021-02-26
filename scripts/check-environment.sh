@@ -97,7 +97,8 @@ function fetch_ci_scripts() {
         if [ ! -e "${inc_dir}/$f" ]; then
             curl -sSL "${inc_url}/$f" > "${inc_dir}/$f"
         fi
-        # shellcheck source=inc/log.bash
+        [ "$PMD_CI_DEBUG" = "true" ] && echo "loading ${inc_dir}/$f in ${0}"
+        # shellcheck source=/dev/null
         source "${inc_dir}/$f" || exit 1
     done
 }

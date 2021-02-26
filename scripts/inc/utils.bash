@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+MODULE="utils"
 SCRIPT_INCLUDES="log.bash"
 
 function pmd_ci_utils_get_os() {
@@ -118,7 +119,8 @@ function fetch_ci_scripts() {
         if [ ! -e "${inc_dir}/$f" ]; then
             curl -sSL "${inc_url}/$f" > "${inc_dir}/$f"
         fi
-        # shellcheck source=inc/log.bash
+        [ "$PMD_CI_DEBUG" = "true" ] && echo "loading ${inc_dir}/$f in ${MODULE}"
+        # shellcheck source=/dev/null
         source "${inc_dir}/$f" || exit 1
     done
 }

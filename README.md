@@ -131,6 +131,46 @@ Functions:
 
 Test with: `bash -c "source inc/openjdk.bash; pmd_ci_openjdk_install_adoptopenjdk 11" $(pwd)/test.sh`
 
+#### inc/github-releases-api.bash
+
+Namespace: pmd_ci_gh_releases
+
+Functions:
+
+*   pmd_ci_gh_releases_createDraftRelease
+*   pmd_ci_gh_releases_getLatestDraftRelease
+*   pmd_ci_gh_releases_deleteRelease
+*   pmd_ci_gh_releases_getIdFromData
+*   pmd_ci_gh_releases_getTagNameFromData
+*   pmd_ci_gh_releases_uploadAsset
+*   pmd_ci_gh_releases_updateRelease
+*   pmd_ci_gh_releases_publishRelease
+
+
+Used global vars:
+
+*   GITHUB_OAUTH_TOKEN
+*   GITHUB_BASE_URL
+
+Test with: 
+
+```
+bash -c 'export GITHUB_OAUTH_TOKEN=.... ; \
+         export GITHUB_BASE_URL=https://api.github.com/repos/pmd/pmd ; \
+         export PMD_CI_DEBUG=false ; \
+         source inc/github-releases-api.bash ; \
+         pmd_ci_gh_releases_createDraftRelease ; \
+         pmd_ci_gh_releases_getLatestDraftRelease ; \
+         export therelease="$RESULT" ; \
+         pmd_ci_gh_releases_uploadAsset "$therelease" "inc/github-releases-api.bash"
+         export body='\''the body \
+         line2'\'' ; \
+         pmd_ci_gh_releases_updateRelease "$therelease" "test release" "$body" ; \
+         #pmd_ci_gh_releases_deleteRelease "$therelease" ; \
+         ' $(pwd)/test.sh
+```
+
+
 #### check-environment.sh
 
 Usage in github actions step:

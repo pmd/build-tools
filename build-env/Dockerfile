@@ -78,7 +78,10 @@ RUN sudo mkdir -p /workspaces/pmd/pmd && \
 COPY create-gh-pull-request-event.sh /home/pmd-ci
 
 # setup ruby for current user "pmd-ci"
-RUN /bin/bash --login -c 'rvm user gemsets && rvm use ${ruby_version} && echo "rvm use ${ruby_version}" >> $HOME/.profile'
+RUN /bin/bash --login -c 'rvm user gemsets && \
+    rvm use ${ruby_version} && \
+    echo "rvm use ${ruby_version}" >> $HOME/.profile && \
+    rmdir 1'
 
 CMD ["/bin/bash", "--login"]
 

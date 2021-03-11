@@ -8,9 +8,10 @@
 set -e
 
 SCRIPT_INCLUDES="log.bash"
+# shellcheck source=inc/fetch_ci_scripts.bash
+source "$(dirname "$0")/inc/fetch_ci_scripts.bash" && fetch_ci_scripts
 
 function main() {
-    fetch_ci_scripts
     check_environment
 }
 
@@ -83,24 +84,6 @@ function check() {
       echo -e "${PMD_CI_LOG_COL_RED}not found!${PMD_CI_LOG_COL_RESET}"
       FAILED_CHECKS="${FAILED_CHECKS} ${cmd}"
     fi
-}
-
-function fetch_ci_scripts() {
-    local inc_dir
-    local inc_url
-    inc_dir="$(dirname "$0")/inc"
-    inc_url="${PMD_CI_SCRIPTS_URL:-https://raw.githubusercontent.com/pmd/build-tools/master/scripts}/inc"
-
-    mkdir -p "${inc_dir}"
-
-    for f in ${SCRIPT_INCLUDES}; do
-        if [ ! -e "${inc_dir}/$f" ]; then
-            curl -sSL "${inc_url}/$f" > "${inc_dir}/$f"
-        fi
-        [ "$PMD_CI_DEBUG" = "true" ] && echo "loading ${inc_dir}/$f in ${0}"
-        # shellcheck source=/dev/null
-        source "${inc_dir}/$f" || exit 1
-    done
 }
 
 main

@@ -2,6 +2,8 @@
 
 MODULE="sourceforge-api"
 SCRIPT_INCLUDES="log.bash"
+# shellcheck source=inc/fetch_ci_scripts.bash
+source "$(dirname "$0")/inc/fetch_ci_scripts.bash" && fetch_ci_scripts
 
 #
 # The functions here require the following environment variables:
@@ -159,23 +161,3 @@ function pmd_ci_sourceforge_rsyncSnapshotDocumentation() {
         pmd_ci_log_success "Successfully uploaded documentation: ${targetUrl}"
     )
 }
-
-function fetch_ci_scripts() {
-    local inc_dir
-    local inc_url
-    inc_dir="$(dirname "$0")/inc"
-    inc_url="${PMD_CI_SCRIPTS_URL:-https://raw.githubusercontent.com/pmd/build-tools/master/scripts}/inc"
-
-    mkdir -p "${inc_dir}"
-
-    for f in ${SCRIPT_INCLUDES}; do
-        if [ ! -e "${inc_dir}/$f" ]; then
-            curl -sSL "${inc_url}/$f" > "${inc_dir}/$f"
-        fi
-        [ "$PMD_CI_DEBUG" = "true" ] && echo "loading ${inc_dir}/$f in ${MODULE}"
-        # shellcheck source=/dev/null
-        source "${inc_dir}/$f" || exit 1
-    done
-}
-
-fetch_ci_scripts

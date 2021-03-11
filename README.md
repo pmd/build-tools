@@ -12,6 +12,7 @@ Artifact containing configuration data and scripts to build and release pmd/pmd 
 *   [scripts](#scripts)
     *   [Overview](#overview)
     *   [Usage](#usage)
+        *   [inc/fetch_ci_scripts.bash](#inc-fetch_ci_scripts-bash)
         *   [inc/log.bash](#inc-log-bash)
         *   [inc/utils.bash](#inc-utils-bash)
         *   [inc/openjdk.bash](#inc-openjdk-bash)
@@ -97,6 +98,30 @@ Use [shellcheck](https://www.shellcheck.net/) to verify the scripts.
 
 ### Usage
 
+#### inc/fetch_ci_scripts.bash
+
+Little helper script to download dependencies.
+
+The only function is `fetch_ci_scripts`.
+
+Use it in other scripts like this:
+
+```
+MODULE="my-library"
+SCRIPT_INCLUDES="log.bash"
+# shellcheck source=inc/fetch_ci_scripts.bash
+source "$(dirname "$0")/inc/fetch_ci_scripts.bash" && fetch_ci_scripts
+
+# other parts of your script
+```
+
+That's the only script, that needs to be copied and existing before. Only with this script, the
+other scripts can be fetched as needed.
+
+Used global vars:
+
+*   PMD_CI_SCRIPTS_URL - defaults to https://raw.githubusercontent.com/pmd/build-tools/master/scripts
+
 #### inc/log.bash
 
 Namespace: pmd_ci_log
@@ -134,6 +159,7 @@ Used global vars:
 
 *   PMD_CI_FILES_URL: This is the base url from where to fetch additional files. For setting up
     secrets, the file `private-env.asc` is fetched from there.
+    Defaults to https://raw.githubusercontent.com/pmd/build-tools/master/files
 
 Test with: `bash -c "source inc/utils.bash; pmd_ci_utils_get_os" $(pwd)/test.sh`
 
@@ -312,6 +338,7 @@ Usage in github actions step:
     f=check-environment.sh; \
     mkdir -p .ci && \
     ( [ -e .ci/$f ] || curl -sSL "${PMD_CI_SCRIPTS_URL}/$f" > ".ci/$f" ) && \
+    chmod 755 .ci/$f && \
     .ci/$f
   env:
     PMD_CI_SCRIPTS_URL=https://raw.githubusercontent.com/pmd/build-tools/master/scripts

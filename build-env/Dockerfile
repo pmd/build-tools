@@ -50,19 +50,21 @@ RUN /bin/bash -c 'echo "UTC" > /etc/timezone && \
 ENV LANG=en_US.UTF-8
 
 # install maven
+ARG maven_version=3.6.3
 RUN /bin/bash -c 'set -o pipefail && \
     cd opt && \
-    curl https://mirror.checkdomain.de/apache/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz | tar xz && \
-    ln -sf /opt/apache-maven-3.6.3/bin/mvn /usr/local/bin/mvn && \
+    curl https://mirror.checkdomain.de/apache/maven/maven-3/${maven_version}/binaries/apache-maven-${maven_version}-bin.tar.gz | tar xz && \
+    ln -sf /opt/apache-maven-${maven_version}/bin/mvn /usr/local/bin/mvn && \
     cd ..'
 
 # install ruby
+ARG ruby_version=2.7
 RUN /bin/bash -c 'set -o pipefail && \
     gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB && \
     curl -sSL https://get.rvm.io | bash -s stable && \
     source /etc/profile.d/rvm.sh && \
-    rvm install 2.7 && \
-    rvm use 2.7 --default && \
+    rvm install ${ruby_version} && \
+    rvm use ${ruby_version} --default && \
     ruby -v'
 
 RUN groupadd pmd-ci && useradd --gid pmd-ci --groups sudo,rvm \
@@ -74,6 +76,9 @@ RUN sudo mkdir -p /workspaces/pmd/pmd && \
     sudo chown -R pmd-ci:pmd-ci /workspaces && \
     ln -sf /workspaces /home/pmd-ci/workspaces
 COPY create-gh-pull-request-event.sh /home/pmd-ci
+
+# setup ruby for current user "pmd-ci"
+RUN /bin/bash --login -c 'rvm user gemsets && rvm use ${ruby_version} && echo "rvm use ${ruby_version}" >> $HOME/.profile'
 
 CMD ["/bin/bash", "--login"]
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 MODULE="setup-secrets"
-SCRIPT_INCLUDES="log.bash"
+SCRIPT_INCLUDES="log.bash utils.bash"
 
 #
 # The functions here require the following environment variables:
@@ -11,7 +11,7 @@ SCRIPT_INCLUDES="log.bash"
 function pmd_ci_setup_secrets_private_env() {
     pmd_ci_log_info "Setting up secrets as environment variables..."
 
-    fetch_ci_file "private-env.asc"
+    pmd_ci_utils_fetch_ci_file "private-env.asc"
     local -r fullpath="$RESULT"
 
     printenv PMD_CI_SECRET_PASSPHRASE | gpg --batch --yes --decrypt \
@@ -26,7 +26,7 @@ function pmd_ci_setup_secrets_private_env() {
 function pmd_ci_setup_secrets_gpg_key() {
     pmd_ci_log_info "Setting up GPG release signing key..."
 
-    fetch_ci_file "release-signing-key-D0BF1D737C9A1C22.asc"
+    pmd_ci_utils_fetch_ci_file "release-signing-key-D0BF1D737C9A1C22.asc"
     local -r fullpath="$RESULT"
 
     mkdir -p "${HOME}/.gpg"
@@ -39,7 +39,7 @@ function pmd_ci_setup_secrets_gpg_key() {
 
 function pmd_ci_setup_secrets_ssh() {
     pmd_ci_log_info "Setting up .ssh/id_rsa..."
-    fetch_ci_file "id_rsa.asc"
+    pmd_ci_utils_fetch_ci_file "id_rsa.asc"
     local -r fullpath="$RESULT"
 
     printenv PMD_CI_SECRET_PASSPHRASE | gpg --batch --yes --decrypt \
@@ -108,24 +108,6 @@ function pmd_ci_setup_secrets_ssh() {
         echo 'github.com ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ=='
 
     } >> "$HOME/.ssh/known_hosts"
-}
-
-function fetch_ci_file() {
-    local -r file="$1"
-    local -r files_url="${PMD_CI_FILES_URL:-https://raw.githubusercontent.com/pmd/build-tools/master/files}"
-    local files_dir
-    files_dir="$(dirname "$0")/../files"
-    files_dir="$(realpath "$files_dir")"
-
-    mkdir -p "${files_dir}"
-    if [ ! -e "${files_dir}/${file}" ]; then
-        pmd_ci_log_info "Fetching ${files_url}/${file} to ${files_dir}"
-        curl -sSL "${files_url}/${file}" > "${files_dir}/${file}"
-    else
-        pmd_ci_log_info "Using existing ${files_dir}/${file}"
-    fi
-
-    RESULT="${files_dir}/${file}"
 }
 
 function fetch_ci_scripts() {

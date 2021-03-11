@@ -107,6 +107,24 @@ function pmd_ci_utils_is_fork_or_pull_request() {
     return 0
 }
 
+function pmd_ci_utils_fetch_ci_file() {
+    local -r file="$1"
+    local -r files_url="${PMD_CI_FILES_URL:-https://raw.githubusercontent.com/pmd/build-tools/master/files}"
+    local files_dir
+    files_dir="$(dirname "$0")/../files"
+    files_dir="$(realpath "$files_dir")"
+
+    mkdir -p "${files_dir}"
+    if [ ! -e "${files_dir}/${file}" ]; then
+        pmd_ci_log_info "Fetching ${files_url}/${file} to ${files_dir}"
+        curl -sSL "${files_url}/${file}" > "${files_dir}/${file}"
+    else
+        pmd_ci_log_info "Using existing ${files_dir}/${file}"
+    fi
+
+    RESULT="${files_dir}/${file}"
+}
+
 function fetch_ci_scripts() {
     local inc_dir
     local inc_url

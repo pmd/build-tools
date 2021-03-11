@@ -18,12 +18,14 @@ Artifact containing configuration data and scripts to build and release pmd/pmd 
         *   [inc/github-releases-api.bash](#inc-github-releases-api-bash)
         *   [inc/setup-secrets.bash](#inc-setup-secrets-bash)
         *   [inc/sourceforge-api.bash](#inc-sourceforge-api-bash)
+        *   [inc/maven.bash](#inc-maven-bash)
         *   [check-environment.sh](#check-environment-sh)
 *   [files](#files)
     *   [private-env.asc](#private-env-asc)
     *   [release-signing-key-D0BF1D737C9A1C22.asc](#release-signing-key-d0bf1d737c9a1c22-asc)
     *   [id_rsa.asc](#id_rsa-asc)
     *   [id_rsa.pub](#id_rsa-pub)
+    *   [maven-settings.xml](#maven-settings-xml)
 
 ## build-env
 
@@ -126,6 +128,12 @@ Functions:
 *   pmd_ci_utils_get_os: returns one of "linux", "macos", "windows"
 *   pmd_ci_utils_determine_build_env
 *   pmd_ci_utils_is_fork_or_pull_request
+*   pmd_ci_utils_fetch_ci_file
+
+Used global vars:
+
+*   PMD_CI_FILES_URL: This is the base url from where to fetch additional files. For setting up
+    secrets, the file `private-env.asc` is fetched from there.
 
 Test with: `bash -c "source inc/utils.bash; pmd_ci_utils_get_os" $(pwd)/test.sh`
 
@@ -196,8 +204,6 @@ Used global vars:
 *   PMD_CI_SECRET_PASSPHRASE: This is provided as a github secret
     (`PMD_CI_SECRET_PASSPHRASE: ${{ secrets.PMD_CI_SECRET_PASSPHRASE }}`) in github actions workflow.
     It is used to decrypt further secrets used by other scripts (github releases api, ...)
-*   PMD_CI_FILES_URL: This is the base url from where to fetch additional files. For setting up
-    secrets, the file `private-env.asc` is fetched from there.
 
 Test with:
 
@@ -257,6 +263,44 @@ doesn't exist.
 
 Don't forget to delete https://sourceforge.net/projects/pmd/files/pmd/Release-Script-Test and
 https://pmd.sourceforge.io/test-Release-Script-Test after the test.
+
+#### inc/maven.bash
+
+Namespace: pmd_ci_maven
+
+Functions:
+
+*   pmd_ci_maven_setup_settings
+*   pmd_ci_maven_get_project_version
+*   pmd_ci_maven_get_project_name
+*   pmd_ci_maven_verify_version
+
+Used global vars:
+
+*   PMD_CI_BRANCH
+*   PMD_CI_TAG
+
+Test with:
+
+```
+bash -c 'set -e; \
+         export PMD_CI_SECRET_PASSPHRASE=.... ; \
+         export PMD_CI_DEBUG=true ; \
+         source inc/maven.bash ; \
+         pmd_ci_maven_setup_settings ; \
+         cd .. ; \
+         pmd_ci_maven_get_project_version ; \
+         echo "version: $RESULT" ; \
+         pmd_ci_maven_get_project_name ; \
+         echo "name: $RESULT" ; \
+         PMD_CI_BRANCH="test-branch" ; \
+         pmd_ci_maven_verify_version "1.2.3-SNAPSHOT" ; \
+         unset PMD_CI_BRANCH ; \
+         PMD_CI_TAG="test-tag" ; \
+         pmd_ci_maven_verify_version "1.2.3" ; \
+         pmd_ci_maven_verify_version "1.2.3-SNAPSHOT" ; \
+         ' $(pwd)/test.sh
+```
 
 #### check-environment.sh
 
@@ -355,4 +399,7 @@ printenv PMD_CI_SECRET_PASSPHRASE | gpg --symmetric --cipher-algo AES256 --batch
 ### id_rsa.pub
 
 The corresponding public key, here for convenience.
+
+### maven-settings.xml
+
 

@@ -53,9 +53,11 @@ function pmd_ci_setup_secrets_ssh() {
 
     pmd_ci_log_info "Setting up .ssh/known_hosts..."
     # cleanup old keys
-    ssh-keygen -R web.sourceforge.net > /dev/null 2>&1
-    ssh-keygen -R pmd-code.org > /dev/null 2>&1
-    ssh-keygen -R github.com > /dev/null 2>&1
+    if [ -e "$HOME/.ssh/known_hosts" ]; then
+        ssh-keygen -R web.sourceforge.net > /dev/null 2>&1
+        ssh-keygen -R pmd-code.org > /dev/null 2>&1
+        ssh-keygen -R github.com > /dev/null 2>&1
+    fi
 
     {
         #

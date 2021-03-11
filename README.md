@@ -17,6 +17,7 @@ Artifact containing configuration data and scripts to build and release pmd/pmd 
         *   [inc/openjdk.bash](#inc-openjdk-bash)
         *   [inc/github-releases-api.bash](#inc-github-releases-api-bash)
         *   [inc/setup-secrets.bash](#inc-setup-secrets-bash)
+        *   [inc/sourceforge-api.bash](#inc-sourceforge-api-bash)
         *   [check-environment.sh](#check-environment-sh)
 *   [files](#files)
     *   [private-env.asc](#private-env-asc)
@@ -212,7 +213,50 @@ bash -c 'set -e; \
          ' $(pwd)/test.sh
 ```
 
+#### inc/sourceforge-api.bash
 
+Namespace: pmd_ci_sourceforge
+
+Functions:
+
+*   pmd_ci_sourceforge_uploadReleaseNotes
+*   pmd_ci_sourceforge_uploadFile
+*   pmd_ci_sourceforge_selectDefault
+*   pmd_ci_sourceforge_rsyncSnapshotDocumentation
+
+Used global vars:
+
+*   PMD_SF_USER
+*   PMD_SF_APIKEY
+
+Test with:
+
+```
+bash -c 'set -e; \
+         export PMD_CI_SECRET_PASSPHRASE=.... ; \
+         export PMD_CI_DEBUG=false ; \
+         source inc/setup-secrets.bash ; \
+         source inc/sourceforge-api.bash ; \
+         pmd_ci_setup_secrets_private_env ; \
+         #pmd_ci_setup_secrets_gpg_key ; \
+         pmd_ci_setup_secrets_ssh ; \
+         pmd_ci_sourceforge_uploadReleaseNotes "Release-Script-Test" "Testing release notes" ; \
+         echo "test file" > "release-test-file.txt" ; \
+         pmd_ci_sourceforge_uploadFile "Release-Script-Test" "release-test-file.txt" ; \
+         rm "release-test-file.txt" ; \
+         pmd_ci_sourceforge_selectDefault "Release-Script-Test" ; \
+         mkdir -p "docs/pmd-doc-Release-Script-Test/" ; \
+         echo "test-file" > "docs/pmd-doc-Release-Script-Test/release-test.txt" ; \
+         pmd_ci_sourceforge_rsyncSnapshotDocumentation "Release-Script-Test" "test-Release-Script-Test" ; \
+         rm "docs/pmd-doc-Release-Script-Test/release-test.txt"; rmdir "docs/pmd-doc-Release-Script-Test"; rmdir "docs" ; \
+         ' $(pwd)/test.sh
+```
+
+Note that "pmd_ci_sourceforge_selectDefault" won't be successful, because the file to be selected as default
+doesn't exist.
+
+Don't forget to delete https://sourceforge.net/projects/pmd/files/pmd/Release-Script-Test and
+https://pmd.sourceforge.io/test-Release-Script-Test after the test.
 
 #### check-environment.sh
 

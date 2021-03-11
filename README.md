@@ -2,9 +2,9 @@
 
 # PMD build tools
 
-Artifact containing configuration data and tools to build pmd/pmd from source.
+Artifact containing configuration data and scripts to build and release pmd/pmd from source.
 
-**Note:** This projects does not use semantic versioning.
+**Note:** This project does not use semantic versioning.
 
 -----
 
@@ -15,7 +15,14 @@ Artifact containing configuration data and tools to build pmd/pmd from source.
         *   [inc/log.bash](#inc-log-bash)
         *   [inc/utils.bash](#inc-utils-bash)
         *   [inc/openjdk.bash](#inc-openjdk-bash)
+        *   [inc/github-releases-api.bash](#inc-github-releases-api-bash)
+        *   [inc/setup-secrets.bash](#inc-setup-secrets-bash)
         *   [check-environment.sh](#check-environment-sh)
+*   [files](#files)
+    *   [private-env.asc](#private-env-asc)
+    *   [release-signing-key-D0BF1D737C9A1C22.asc](#release-signing-key-d0bf1d737c9a1c22-asc)
+    *   [id_rsa.asc](#id_rsa-asc)
+    *   [id_rsa.pub](#id_rsa-pub)
 
 ## build-env
 
@@ -75,12 +82,15 @@ Scripts are stored in `scripts` subfolder. There are two types:
 All scripts are bash scripts.
 
 The shell scripts might depend on one or more library scripts. They need to fetch their dependencies
-before doing any work. This is always done in the function "fetch_ci_scripts()".
+before doing any work. This is always done in the function "fetch_ci_scripts()". The global variable
+`PMD_CI_SCRIPTS_URL` is used as the base url to fetch the scripts.
 
 Library functions may depend on other library functions as well.
 
 Namespaces: Exported global variables use the prefix `PMD_CI_`. Functions of a library use the same
 common prefix starting with `pmd_ci_` followed by the library name, followed by the actual function name.
+
+Use [shellcheck](https://www.shellcheck.net/) to verify the scripts.
 
 ### Usage
 
@@ -170,6 +180,39 @@ bash -c 'export GITHUB_OAUTH_TOKEN=.... ; \
          ' $(pwd)/test.sh
 ```
 
+#### inc/setup-secrets.bash
+
+Namespace: pmd_ci_setup_secrets
+
+Functions:
+
+*   pmd_ci_setup_secrets_private_env
+*   pmd_ci_setup_secrets_gpg_key
+*   pmd_ci_setup_secrets_ssh
+
+Used global vars:
+
+*   PMD_CI_SECRET_PASSPHRASE: This is provided as a github secret
+    (`PMD_CI_SECRET_PASSPHRASE: ${{ secrets.PMD_CI_SECRET_PASSPHRASE }}`) in github actions workflow.
+    It is used to decrypt further secrets used by other scripts (github releases api, ...)
+*   PMD_CI_FILES_URL: This is the base url from where to fetch additional files. For setting up
+    secrets, the file `private-env.asc` is fetched from there.
+
+Test with:
+
+```
+bash -c 'set -e; \
+         export PMD_CI_SECRET_PASSPHRASE=.... ; \
+         export PMD_CI_DEBUG=false ; \
+         source inc/setup-secrets.bash ; \
+         pmd_ci_setup_secrets_private_env ; \
+         pmd_ci_setup_secrets_gpg_key ; \
+         pmd_ci_setup_secrets_ssh ; \
+         # env # warning: prints out the passwords in clear! ; \
+         ' $(pwd)/test.sh
+```
+
+
 
 #### check-environment.sh
 
@@ -189,3 +232,83 @@ Usage in github actions step:
 
 The script exits with code 0, if everything is fine and with 1, if one or more problems have been detected.
 Thus it can fail the build.
+
+## files
+
+### private-env.asc
+
+This file contains the encrypted secrets used during the build, e.g. github tokens, passwords for sonatype, ...
+
+It is encrypted with the password in `PMD_CI_SECRET_PASSPHRASE`.
+
+Here's a template for the file:
+
+```
+#
+# private-env
+#
+# encrypt:
+# printenv PMD_CI_SECRET_PASSPHRASE | gpg --symmetric --cipher-algo AES256 --batch --armor \
+#  --passphrase-fd 0 \
+#  private-env
+#
+# decrypt:
+# printenv PMD_CI_SECRET_PASSPHRASE | gpg --symmetric --cipher-algo AES256 --batch --decrypt \
+#  --passphrase-fd 0 \
+#  --output private-env private-env.asc
+#
+
+export PMD_CI_SECRET_PASSPHRASE=...
+
+# CI_DEPLOY_USERNAME - the user which can upload net.sourceforge.pmd:* to https://oss.sonatype.org/
+# CI_DEPLOY_PASSWORD
+export CI_DEPLOY_USER=...
+export CI_DEPLOY_PASSWORD=...
+
+# CI_SIGN_KEYNAME - GPG key used to sign the release jars before uploading to maven central
+# CI_SIGN_PASSPHRASE
+export CI_SIGN_KEY=...
+export CI_SIGN_PASSPHRASE=...
+
+export PMD_SF_USER=...
+export PMD_SF_APIKEY=...
+
+export GITHUB_OAUTH_TOKEN=...
+export GITHUB_BASE_URL=https://api.github.com/repos/pmd/pmd
+export SONAR_TOKEN=...
+export COVERALLS_REPO_TOKEN=...
+
+# These are also in public-env
+export DANGER_GITHUB_API_TOKEN=...
+export PMD_CI_CHUNK_TOKEN=...
+```
+
+### release-signing-key-D0BF1D737C9A1C22.asc
+
+Export the private key and encrypt it with PMD_CI_SECRET_PASSPHRASE:
+
+```
+printenv PMD_CI_SECRET_PASSPHRASE | gpg --symmetric --cipher-algo AES256 --batch --armor \
+  --passphrase-fd 0 \
+  release-signing-key-D0BF1D737C9A1C22
+```
+
+The public key is available here: https://keys.openpgp.org/vks/v1/by-fingerprint/EBB241A545CB17C87FACB2EBD0BF1D737C9A1C22
+and http://pool.sks-keyservers.net:11371/pks/lookup?search=0xD0BF1D737C9A1C22&fingerprint=on&op=index
+
+### id_rsa.asc
+
+That's the private SSH key used for committing on github as pmd-bot and to access sourceforge and pmd-code.org.
+
+Encrypt it with PMD_CI_SECRET_PASSPHRASE:
+
+```
+printenv PMD_CI_SECRET_PASSPHRASE | gpg --symmetric --cipher-algo AES256 --batch --armor \
+  --passphrase-fd 0 \
+  id_rsa
+```
+
+### id_rsa.pub
+
+The corresponding public key, here for convenience.
+

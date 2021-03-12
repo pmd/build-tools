@@ -373,6 +373,7 @@ Usage in github actions step:
 
 ```yaml
 - name: Check Environment
+  shell: bash
   run: |
     f=check-environment.sh; \
     mkdir -p .ci && \
@@ -381,7 +382,6 @@ Usage in github actions step:
     .ci/$f
   env:
     PMD_CI_SCRIPTS_URL=https://raw.githubusercontent.com/pmd/build-tools/master/scripts
-  shell: bash
 ```
 
 The script exits with code 0, if everything is fine and with 1, if one or more problems have been detected.

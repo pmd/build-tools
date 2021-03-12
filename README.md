@@ -20,6 +20,7 @@ Artifact containing configuration data and scripts to build and release pmd/pmd 
         *   [inc/setup-secrets.bash](#inc-setup-secrets-bash)
         *   [inc/sourceforge-api.bash](#inc-sourceforge-api-bash)
         *   [inc/maven.bash](#inc-maven-bash)
+        *   [inc/pmd-code-api.bash](#inc-pmd-code-api-bash)
         *   [check-environment.sh](#check-environment-sh)
 *   [files](#files)
     *   [private-env.asc](#private-env-asc)
@@ -327,6 +328,43 @@ bash -c 'set -e; \
          pmd_ci_maven_verify_version "1.2.3-SNAPSHOT" ; \
          ' $(pwd)/test.sh
 ```
+
+#### inc/pmd-code-api.bash
+
+Namespace: pmd_ci_pmd_code
+
+Functions:
+
+*   pmd_ci_pmd_code_uploadFile
+*   pmd_ci_pmd_code_uploadZipAndExtract
+*   pmd_ci_pmd_code_removeFolder
+*   pmd_ci_pmd_code_createSymlink
+
+Used global vars:
+
+Test with:
+
+```
+bash -c 'set -e; \
+         export PMD_CI_SECRET_PASSPHRASE=.... ; \
+         export PMD_CI_DEBUG=true ; \
+         source inc/setup-secrets.bash ; \
+         source inc/pmd-code-api.bash ; \
+         pmd_ci_setup_secrets_private_env ; \
+         pmd_ci_setup_secrets_ssh ; \
+         echo "test file" > "test-file-for-upload.txt" ; \
+         zip "test-zip.zip" "test-file-for-upload.txt" ; \
+         pmd_ci_pmd_code_uploadFile "/httpdocs/test-folder" "test-file-for-upload.txt" ; \
+         echo "test file" > "test-file-for-upload.txt" ; \
+         pmd_ci_pmd_code_uploadZipAndExtract "/httpdocs/test-folder2" "test-zip.zip" ; \
+         rm "test-zip.zip" "test-file-for-upload.txt" ; \
+         pmd_ci_pmd_code_createSymlink "/httpdocs/test-folder" "/httpdocs/test-folder3" ; \
+         pmd_ci_pmd_code_removeFolder "/httpdocs/test-folder" ; \
+         pmd_ci_pmd_code_removeFolder "/httpdocs/test-folder2" ; \
+         pmd_ci_pmd_code_removeFolder "/httpdocs/test-folder3" ; \
+         ' $(pwd)/test.sh
+```
+
 
 #### check-environment.sh
 

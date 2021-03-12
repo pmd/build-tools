@@ -383,7 +383,7 @@ Usage in github actions step:
     chmod 755 .ci/$f && \
     .ci/$f
   env:
-    PMD_CI_SCRIPTS_URL=https://raw.githubusercontent.com/pmd/build-tools/master/scripts
+    PMD_CI_SCRIPTS_URL: https://raw.githubusercontent.com/pmd/build-tools/master/scripts
 ```
 
 The script exits with code 0, if everything is fine and with 1, if one or more problems have been detected.

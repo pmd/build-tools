@@ -24,6 +24,10 @@ jobs:
         key: ${{ runner.os }}-${{ hashFiles('**/pom.xml') }}
         restore-keys: |
           ${{ runner.os }}-
+    - name: Set Locale
+      shell: bash
+      run: |
+        echo "LANG=en_US.UTF-8" >> $GITHUB_ENV
     - name: Check Environment
       shell: bash
       run: |

@@ -75,7 +75,7 @@ WORKDIR /home/pmd-ci
 RUN sudo mkdir -p /workspaces/pmd/pmd && \
     sudo chown -R pmd-ci:pmd-ci /workspaces && \
     ln -sf /workspaces /home/pmd-ci/workspaces
-COPY create-gh-pull-request-event.sh /home/pmd-ci
+COPY create-gh-actions-env.sh /home/pmd-ci
 
 # setup ruby for current user "pmd-ci"
 RUN /bin/bash --login -c 'rvm user gemsets && \

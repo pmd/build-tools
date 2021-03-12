@@ -468,3 +468,51 @@ The corresponding public key, here for convenience.
 ### maven-settings.xml
 
 
+## Testing
+
+To test a complete build (or run it manually), you can use the docker build-env.
+The script `create-gh-actions-env.sh` can simulate a Github Actions environment by setting up
+some specific environment variables. With these variables set, `utils.bash/pmd_ci_utils_determine_build_env`
+can figure out the needed information and `utils.bash/pmd_ci_utils_is_fork_or_pull_request` works.
+
+Example session for a pull request:
+
+```
+pmd-ci@6cc27446ef02:~/workspaces/pmd/build-tools$ unset PMD_CI_SECRET_PASSPHRASE
+pmd-ci@6cc27446ef02:~/workspaces/pmd/build-tools$ export PMD_CI_SCRIPTS_URL=https://raw.githubusercontent.com/adangel/build-tools/gh-action-scripts/scripts
+pmd-ci@6cc27446ef02:~/workspaces/pmd/build-tools$ eval $(~/create-gh-actions-env.sh pull_request adangel/build-tools gh-actions-scripts)
+pmd-ci@6cc27446ef02:~/workspaces/pmd/build-tools$ .ci/build.sh
+...
+```
+
+Example session for a forked build (a build executing on a forked repository):
+
+```
+pmd-ci@6cc27446ef02:~/workspaces/pmd/build-tools$ unset PMD_CI_SECRET_PASSPHRASE
+pmd-ci@6cc27446ef02:~/workspaces/pmd/build-tools$ export PMD_CI_SCRIPTS_URL=https://raw.githubusercontent.com/adangel/build-tools/gh-action-scripts/scripts
+pmd-ci@6cc27446ef02:~/workspaces/pmd/build-tools$ eval $(~/create-gh-actions-env.sh push adangel/build-tools gh-actions-scripts)
+pmd-ci@6cc27446ef02:~/workspaces/pmd/build-tools$ .ci/build.sh
+...
+```
+
+Example session for a push build on the main repository:
+
+```
+pmd-ci@6cc27446ef02:~/workspaces/pmd/build-tools$ export PMD_CI_SECRET_PASSPHRASE=...
+pmd-ci@6cc27446ef02:~/workspaces/pmd/build-tools$ export PMD_CI_SCRIPTS_URL=https://raw.githubusercontent.com/adangel/build-tools/gh-action-scripts/scripts
+pmd-ci@6cc27446ef02:~/workspaces/pmd/build-tools$ eval $(~/create-gh-actions-env.sh push pmd/build-tools gh-actions-scripts)
+pmd-ci@6cc27446ef02:~/workspaces/pmd/build-tools$ .ci/build.sh
+...
+```
+
+Example session for a release build on the main repository from tag "v1.0.0":
+
+```
+pmd-ci@6cc27446ef02:~/workspaces/pmd/build-tools$ export PMD_CI_SECRET_PASSPHRASE=...
+pmd-ci@6cc27446ef02:~/workspaces/pmd/build-tools$ export PMD_CI_SCRIPTS_URL=https://raw.githubusercontent.com/adangel/build-tools/gh-action-scripts/scripts
+pmd-ci@6cc27446ef02:~/workspaces/pmd/build-tools$ eval $(~/create-gh-actions-env.sh push pmd/build-tools refs/tags/v1.0.0)
+pmd-ci@6cc27446ef02:~/workspaces/pmd/build-tools$ .ci/build.sh
+...
+```
+
+Note, that `MAVEN_OPTS` contains `-DskipRemoteStaging=true`, so that no maven artifacts are not deployed.

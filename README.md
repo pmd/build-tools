@@ -153,7 +153,7 @@ Namespace: pmd_ci_utils
 Functions:
 
 *   pmd_ci_utils_get_os: returns one of "linux", "macos", "windows"
-*   pmd_ci_utils_determine_build_env
+*   pmd_ci_utils_determine_build_env. Sets many variables, e.g. GITHUB_BASE_URL, PMD_CI_IS_FORK, ...
 *   pmd_ci_utils_is_fork_or_pull_request
 *   pmd_ci_utils_fetch_ci_file
 
@@ -300,15 +300,21 @@ Namespace: pmd_ci_maven
 Functions:
 
 *   pmd_ci_maven_setup_settings
-*   pmd_ci_maven_get_project_version
+*   pmd_ci_maven_get_project_version: exports PMD_CI_MAVEN_PROJECT_VERSION
 *   pmd_ci_maven_get_project_name
 *   pmd_ci_maven_verify_version
 *   pmd_ci_maven_display_info_banner
+*   pmd_ci_maven_isSnapshotBuild
+*   pmd_ci_maven_isReleaseBuild
 
 Used global vars:
 
 *   PMD_CI_BRANCH
 *   PMD_CI_TAG
+
+Exported global vars:
+
+*   PMD_CI_MAVEN_PROJECT_VERSION
 
 Test with:
 
@@ -323,12 +329,19 @@ bash -c 'set -e; \
          echo "version: $RESULT" ; \
          pmd_ci_maven_get_project_name ; \
          echo "name: $RESULT" ; \
+         PMD_CI_MAVEN_PROJECT_VERSION="1.2.3-SNAPSHOT" ; \
          PMD_CI_BRANCH="test-branch" ; \
-         pmd_ci_maven_verify_version "1.2.3-SNAPSHOT" ; \
+         pmd_ci_maven_verify_version ; \
          unset PMD_CI_BRANCH ; \
          PMD_CI_TAG="test-tag" ; \
-         pmd_ci_maven_verify_version "1.2.3" ; \
-         pmd_ci_maven_verify_version "1.2.3-SNAPSHOT" ; \
+         PMD_CI_MAVEN_PROJECT_VERSION="1.2.3" ; \
+         pmd_ci_maven_verify_version ; \
+         pmd_ci_maven_display_info_banner ; \
+         pmd_ci_maven_isReleaseBuild && echo "release build" ; \
+         PMD_CI_MAVEN_PROJECT_VERSION="1.2.3-SNAPSHOT" ; \
+         unset PMD_CI_TAG ; \
+         PMD_CI_BRANCH="test-branch" ; \
+         pmd_ci_maven_isSnapshotBuild && echo "snapshot build" ; \
          ' $(pwd)/test.sh
 ```
 
@@ -430,9 +443,12 @@ export PMD_SF_USER=...
 export PMD_SF_APIKEY=...
 
 export GITHUB_OAUTH_TOKEN=...
-export GITHUB_BASE_URL=https://api.github.com/repos/pmd/pmd
 export SONAR_TOKEN=...
 export COVERALLS_REPO_TOKEN=...
+
+# for pmd-eclipse-plugin
+export BINTRAY_USER=...
+export BINTRAY_APIKEY=...
 
 # These are also in public-env
 export DANGER_GITHUB_API_TOKEN=...

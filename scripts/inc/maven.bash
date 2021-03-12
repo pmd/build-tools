@@ -31,6 +31,11 @@ function pmd_ci_maven_display_info_banner() {
 }
 
 function pmd_ci_maven_get_project_version() {
+    if [ -n "${PMD_CI_MAVEN_PROJECT_VERSION}" ]; then
+        RESULT="${PMD_CI_MAVEN_PROJECT_VERSION}"
+        return 0
+    fi
+
     RESULT=$(./mvnw --batch-mode --no-transfer-progress \
         org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate \
         -Dexpression=project.version -q -DforceStdout || echo "pmd_ci_maven_get_project_version_failed")
@@ -39,6 +44,8 @@ function pmd_ci_maven_get_project_version() {
         pmd_ci_log_error "$RESULT"
         return 1
     fi
+
+    export PMD_CI_MAVEN_PROJECT_VERSION="${RESULT}"
 }
 
 function pmd_ci_maven_get_project_name() {
@@ -54,17 +61,36 @@ function pmd_ci_maven_get_project_name() {
 
 function pmd_ci_maven_verify_version() {
     pmd_ci_maven_get_project_version
-    local version="${RESULT}"
 
-    pmd_ci_log_debug "version=${version} PMD_CI_BRANCH=${PMD_CI_BRANCH} PMD_CI_TAG=${PMD_CI_TAG}"
+    pmd_ci_log_debug "version=${PMD_CI_MAVEN_PROJECT_VERSION} PMD_CI_BRANCH=${PMD_CI_BRANCH} PMD_CI_TAG=${PMD_CI_TAG}"
 
-    if [[ "${version}" == *-SNAPSHOT && -z "$PMD_CI_BRANCH" ]]; then
-        pmd_ci_log_error "Invalid combination: snapshot version ${version} but no branch"
+    if [[ "${PMD_CI_MAVEN_PROJECT_VERSION}" == *-SNAPSHOT && -z "$PMD_CI_BRANCH" ]]; then
+        pmd_ci_log_error "Invalid combination: snapshot version ${PMD_CI_MAVEN_PROJECT_VERSION} but no branch"
         return 1
     fi
 
-    if [[ "${version}" != *-SNAPSHOT && -z "$PMD_CI_TAG" ]]; then
-        pmd_ci_log_error "Invalid combination: non-snapshot version ${version} but no tag"
+    if [[ "${PMD_CI_MAVEN_PROJECT_VERSION}" != *-SNAPSHOT && -z "$PMD_CI_TAG" ]]; then
+        pmd_ci_log_error "Invalid combination: non-snapshot version ${PMD_CI_MAVEN_PROJECT_VERSION} but no tag"
         return 1
     fi
+}
+
+function pmd_ci_maven_isSnapshotBuild() {
+    pmd_ci_maven_get_project_version
+
+    if [[ "${PMD_CI_MAVEN_PROJECT_VERSION}" == *-SNAPSHOT && "${PMD_CI_BRANCH}" != "" ]]; then
+        return 0
+    fi
+
+    return 1
+}
+
+function pmd_ci_maven_isReleaseBuild() {
+    pmd_ci_maven_get_project_version
+
+    if [[ "${PMD_CI_MAVEN_PROJECT_VERSION}" != *-SNAPSHOT && "${PMD_CI_TAG}" != "" ]]; then
+        return 0
+    fi
+
+    return 1
 }

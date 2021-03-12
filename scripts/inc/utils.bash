@@ -55,6 +55,7 @@ function pmd_ci_utils_determine_build_env() {
         PMD_CI_IS_FORK="true"
         [ "${PMD_CI_REPO}" == "${own_repo_name}" ] && PMD_CI_IS_FORK="false"
         PMD_CI_JOB_URL="https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+        GITHUB_BASE_URL="https://api.github.com/repos/${own_repo_name}"
 
         if [[ "${GITHUB_EVENT_NAME}" == "push" ]]; then
             if [[ "${GITHUB_REF}" == refs/heads/* ]]; then
@@ -98,6 +99,7 @@ function pmd_ci_utils_determine_build_env() {
     pmd_ci_log_info "  PMD_CI_TAG=${PMD_CI_TAG}"
     pmd_ci_log_info "  PMD_CI_PULL_REQUEST_NUMBER=${PMD_CI_PULL_REQUEST_NUMBER}"
     pmd_ci_log_info "  PMD_CI_IS_FORK=${PMD_CI_IS_FORK}"
+    pmd_ci_log_info "  GITHUB_BASE_URL=${GITHUB_BASE_URL}"
 }
 
 function pmd_ci_utils_is_fork_or_pull_request() {

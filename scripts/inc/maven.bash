@@ -19,6 +19,17 @@ function pmd_ci_maven_setup_settings() {
     cp "${fullpath}" "${HOME}/.m2/settings.xml"
 }
 
+function pmd_ci_maven_display_info_banner() {
+    pmd_ci_log_info "Determining build info..."
+    pmd_ci_maven_get_project_name
+    local name="${RESULT}"
+    pmd_ci_maven_get_project_version
+    local version="${RESULT}"
+    pmd_ci_log_info "======================================================================="
+    pmd_ci_log_info "Building ${name} ${version}"
+    pmd_ci_log_info "======================================================================="
+}
+
 function pmd_ci_maven_get_project_version() {
     RESULT=$(./mvnw --batch-mode --no-transfer-progress \
         org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate \
@@ -42,11 +53,8 @@ function pmd_ci_maven_get_project_name() {
 }
 
 function pmd_ci_maven_verify_version() {
-    local -r version="$1"
-    if [ -z "${version}" ]; then
-        pmd_ci_log_error "version required"
-        return 1
-    fi
+    pmd_ci_maven_get_project_version
+    local version="${RESULT}"
 
     pmd_ci_log_debug "version=${version} PMD_CI_BRANCH=${PMD_CI_BRANCH} PMD_CI_TAG=${PMD_CI_TAG}"
 

@@ -301,6 +301,7 @@ Functions:
 *   pmd_ci_maven_get_project_version
 *   pmd_ci_maven_get_project_name
 *   pmd_ci_maven_verify_version
+*   pmd_ci_maven_display_info_banner
 
 Used global vars:
 

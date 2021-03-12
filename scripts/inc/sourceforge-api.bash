@@ -18,11 +18,11 @@ source "$(dirname "$0")/inc/fetch_ci_scripts.bash" && fetch_ci_scripts
 # In that case, just a error logging is provided.
 #
 function pmd_ci_sourceforge_uploadReleaseNotes() {
-    local pmdVersion="$1"
+    local basePath="$1"
     local releaseNotes="$2"
 
-    pmd_ci_log_debug "${FUNCNAME[0]} pmdVersion=$pmdVersion"
-    local targetUrl="https://sourceforge.net/projects/pmd/files/pmd/${pmdVersion}"
+    pmd_ci_log_debug "${FUNCNAME[0]} basePath=$basePath"
+    local targetUrl="https://sourceforge.net/projects/pmd/files/${basePath}"
 
     (
         # This handler is called if any command fails
@@ -35,9 +35,7 @@ function pmd_ci_sourceforge_uploadReleaseNotes() {
 
         function cleanup_temp_dir() {
             pmd_ci_log_debug "Cleanup tempdir $releaseNotesTempDir"
-            rm "${releaseNotesTempDir}/${pmdVersion}/ReadMe.md" || true
-            rmdir "${releaseNotesTempDir}/${pmdVersion}" || true
-            rmdir "${releaseNotesTempDir}" || true
+            rm -rf "${releaseNotesTempDir}"
         }
 
         # exit subshell after trap
@@ -47,13 +45,13 @@ function pmd_ci_sourceforge_uploadReleaseNotes() {
         local releaseNotesTempDir
         releaseNotesTempDir=$(mktemp -d)
         pmd_ci_log_debug "Tempdir: $releaseNotesTempDir"
-        mkdir -p "${releaseNotesTempDir}/${pmdVersion}"
-        echo "$releaseNotes" > "${releaseNotesTempDir}/${pmdVersion}/ReadMe.md"
+        mkdir -p "${releaseNotesTempDir}/${basePath}"
+        echo "$releaseNotes" > "${releaseNotesTempDir}/${basePath}/ReadMe.md"
 
-        pmd_ci_log_info "Uploading release notes to sourceforge for version $pmdVersion"
-        rsync -avz \
+        pmd_ci_log_info "Uploading release notes to sourceforge at $basePath"
+        rsync -rltvz \
             "${releaseNotesTempDir}/" \
-            "${PMD_SF_USER}@web.sourceforge.net:/home/frs/project/pmd/pmd/"
+            "${PMD_SF_USER}@web.sourceforge.net:/home/frs/project/pmd/"
 
         pmd_ci_log_success "Successfully uploaded release notes as ReadMe.md to sourceforge: ${targetUrl}"
 
@@ -68,11 +66,11 @@ function pmd_ci_sourceforge_uploadReleaseNotes() {
 # In that case, just a error logging is provided.
 #
 function pmd_ci_sourceforge_uploadFile() {
-    local pmdVersion="$1"
+    local basePath="$1"
     local filename="$2"
 
-    pmd_ci_log_debug "${FUNCNAME[0]} pmdVersion=$pmdVersion filename=$filename"
-    local targetUrl="https://sourceforge.net/projects/pmd/files/pmd/${pmdVersion}"
+    pmd_ci_log_debug "${FUNCNAME[0]} basePath=$basePath filename=$filename"
+    local targetUrl="https://sourceforge.net/projects/pmd/files/${basePath}"
 
     (
         # This handler is called if any command fails
@@ -87,7 +85,7 @@ function pmd_ci_sourceforge_uploadFile() {
         trap upload_failed ERR
 
         pmd_ci_log_info "Uploading $filename to sourceforge..."
-        rsync -avh "${filename}" "${PMD_SF_USER}@web.sourceforge.net:/home/frs/project/pmd/pmd/${pmdVersion}/"
+        rsync -avh "${filename}" "${PMD_SF_USER}@web.sourceforge.net:/home/frs/project/pmd/${basePath}/"
         pmd_ci_log_success "Successfully uploaded ${filename} to sourceforge: ${targetUrl}"
     )
 }

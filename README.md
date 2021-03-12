@@ -272,9 +272,9 @@ bash -c 'set -e; \
          pmd_ci_setup_secrets_private_env ; \
          #pmd_ci_setup_secrets_gpg_key ; \
          pmd_ci_setup_secrets_ssh ; \
-         pmd_ci_sourceforge_uploadReleaseNotes "Release-Script-Test" "Testing release notes" ; \
+         pmd_ci_sourceforge_uploadReleaseNotes "pmd/Release-Script-Test" "Testing release notes" ; \
          echo "test file" > "release-test-file.txt" ; \
-         pmd_ci_sourceforge_uploadFile "Release-Script-Test" "release-test-file.txt" ; \
+         pmd_ci_sourceforge_uploadFile "pmd/Release-Script-Test" "release-test-file.txt" ; \
          rm "release-test-file.txt" ; \
          pmd_ci_sourceforge_selectDefault "Release-Script-Test" ; \
          mkdir -p "docs/pmd-doc-Release-Script-Test/" ; \

@@ -28,6 +28,7 @@ Artifact containing configuration data and scripts to build and release pmd/pmd 
     *   [id_rsa.asc](#id_rsa-asc)
     *   [id_rsa.pub](#id_rsa-pub)
     *   [maven-settings.xml](#maven-settings-xml)
+*   [Testing](#testing)
 
 ## build-env
 
@@ -158,9 +159,10 @@ Functions:
 
 Used global vars:
 
-*   PMD_CI_FILES_URL: This is the base url from where to fetch additional files. For setting up
+*   PMD_CI_SCRIPTS_URL: This is the base url from where to fetch additional files. For setting up
     secrets, the file `private-env.asc` is fetched from there.
-    Defaults to https://raw.githubusercontent.com/pmd/build-tools/master/files
+    Defaults to https://raw.githubusercontent.com/pmd/build-tools/master/scripts
+    The files are fetched from the sub directory "files".
 
 Test with: `bash -c "source inc/utils.bash; pmd_ci_utils_get_os" $(pwd)/test.sh`
 

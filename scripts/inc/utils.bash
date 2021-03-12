@@ -111,9 +111,9 @@ function pmd_ci_utils_is_fork_or_pull_request() {
 
 function pmd_ci_utils_fetch_ci_file() {
     local -r file="$1"
-    local -r files_url="${PMD_CI_FILES_URL:-https://raw.githubusercontent.com/pmd/build-tools/master/files}"
+    local -r files_url="${PMD_CI_SCRIPTS_URL:-https://raw.githubusercontent.com/pmd/build-tools/master/scripts}/files"
     local files_dir
-    files_dir="$(dirname "$0")/../files"
+    files_dir="$(dirname "$0")/files"
     files_dir="$(realpath "$files_dir")"
 
     mkdir -p "${files_dir}"

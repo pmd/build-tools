@@ -1,5 +1,11 @@
+#!/usr/bin/env bash
 
-function pmd_ci_get_os() {
+MODULE="utils"
+SCRIPT_INCLUDES="log.bash"
+# shellcheck source=inc/fetch_ci_scripts.bash
+source "$(dirname "$0")/inc/fetch_ci_scripts.bash" && fetch_ci_scripts
+
+function pmd_ci_utils_get_os() {
     case "$(uname)" in
         Linux*)
             echo "linux"
@@ -11,7 +17,7 @@ function pmd_ci_get_os() {
             echo "windows"
         ;;
         *)
-            log_error "Unknown OS: $(uname)"
+            pmd_ci_log_error "Unknown OS: $(uname)"
             return 1
         ;;
     esac
@@ -35,15 +41,15 @@ function pmd_ci_get_os() {
 # * PMD_CI_PULL_REQUEST_NUMBER
 #   only present for pull requests
 # * PMD_CI_IS_FORK=true/false
-function pmd_ci_determine_build_env() {
+function pmd_ci_utils_determine_build_env() {
     local own_repo_name=$1
     if [ -z "${own_repo_name}" ]; then
-        log_error "own repo name required"
+        pmd_ci_log_error "own repo name required, e.g. pmd/pmd"
         return 1
     fi
 
     if [[ "${GITHUB_ACTIONS}" == "true" ]]; then
-        log_debug "Github Actions detected"
+        pmd_ci_log_debug "Github Actions detected"
 
         PMD_CI_REPO="${GITHUB_REPOSITORY}"
         PMD_CI_IS_FORK="true"
@@ -58,47 +64,65 @@ function pmd_ci_determine_build_env() {
                 PMD_CI_TAG=${GITHUB_REF##refs/tags/}
                 unset PMD_CI_BRANCH
             else
-                log_error "Unknown branch/tag: GITHUB_REF=${GITHUB_REF}"
+                pmd_ci_log_error "Unknown branch/tag: GITHUB_REF=${GITHUB_REF}"
                 return 1
             fi
-            PMD_CI_PUSH_COMMIT_COMPARE=$(cat ${GITHUB_EVENT_PATH} | jq -r ".compare")
+            PMD_CI_PUSH_COMMIT_COMPARE=$(jq -r ".compare" "${GITHUB_EVENT_PATH}")
             unset PMD_CI_PULL_REQUEST_NUMBER
 
         elif [[ "${GITHUB_EVENT_NAME}" == "pull_request" ]]; then
-            PMD_CI_PULL_REQUEST_NUMBER=$(cat ${GITHUB_EVENT_PATH} | jq -r ".number")
+            PMD_CI_PULL_REQUEST_NUMBER=$(jq -r ".number" "${GITHUB_EVENT_PATH}")
             PMD_CI_BRANCH=${GITHUB_BASE_REF}
             unset PMD_CI_TAG
             unset PMD_CI_PUSH_COMMIT_COMPARE
 
         else
-            log_error "Unsupported event: ${GITHUB_EVENT_NAME}"
+            pmd_ci_log_error "Unsupported event: ${GITHUB_EVENT_NAME}"
             return 1
         fi
 
     else
-        log_error "Could not determine CI type"
+        pmd_ci_log_error "Could not determine CI type"
         return 1
     fi
 
     if [ -z "${PMD_CI_PULL_REQUEST_NUMBER}" ]; then
-        log_info "Push:"
+        pmd_ci_log_info "Push:"
     else
-        log_info "Pull Request:"
+        pmd_ci_log_info "Pull Request:"
     fi
-    log_info "  PMD_CI_REPO=${PMD_CI_REPO}"
-    log_info "  PMD_CI_JOB_URL=${PMD_CI_JOB_URL}"
-    log_info "  PMD_CI_PUSH_COMMIT_COMPARE=${PMD_CI_PUSH_COMMIT_COMPARE}"
-    log_info "  PMD_CI_BRANCH=${PMD_CI_BRANCH}"
-    log_info "  PMD_CI_TAG=${PMD_CI_TAG}"
-    log_info "  PMD_CI_PULL_REQUEST_NUMBER=${PMD_CI_PULL_REQUEST_NUMBER}"
-    log_info "  PMD_CI_IS_FORK=${PMD_CI_IS_FORK}"
+    pmd_ci_log_info "  PMD_CI_REPO=${PMD_CI_REPO}"
+    pmd_ci_log_info "  PMD_CI_JOB_URL=${PMD_CI_JOB_URL}"
+    pmd_ci_log_info "  PMD_CI_PUSH_COMMIT_COMPARE=${PMD_CI_PUSH_COMMIT_COMPARE}"
+    pmd_ci_log_info "  PMD_CI_BRANCH=${PMD_CI_BRANCH}"
+    pmd_ci_log_info "  PMD_CI_TAG=${PMD_CI_TAG}"
+    pmd_ci_log_info "  PMD_CI_PULL_REQUEST_NUMBER=${PMD_CI_PULL_REQUEST_NUMBER}"
+    pmd_ci_log_info "  PMD_CI_IS_FORK=${PMD_CI_IS_FORK}"
 }
 
-function pmd_ci_is_fork_or_pull_request() {
+function pmd_ci_utils_is_fork_or_pull_request() {
     if [[ "${PMD_CI_IS_FORK}" = "false" && -z "${PMD_CI_PULL_REQUEST_NUMBER}" ]]; then
         return 1
     fi
 
     # default: true
     return 0
+}
+
+function pmd_ci_utils_fetch_ci_file() {
+    local -r file="$1"
+    local -r files_url="${PMD_CI_SCRIPTS_URL:-https://raw.githubusercontent.com/pmd/build-tools/master/scripts}/files"
+    local files_dir
+    files_dir="$(dirname "$0")/files"
+    files_dir="$(realpath "$files_dir")"
+
+    mkdir -p "${files_dir}"
+    if [ ! -e "${files_dir}/${file}" ]; then
+        pmd_ci_log_info "Fetching ${files_url}/${file} to ${files_dir}"
+        curl -sSL "${files_url}/${file}" > "${files_dir}/${file}"
+    else
+        pmd_ci_log_info "Using existing ${files_dir}/${file}"
+    fi
+
+    RESULT="${files_dir}/${file}"
 }

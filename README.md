@@ -408,14 +408,10 @@ Here's a template for the file:
 # private-env
 #
 # encrypt:
-# printenv PMD_CI_SECRET_PASSPHRASE | gpg --symmetric --cipher-algo AES256 --batch --armor \
-#  --passphrase-fd 0 \
-#  private-env
+# printenv PMD_CI_SECRET_PASSPHRASE | gpg --symmetric --cipher-algo AES256 --batch --armor --passphrase-fd 0 private-env
 #
 # decrypt:
-# printenv PMD_CI_SECRET_PASSPHRASE | gpg --symmetric --cipher-algo AES256 --batch --decrypt \
-#  --passphrase-fd 0 \
-#  --output private-env private-env.asc
+# printenv PMD_CI_SECRET_PASSPHRASE | gpg --decrypt --passphrase-fd 0 --output private-env private-env.asc
 #
 
 export PMD_CI_SECRET_PASSPHRASE=...

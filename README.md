@@ -258,11 +258,14 @@ Functions:
 *   pmd_ci_sourceforge_uploadFile
 *   pmd_ci_sourceforge_selectDefault
 *   pmd_ci_sourceforge_rsyncSnapshotDocumentation
+*   pmd_ci_sourceforge_createDraftBlogPost
+*   pmd_ci_sourceforge_publishBlogPost
 
 Used global vars:
 
 *   PMD_SF_USER
 *   PMD_SF_APIKEY
+*   PMD_SF_BEARER_TOKEN
 
 Test with:
 
@@ -284,6 +287,12 @@ bash -c 'set -e; \
          echo "test-file" > "docs/pmd-doc-Release-Script-Test/release-test.txt" ; \
          pmd_ci_sourceforge_rsyncSnapshotDocumentation "Release-Script-Test" "test-Release-Script-Test" ; \
          rm "docs/pmd-doc-Release-Script-Test/release-test.txt"; rmdir "docs/pmd-doc-Release-Script-Test"; rmdir "docs" ; \
+         pmd_ci_sourceforge_createDraftBlogPost "draft post 1" "text with labels" "label1,label2" ; \
+         blog="${RESULT}" ; \
+         echo "URL: ${blog}" ; \
+         pmd_ci_sourceforge_createDraftBlogPost "draft post 2" "text without labels" ; \
+         blog="${RESULT}" ; \
+         echo "URL: ${blog}" ; \
          ' $(pwd)/test.sh
 ```
 
@@ -292,6 +301,8 @@ doesn't exist.
 
 Don't forget to delete https://sourceforge.net/projects/pmd/files/pmd/Release-Script-Test and
 https://pmd.sourceforge.io/test-Release-Script-Test after the test.
+
+And also the created blog posts under https://sourceforge.net/p/pmd/news/.
 
 #### inc/maven.bash
 
@@ -440,7 +451,11 @@ export CI_SIGN_KEYNAME=...
 export CI_SIGN_PASSPHRASE=...
 
 export PMD_SF_USER=...
+# https://sourceforge.net/p/forge/documentation/Using%20the%20Release%20API/
 export PMD_SF_APIKEY=...
+# https://sourceforge.net/p/forge/documentation/Allura%20API/ (blog, wiki, ...)
+# https://sourceforge.net/auth/oauth/
+export PMD_SF_BEARER_TOKEN=...
 
 export GITHUB_OAUTH_TOKEN=...
 export SONAR_TOKEN=...

@@ -9,6 +9,7 @@ source "$(dirname "$0")/inc/fetch_ci_scripts.bash" && fetch_ci_scripts
 # The functions here require the following environment variables:
 # PMD_SF_USER
 # PMD_SF_APIKEY
+# PMD_SF_BEARER_TOKEN
 #
 
 #
@@ -158,4 +159,50 @@ function pmd_ci_sourceforge_rsyncSnapshotDocumentation() {
         rsync -ah --stats --delete "docs/pmd-doc-${pmdVersion}/" "${PMD_SF_USER}@web.sourceforge.net:/home/project-web/pmd/htdocs/${targetPath}/"
         pmd_ci_log_success "Successfully uploaded documentation: ${targetUrl}"
     )
+}
+
+#
+# Create a new blog post on sourceforge. The blog post will be in state "draft" first.
+#
+# $RESULT = REST url to the blog post
+#
+# See https://sourceforge.net/p/forge/documentation/Allura%20API/
+#
+function pmd_ci_sourceforge_createDraftBlogPost() {
+    local title="$1"
+    local text="$2"
+    local labels="$3"
+    local labels_arg=""
+
+    if [ -n "$labels" ]; then
+      labels_arg="--form"
+      labels="labels=${labels}"
+    fi
+
+    RESULT=$(curl --silent --include --request POST \
+      --header "Authorization: Bearer ${PMD_SF_BEARER_TOKEN}" \
+      "${labels_arg}" "${labels}" \
+      --form "state=draft" \
+      --form "text=$text" \
+      --form "title=$title" \
+      https://sourceforge.net/rest/p/pmd/news | grep -i "location: "|cut -d " " -f 2)
+
+    pmd_ci_log_success "Created sourceforge blog post: ${RESULT}"
+}
+
+#
+# Publishes an existing blog post
+#
+# See https://sourceforge.net/p/forge/documentation/Allura%20API/
+#
+function pmd_ci_sourceforge_publishBlogPost() {
+    local url="$1"
+
+    local response
+    response=$(curl --request POST --header "Authorization: Bearer ${PMD_SF_BEARER_TOKEN}" \
+      --form "state=published" \
+      "${url}")
+    pmd_ci_log_debug "Response: ${response}"
+
+    pmd_ci_log_success "Published sourceforge blog post: ${url}"
 }

@@ -203,11 +203,12 @@ Used global vars:
 Test with: 
 
 ```
-bash -c 'export GITHUB_OAUTH_TOKEN=.... ; \
+bash -c 'set -x ; \
+         export GITHUB_OAUTH_TOKEN=.... ; \
          export GITHUB_BASE_URL=https://api.github.com/repos/pmd/pmd ; \
          export PMD_CI_DEBUG=false ; \
          source inc/github-releases-api.bash ; \
-         pmd_ci_gh_releases_createDraftRelease ; \
+         pmd_ci_gh_releases_createDraftRelease "pmd_releases/6.30.0" "d2e4fb4ca370e7d5612dcc96fb74c29767a7671e" ; \
          pmd_ci_gh_releases_getLatestDraftRelease ; \
          export therelease="$RESULT" ; \
          pmd_ci_gh_releases_uploadAsset "$therelease" "inc/github-releases-api.bash"
@@ -215,6 +216,7 @@ bash -c 'export GITHUB_OAUTH_TOKEN=.... ; \
          line2'\'' ; \
          pmd_ci_gh_releases_updateRelease "$therelease" "test release" "$body" ; \
          #pmd_ci_gh_releases_deleteRelease "$therelease" ; \
+         #pmd_ci_gh_releases_publishRelease "$therelease" ; \
          ' $(pwd)/test.sh
 ```
 

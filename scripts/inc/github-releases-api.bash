@@ -26,7 +26,7 @@ function pmd_ci_gh_releases_createDraftRelease() {
     pmd_ci_log_debug "${FUNCNAME[0]}: Creating new draft release for tag=$tagName and commit=$targetCommitish"
 
     local request
-    read -r -d '' request <<EOF
+    request=$(cat <<EOF
 {
     "tag_name": "${tagName}",
     "target_commitish": "${targetCommitish}",
@@ -34,6 +34,7 @@ function pmd_ci_gh_releases_createDraftRelease() {
     "draft": true
 }
 EOF
+    )
 
     pmd_ci_log_debug "POST $GITHUB_BASE_URL/releases"
     pmd_ci_log_info "Creating github draft release"
@@ -71,7 +72,7 @@ function pmd_ci_gh_releases_getLatestDraftRelease() {
         pmd_ci_log_error "Could not find draft release!"
         return 1
     fi
-    pmd_ci_log_info "Found draft release: $(echo $RESULT | jq --raw-output ".url")"
+    pmd_ci_log_info "Found draft release: $(echo "$RESULT" | jq --raw-output ".url")"
 }
 
 #
@@ -172,13 +173,14 @@ function pmd_ci_gh_releases_updateRelease() {
     body="${body//\"/\\\"}"
 
     local request
-    read -r -d '' request <<EOF
+    request=$(cat <<EOF
 {
     "tag_name": "${tagName}",
     "name": "${name}",
     "body": "${body}"
 }
 EOF
+    )
 
     pmd_ci_log_debug "PATCH $GITHUB_BASE_URL/releases/${releaseId}"
     pmd_ci_log_debug " -> request: $request"

@@ -32,7 +32,8 @@ Artifact containing configuration data and scripts to build and release pmd/pmd 
 
 ## build-env
 
-Ubuntu Linux based. Can be used to test the scripts.
+Ubuntu Linux based, same as github actions runner, see [Virtual Environment](https://github.com/actions/virtual-environments).
+It can be used to test the scripts and perform the builds without github actions.
 
 Once build the docker container: 
 

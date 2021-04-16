@@ -11,7 +11,10 @@ GITHUB_EVENT_PATH=/workspaces/event.json
 cat > "$GITHUB_EVENT_PATH" <<EOF
 {
     "number": 1,
-    "compare": "https://github.com/${GITHUB_REPOSITORY}/compare/6113728f27ae...000000000000"
+    "compare": "https://github.com/${GITHUB_REPOSITORY}/compare/6113728f27ae...000000000000",
+    "repository": {
+        "clone_url": "https://github.com/${GITHUB_REPOSITORY}.git"
+    }
 }
 EOF
 
@@ -23,6 +26,7 @@ fi
 
 echo "
 export GITHUB_ACTIONS=true
+export GITHUB_ACTION=1
 export GITHUB_RUN_ID=1
 export GITHUB_EVENT_NAME=\"$1\"
 export GITHUB_EVENT_PATH=\"$GITHUB_EVENT_PATH\"

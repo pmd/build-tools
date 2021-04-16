@@ -100,6 +100,16 @@ function pmd_ci_utils_determine_build_env() {
     pmd_ci_log_info "  PMD_CI_PULL_REQUEST_NUMBER=${PMD_CI_PULL_REQUEST_NUMBER}"
     pmd_ci_log_info "  PMD_CI_IS_FORK=${PMD_CI_IS_FORK}"
     pmd_ci_log_info "  GITHUB_BASE_URL=${GITHUB_BASE_URL}"
+
+    # make sure, that these global vars are available for sub processes (like Danger)
+    export PMD_CI_REPO
+    export PMD_CI_JOB_URL
+    export PMD_CI_PUSH_COMMIT_COMPARE
+    export PMD_CI_BRANCH
+    export PMD_CI_TAG
+    export PMD_CI_PULL_REQUEST_NUMBER
+    export PMD_CI_IS_FORK
+    export GITHUB_BASE_URL
 }
 
 function pmd_ci_utils_is_fork_or_pull_request() {

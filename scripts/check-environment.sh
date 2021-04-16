@@ -34,12 +34,12 @@ function check_environment() {
             check "mvn" "mvn --version" "Apache Maven"
             check "unzip" "unzip -v" "UnZip"
             check "zip" "zip --version" "This is Zip"
-            #check "7z" "7z -version" "7-Zip"
+            #check "7z" "7z" "7-Zip"
             ;;
         Darwin*)
             ;;
         CYGWIN*|MINGW*)
-            check "7z" "7z -version" "7-Zip"
+            check "7z" "7z" "7-Zip"
             ;;
         *)
             log_error "Unknown OS: $(uname)"

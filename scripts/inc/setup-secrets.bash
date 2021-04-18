@@ -59,6 +59,7 @@ function pmd_ci_setup_secrets_ssh() {
         ssh-keygen -R web.sourceforge.net > /dev/null 2>&1
         ssh-keygen -R pmd-code.org > /dev/null 2>&1
         ssh-keygen -R github.com > /dev/null 2>&1
+        ssh-keygen -R git.code.sf.net > /dev/null 2>&1
     fi
 
     {
@@ -108,6 +109,22 @@ function pmd_ci_setup_secrets_ssh() {
         # github.com RSA SHA256:nThbg6kXUpJWGl7E1IGOCspRomTxdCARLviKw6E5SY8
         # ssh-keygen -F github.com -f github_known_hosts
         echo 'github.com ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ=='
+
+        #
+        # git.code.sf.net (https://sourceforge.net/p/forge/documentation/SSH%20Key%20Fingerprints/)
+        #
+        # ssh-keyscan git.code.sf.net | tee -a sf-git_known_hosts
+        # ssh-keygen -F git.code.sf.net -l -f sf-git_known_hosts
+        # # Host git.code.sf.net found: line 1 
+        # git.code.sf.net RSA SHA256:3WhEqJaBPKb69eT5dfgYcPJTgqc9rq1Y9saZlXqkbWg
+        # # Host git.code.sf.net found: line 2 
+        # git.code.sf.net ECDSA SHA256:FeVkoYYBjuQzb5QVAgm3BkmeN5TTgL2qfmqz9tCPRL4
+        # # Host git.code.sf.net found: line 3 
+        # git.code.sf.net ED25519 SHA256:vDwNztsrZFViJXWpUTSKGo8cF6n79iKAURNiK68n/yE
+        # ssh-keygen -F git.code.sf.net -f sf-git_known_hosts
+        echo 'git.code.sf.net ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAoMesJ60dow5VqNsIqIQMBNmSYz6txSC5YSUXzPNWV4VIWTWdqbQoQuIu+oYGhBMoeaSWWCiVIDTwFDzQXrq8CwmyxWp+2TTuscKiOw830N2ycIVmm3ha0x6VpRGm37yo+z+bkQS3m/sE7bkfTU72GbeKufFHSv1VLnVy9nmJKFOraeKSHP/kjmatj9aC7Q2n8QzFWWjzMxVGg79TUs7sjm5KrtytbxfbLbKtrkn8OXsRy1ib9hKgOwg+8cRjwKbSXVrNw/HM+MJJWp9fHv2yzWmL8B6fKoskslA0EjNxa6d76gvIxwti89/8Y6xlhR0u65u1AiHTX9Q4BVsXcBZUDw=='
+        echo 'git.code.sf.net ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBPAa5MFfMaXyT3Trf/Av/laAvIhUzZJUnvPZAd9AC6bKWAhVl+A3s2+M6SlhF/Tn/W0akN03GyNviBtqJKtx0RU='
+        echo 'git.code.sf.net ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGObtXLh/mZom0pXjE5Mu211O+JvtzolqdNKVA+XJ466'
 
     } >> "$HOME/.ssh/known_hosts"
 }

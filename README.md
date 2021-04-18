@@ -577,19 +577,31 @@ See <https://github.com/sonatype/nexus-maven-plugins/tree/master/staging/maven-p
 This plugin is used, to upload maven artifacts to https://oss.sonatype.org/ and eventually to maven central
 using the open source workflow by sonatype, see [OSSRH Guide](https://central.sonatype.org/publish/publish-guide/).
 
-The plugin can be configured, see https://github.com/sonatype/nexus-maven-plugins/tree/master/staging/maven-plugin#configuring-the-plugin for some options.
+The plugin can be configured, see <https://github.com/sonatype/nexus-maven-plugins/tree/master/staging/maven-plugin#configuring-the-plugin> for some options.
 
 Most important here are these:
 
 *   `skipRemoteStaging=true`: Used during test runs of releases. This makes sure, the artifacts are only staged
     locally and never uploaded to https://oss.sonatype.org/.
+    
+    Property: [skipRemoteStaging](https://github.com/sonatype/nexus-maven-plugins/blob/0aee3defb33cb133ff536aba59b11d32a368b1e6/staging/maven-plugin/src/main/java/org/sonatype/nexus/maven/staging/deploy/DeployMojo.java#L106)
+
 *   `autoReleaseAfterClose=true`: After all modules have been uploaded to the staging repository it is
     automatically closed (this can be controlled through `skipStagingRepositoryClose` but is the default
     behavior). And with `autoReleaseAfterClose`, the closed staging repository will be automatically released
     and published to maven central. This allows for fully automated releases.
+    
+    This property is set via `MAVEN_OPTS` in the workflow (`build.yml`). It is not set in the pom.xml as a plugin
+    configuration directly in order to allow to override this setting from command line
+    if needed (e.g. during release tests).
+    
+    Property: [autoReleaseAfterClose](https://github.com/sonatype/nexus-maven-plugins/blob/0aee3defb33cb133ff536aba59b11d32a368b1e6/staging/maven-plugin/src/main/java/org/sonatype/nexus/maven/staging/AbstractStagingMojo.java#L158)
+
 *   `stagingProgressTimeoutMinutes=30`: This increases the default timeout of 5 minutes to 30 minutes for
     interaction with oss.sonatype.org. The main PMD repo has a lot of modules and depending on the load
     of oss.sonatype.org, the release of the staging repo might take a while.
+    
+    Property: [stagingProgressTimeoutMinutes](https://github.com/sonatype/nexus-maven-plugins/blob/0aee3defb33cb133ff536aba59b11d32a368b1e6/staging/maven-plugin/src/main/java/org/sonatype/nexus/maven/staging/AbstractStagingMojo.java#L174)
 
 After the staging repository has been released, it is eventually synced to maven central. The release
 won't appear here immediately but usually within 2 hours. You can check the current publish latency at

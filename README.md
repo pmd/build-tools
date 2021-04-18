@@ -29,6 +29,10 @@ Artifact containing configuration data and scripts to build and release pmd/pmd 
     *   [id_rsa.pub](#id_rsapub)
     *   [maven-settings.xml](#maven-settingsxml)
 *   [Testing](#testing)
+*   [Miscellaneous](#miscellaneous)
+    *   [Nexus Staging Maven Plugin](#nexus-staging-maven-plugin)
+    *   [Remote debugging](#remote-debugging)
+    *   [Intermittent connection resets or timeouts while downloading dependencies from maven central](#intermittent-connection-resets-or-timeouts-while-downloading-dependencies-from-maven-central)
 
 ## build-env
 
@@ -508,6 +512,12 @@ The corresponding public key, here for convenience.
 
 ### maven-settings.xml
 
+The maven-settings.xml file contains a profile `sign`, which brings in the configuration for
+`maven-gpg-plugin` to sign the artifacts prior to uploading it to maven central. The configuration
+comes in via environment variables: `CI_SIGN_KEYNAME` and `CI_SIGN_PASSPHRASE`.
+
+It also contains the credentials for uploading the artifacts to maven-central for the server `ossrh`. Again,
+the actual configuration comes in via environment variables: `CI_DEPLOY_USERNAME` and `CI_DEPLOY_PASSWORD`.
 
 ## Testing
 
@@ -557,3 +567,70 @@ pmd-ci@6cc27446ef02:~/workspaces/pmd/build-tools$ .ci/build.sh
 ```
 
 Note, that `MAVEN_OPTS` contains `-DskipRemoteStaging=true`, so that no maven artifacts are not deployed.
+
+## Miscellaneous
+
+### Nexus Staging Maven Plugin
+
+See <https://github.com/sonatype/nexus-maven-plugins/tree/master/staging/maven-plugin>.
+
+This plugin is used, to upload maven artifacts to https://oss.sonatype.org/ and eventually to maven central
+using the open source workflow by sonatype, see [OSSRH Guide](https://central.sonatype.org/publish/publish-guide/).
+
+The plugin can be configured, see https://github.com/sonatype/nexus-maven-plugins/tree/master/staging/maven-plugin#configuring-the-plugin for some options.
+
+Most important here are these:
+
+*   `skipRemoteStaging=true`: Used during test runs of releases. This makes sure, the artifacts are only staged
+    locally and never uploaded to https://oss.sonatype.org/.
+*   `autoReleaseAfterClose=true`: After all modules have been uploaded to the staging repository it is
+    automatically closed (this can be controlled through `skipStagingRepositoryClose` but is the default
+    behavior). And with `autoReleaseAfterClose`, the closed staging repository will be automatically released
+    and published to maven central. This allows for fully automated releases.
+*   `stagingProgressTimeoutMinutes=30`: This increases the default timeout of 5 minutes to 30 minutes for
+    interaction with oss.sonatype.org. The main PMD repo has a lot of modules and depending on the load
+    of oss.sonatype.org, the release of the staging repo might take a while.
+
+After the staging repository has been released, it is eventually synced to maven central. The release
+won't appear here immediately but usually within 2 hours. You can check the current publish latency at
+<https://status.maven.org/>.
+
+### Remote debugging
+
+Debugging remotely is possible with <https://github.com/mxschmitt/action-tmate>.
+
+Just add the following step into the job:
+
+```
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
+```
+
+The workflow [`troubleshooting`](https://github.com/pmd/pmd/blob/master/.github/workflows/troubleshooting.yml)
+in PMD can be started manually, which already contains the tmate action.
+
+**Note**: This is dangerous for push/pull builds on repositories of pmd itself, because these have access
+to the secrets and the SSH session
+is not protected. Builds triggered by pull requests from forked repositories don't have access to the secrets.
+
+See also <https://docs.github.com/en/actions/reference/encrypted-secrets>.
+
+### Intermittent connection resets or timeouts while downloading dependencies from maven central
+
+Root issue seems to be SNAT Configs in Azure, which closes long running [idle TCP connections
+after 4 minutes](https://docs.microsoft.com/en-us/azure/load-balancer/troubleshoot-outbound-connection#idletimeout).
+
+The workaround is described in [actions/virtual-environments#1499](https://github.com/actions/virtual-environments/issues/1499)
+and [WAGON-545](https://issues.apache.org/jira/browse/WAGON-545)
+and [WAGON-486](https://issues.apache.org/jira/browse/WAGON-486):
+
+The setting `-Dmaven.wagon.httpconnectionManager.ttlSeconds=180 -Dmaven.wagon.http.retryHandler.count=3`
+makes sure, that Maven doesn't try to use pooled connections that have been unused for more than 180 seconds.
+These settings are placed as environment variable `MAVEN_OPTS` in the workflow, so that they are active for
+all Maven executions (including builds done by regression tester).
+
+Alternatively, pooling could be disabled completely via `-Dhttp.keepAlive=false -Dmaven.wagon.http.pool=false`.
+This has the consequence, that for each dependency, that is being downloaded, a new https connection is
+established.
+
+More information about configuring this can be found at [wagon-http](https://maven.apache.org/wagon/wagon-providers/wagon-http/).

@@ -25,6 +25,9 @@ function build() {
         exit 0
     fi
 
+    # stop early for invalid maven version and branch/tag combination
+    pmd_ci_maven_verify_version || exit 0
+
     # only builds on pmd/build-tools continue here
     pmd_ci_log_group_start "Setup environment"
         pmd_ci_setup_secrets_private_env
@@ -36,7 +39,6 @@ function build() {
     # snapshot or release - it only depends on the version (SNAPSHOT or no SNAPSHOT)
     # the build command is the same
     pmd_ci_log_group_start "Build with mvnw"
-        pmd_ci_maven_verify_version
         ./mvnw clean deploy -Psign --show-version --errors --batch-mode --no-transfer-progress
     pmd_ci_log_group_end
 }

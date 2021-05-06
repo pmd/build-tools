@@ -25,7 +25,7 @@
     </module>
     <module name="JavadocMethod">
       <property name="severity" value="warning"/>
-      <property name="scope" value="protected"/>
+      <property name="accessModifiers" value="public,protected"/>
     </module>
     <module name="JavadocStyle">
       <property name="severity" value="warning"/>

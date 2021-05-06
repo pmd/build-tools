@@ -94,6 +94,7 @@ function pmd_ci_utils_determine_build_env() {
     else
         pmd_ci_log_info "Pull Request:"
     fi
+    pmd_ci_log_info "  GITHUB_EVENT_NAME=${GITHUB_EVENT_NAME}"
     pmd_ci_log_info "  PMD_CI_REPO=${PMD_CI_REPO}"
     pmd_ci_log_info "  PMD_CI_JOB_URL=${PMD_CI_JOB_URL}"
     pmd_ci_log_info "  PMD_CI_PUSH_COMMIT_COMPARE=${PMD_CI_PUSH_COMMIT_COMPARE}"

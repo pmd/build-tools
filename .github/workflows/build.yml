@@ -8,6 +8,12 @@ on:
     tags:
       - '**'
   pull_request:
+  schedule:
+    # build it monthly: At 04:15 on day-of-month 1.
+    - cron: '15 4 1 * *'
+    # for testing the event "schedule": run every 15 minutes starting from minute 20 through 59 (20, 35, 50)
+    - cron: '20/15 * * * *'
+  workflow_dispatch:
 
 jobs:
   build:

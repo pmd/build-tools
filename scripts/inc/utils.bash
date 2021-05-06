@@ -57,30 +57,32 @@ function pmd_ci_utils_determine_build_env() {
         PMD_CI_JOB_URL="https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
         GITHUB_BASE_URL="https://api.github.com/repos/${own_repo_name}"
 
-        if [[ "${GITHUB_EVENT_NAME}" == "push" ]]; then
-            if [[ "${GITHUB_REF}" == refs/heads/* ]]; then
-                PMD_CI_BRANCH=${GITHUB_REF##refs/heads/}
+        case "${GITHUB_EVENT_NAME}" in
+            push | workflow_dispatch | schedule)
+                if [[ "${GITHUB_REF}" == refs/heads/* ]]; then
+                    PMD_CI_BRANCH=${GITHUB_REF##refs/heads/}
+                    unset PMD_CI_TAG
+                elif [[ "${GITHUB_REF}" == refs/tags/* ]]; then
+                    PMD_CI_TAG=${GITHUB_REF##refs/tags/}
+                    unset PMD_CI_BRANCH
+                else
+                    pmd_ci_log_error "Unknown branch/tag: GITHUB_REF=${GITHUB_REF}"
+                    return 1
+                fi
+                PMD_CI_PUSH_COMMIT_COMPARE=$(jq -r ".compare" "${GITHUB_EVENT_PATH}")
+                unset PMD_CI_PULL_REQUEST_NUMBER
+                ;;
+            pull_request)
+                PMD_CI_PULL_REQUEST_NUMBER=$(jq -r ".number" "${GITHUB_EVENT_PATH}")
+                PMD_CI_BRANCH=${GITHUB_BASE_REF}
                 unset PMD_CI_TAG
-            elif [[ "${GITHUB_REF}" == refs/tags/* ]]; then
-                PMD_CI_TAG=${GITHUB_REF##refs/tags/}
-                unset PMD_CI_BRANCH
-            else
-                pmd_ci_log_error "Unknown branch/tag: GITHUB_REF=${GITHUB_REF}"
+                unset PMD_CI_PUSH_COMMIT_COMPARE
+                ;;
+            *)
+                pmd_ci_log_error "Unsupported event: ${GITHUB_EVENT_NAME}"
                 return 1
-            fi
-            PMD_CI_PUSH_COMMIT_COMPARE=$(jq -r ".compare" "${GITHUB_EVENT_PATH}")
-            unset PMD_CI_PULL_REQUEST_NUMBER
-
-        elif [[ "${GITHUB_EVENT_NAME}" == "pull_request" ]]; then
-            PMD_CI_PULL_REQUEST_NUMBER=$(jq -r ".number" "${GITHUB_EVENT_PATH}")
-            PMD_CI_BRANCH=${GITHUB_BASE_REF}
-            unset PMD_CI_TAG
-            unset PMD_CI_PUSH_COMMIT_COMPARE
-
-        else
-            pmd_ci_log_error "Unsupported event: ${GITHUB_EVENT_NAME}"
-            return 1
-        fi
+                ;;
+        esac
 
     else
         pmd_ci_log_error "Could not determine CI type"

@@ -38,7 +38,7 @@ function check_environment() {
             ;;
         Darwin*)
             ;;
-        CYGWIN*|MINGW*)
+        CYGWIN*|MINGW*|MSYS_NT*)
             check "7z" "7z" "7-Zip"
             ;;
         *)

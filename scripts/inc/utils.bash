@@ -13,7 +13,7 @@ function pmd_ci_utils_get_os() {
         Darwin*)
             echo "mac"
         ;;
-        CYGWIN*|MINGW*)
+        CYGWIN*|MINGW*|MSYS_NT*)
             echo "windows"
         ;;
         *)

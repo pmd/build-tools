@@ -42,7 +42,7 @@ function check_environment() {
             check "7z" "7z" "7-Zip"
             ;;
         *)
-            log_error "Unknown OS: $(uname)"
+            pmd_ci_log_error "Unknown OS: $(uname)"
             exit 1
         ;;
     esac

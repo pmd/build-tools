@@ -324,9 +324,6 @@
     <rule ref="category/java/errorprone.xml/CloneMethodReturnTypeMustMatchClassName">
         <priority>1</priority>
     </rule>
-    <rule ref="category/java/errorprone.xml/CloneThrowsCloneNotSupportedException">
-        <priority>1</priority>
-    </rule>
     <rule ref="category/java/errorprone.xml/CloseResource">
         <priority>1</priority>
         <properties>
@@ -336,11 +333,7 @@
     <rule ref="category/java/errorprone.xml/CompareObjectsWithEquals">
         <priority>1</priority>
         <properties>
-            <!-- excludes comparisons with Nodes, there we want to compare actually references
-                 once https://github.com/pmd/pmd/issues/3110 is implemented, this suppression can be removed
-                 and Node can be configured directly.
-            -->
-            <property name="violationSuppressXPath" value=".[PrimaryExpression[typeIs('net.sourceforge.pmd.lang.ast.Node')]]"/>
+            <property name="typesThatCompareByReference" value="java.lang.Enum,java.lang.Class,net.sourceforge.pmd.lang.ast.Node"/>
         </properties>
     </rule>
 <!--     <rule ref="category/java/errorprone.xml/ConstructorCallsOverridableMethod" /> -->

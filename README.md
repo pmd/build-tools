@@ -300,16 +300,17 @@ bash -c 'set -e; \
          pmd_ci_sourceforge_createDraftBlogPost "draft post 2" "text without labels" ; \
          blog="${RESULT}" ; \
          echo "URL: ${blog}" ; \
+         #pmd_ci_sourceforge_publishBlogPost "${blog}" ; \
          ' $(pwd)/test.sh
 ```
 
 Note that "pmd_ci_sourceforge_selectDefault" won't be successful, because the file to be selected as default
 doesn't exist.
 
-Don't forget to delete https://sourceforge.net/projects/pmd/files/pmd/Release-Script-Test and
-https://pmd.sourceforge.io/test-Release-Script-Test after the test.
+Don't forget to delete <https://sourceforge.net/projects/pmd/files/pmd/Release-Script-Test> and
+<https://pmd.sourceforge.io/test-Release-Script-Test> after the test.
 
-And also the created blog posts under https://sourceforge.net/p/pmd/news/.
+And also the created blog posts under <https://sourceforge.net/p/pmd/news/>.
 
 #### inc/maven.bash
 

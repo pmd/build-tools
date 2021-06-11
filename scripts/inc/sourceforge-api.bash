@@ -185,7 +185,7 @@ function pmd_ci_sourceforge_createDraftBlogPost() {
       --form "state=draft" \
       --form "text=$text" \
       --form "title=$title" \
-      https://sourceforge.net/rest/p/pmd/news | grep -i "location: "|cut -d " " -f 2)
+      https://sourceforge.net/rest/p/pmd/news | grep -i "location: "|cut -d " " -f 2|tr -d "\r\n")
 
     pmd_ci_log_success "Created sourceforge blog post: ${RESULT}"
 }
@@ -199,7 +199,8 @@ function pmd_ci_sourceforge_publishBlogPost() {
     local url="$1"
 
     local response
-    response=$(curl --request POST --header "Authorization: Bearer ${PMD_SF_BEARER_TOKEN}" \
+    response=$(curl --silent --request POST \
+      --header "Authorization: Bearer ${PMD_SF_BEARER_TOKEN}" \
       --form "state=published" \
       "${url}")
     pmd_ci_log_debug "Response: ${response}"

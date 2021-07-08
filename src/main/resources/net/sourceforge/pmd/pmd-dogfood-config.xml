@@ -300,9 +300,6 @@
     <rule ref="category/java/errorprone.xml/AvoidUsingOctalValues">
         <priority>1</priority>
     </rule>
-    <rule ref="category/java/errorprone.xml/BadComparison">
-        <priority>1</priority>
-    </rule>
 <!--     <rule ref="category/java/errorprone.xml/BeanMembersShouldSerialize" /> -->
     <rule ref="category/java/errorprone.xml/BrokenNullCheck">
         <priority>1</priority>
@@ -335,6 +332,9 @@
         <properties>
             <property name="typesThatCompareByReference" value="java.lang.Enum,java.lang.Class,net.sourceforge.pmd.lang.ast.Node"/>
         </properties>
+    </rule>
+    <rule ref="category/java/errorprone.xml/ComparisonWithNaN">
+        <priority>1</priority>
     </rule>
 <!--     <rule ref="category/java/errorprone.xml/ConstructorCallsOverridableMethod" /> -->
 <!--     <rule ref="category/java/errorprone.xml/DataflowAnomalyAnalysis" /> -->

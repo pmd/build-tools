@@ -63,6 +63,7 @@
 <!--     <rule ref="category/java/bestpractices.xml/ReplaceEnumerationWithIterator" /> -->
 <!--     <rule ref="category/java/bestpractices.xml/ReplaceHashtableWithMap" /> -->
 <!--     <rule ref="category/java/bestpractices.xml/ReplaceVectorWithList" /> -->
+<!--     <rule ref="categorty/java/bestpractices.xml/SimplifiableTestAssertion" /> -->
     <rule ref="category/java/bestpractices.xml/SwitchStmtsShouldHaveDefault">
         <priority>1</priority>
     </rule>
@@ -80,10 +81,6 @@
     <rule ref="category/java/bestpractices.xml/UnusedPrivateMethod">
         <priority>1</priority>
     </rule>
-<!--     <rule ref="category/java/bestpractices.xml/UseAssertEqualsInsteadOfAssertTrue" /> -->
-<!--     <rule ref="category/java/bestpractices.xml/UseAssertNullInsteadOfAssertTrue" /> -->
-<!--     <rule ref="category/java/bestpractices.xml/UseAssertSameInsteadOfAssertTrue" /> -->
-<!--     <rule ref="category/java/bestpractices.xml/UseAssertTrueInsteadOfAssertEquals" /> -->
     <rule ref="category/java/bestpractices.xml/UseCollectionIsEmpty">
         <priority>1</priority>
     </rule>
@@ -228,7 +225,6 @@
     <rule ref="category/java/design.xml/SimplifiedTernary">
         <priority>1</priority>
     </rule>
-<!--     <rule ref="category/java/design.xml/SimplifyBooleanAssertion" /> -->
 <!--     <rule ref="category/java/design.xml/SimplifyBooleanExpressions" /> -->
     <rule ref="category/java/design.xml/SimplifyBooleanReturns">
         <priority>1</priority>
@@ -414,6 +410,7 @@
     <rule ref="category/java/errorprone.xml/ReturnEmptyArrayRatherThanNull">
         <priority>1</priority>
     </rule>
+<!--     <rule ref="category/java/errorprone.xml/ReturnEmptyCollectionRatherThanNull" /> -->
     <rule ref="category/java/errorprone.xml/ReturnFromFinallyBlock">
         <priority>1</priority>
     </rule>

@@ -60,10 +60,13 @@
         <priority>1</priority>
     </rule>
 <!--     <rule ref="category/java/bestpractices.xml/PreserveStackTrace" /> -->
+    <rule ref="category/java/bestpractices.xml/PrimitiveWrapperInstantiation">
+        <priority>1</priority>
+    </rule>
 <!--     <rule ref="category/java/bestpractices.xml/ReplaceEnumerationWithIterator" /> -->
 <!--     <rule ref="category/java/bestpractices.xml/ReplaceHashtableWithMap" /> -->
 <!--     <rule ref="category/java/bestpractices.xml/ReplaceVectorWithList" /> -->
-<!--     <rule ref="categorty/java/bestpractices.xml/SimplifiableTestAssertion" /> -->
+<!--     <rule ref="category/java/bestpractices.xml/SimplifiableTestAssertion" /> -->
     <rule ref="category/java/bestpractices.xml/SwitchStmtsShouldHaveDefault">
         <priority>1</priority>
     </rule>
@@ -370,6 +373,9 @@
     <rule ref="category/java/errorprone.xml/IdempotentOperations">
         <priority>1</priority>
     </rule>
+    <rule ref="category/java/errorprone.xml/ImplicitSwitchFallThrough">
+        <priority>1</priority>
+    </rule>
 <!--     <rule ref="category/java/errorprone.xml/ImportFromSamePackage" /> -->
     <rule ref="category/java/errorprone.xml/InstantiationToGetClass">
         <priority>1</priority>
@@ -383,9 +389,6 @@
 <!--     <rule ref="category/java/errorprone.xml/LoggerIsNotStaticFinal" /> -->
 <!--     <rule ref="category/java/errorprone.xml/MethodWithSameNameAsEnclosingClass" /> -->
     <rule ref="category/java/errorprone.xml/MisplacedNullCheck">
-        <priority>1</priority>
-    </rule>
-    <rule ref="category/java/errorprone.xml/MissingBreakInSwitch">
         <priority>1</priority>
     </rule>
 <!--     <rule ref="category/java/errorprone.xml/MissingSerialVersionUID" /> -->
@@ -407,7 +410,7 @@
         <priority>1</priority>
     </rule>
 <!--     <rule ref="category/java/errorprone.xml/ProperLogger" /> -->
-    <rule ref="category/java/errorprone.xml/ReturnEmptyArrayRatherThanNull">
+    <rule ref="category/java/errorprone.xml/ReturnEmptyCollectionRatherThanNull">
         <priority>1</priority>
     </rule>
 <!--     <rule ref="category/java/errorprone.xml/ReturnEmptyCollectionRatherThanNull" /> -->
@@ -485,23 +488,16 @@
     <rule ref="category/java/performance.xml/BigIntegerInstantiation">
         <priority>1</priority>
     </rule>
-    <rule ref="category/java/performance.xml/BooleanInstantiation">
-        <priority>1</priority>
-    </rule>
-<!-- <rule ref="category/java/performance.xml/ByteInstantiation" /> -->
 <!-- <rule ref="category/java/performance.xml/ConsecutiveAppendsShouldReuse" /> -->
 <!-- <rule ref="category/java/performance.xml/ConsecutiveLiteralAppends" /> -->
 <!-- <rule ref="category/java/performance.xml/InefficientEmptyStringCheck" /> -->
 <!-- <rule ref="category/java/performance.xml/InefficientStringBuffering" /> -->
 <!-- <rule ref="category/java/performance.xml/InsufficientStringBufferDeclaration" /> -->
-<!-- <rule ref="category/java/performance.xml/IntegerInstantiation" /> -->
-<!-- <rule ref="category/java/performance.xml/LongInstantiation" /> -->
     <rule ref="category/java/performance.xml/OptimizableToArrayCall">
         <priority>1</priority>
     </rule>
 <!-- <rule ref="category/java/performance.xml/RedundantFieldInitializer" /> -->
 <!-- <rule ref="category/java/performance.xml/SimplifyStartsWith" /> -->
-<!-- <rule ref="category/java/performance.xml/ShortInstantiation" /> -->
 <!-- <rule ref="category/java/performance.xml/StringInstantiation" /> -->
 <!-- <rule ref="category/java/performance.xml/StringToString" /> -->
     <rule ref="category/java/performance.xml/TooFewBranchesForASwitchStatement">

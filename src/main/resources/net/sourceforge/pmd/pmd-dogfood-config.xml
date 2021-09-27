@@ -269,9 +269,7 @@
     <rule ref="category/java/errorprone.xml/AssignmentToNonFinalStatic">
         <priority>1</priority>
     </rule>
-    <rule ref="category/java/errorprone.xml/AvoidAccessibilityAlteration">
-        <priority>1</priority>
-    </rule>
+<!--     <rule ref="category/java/errorprone.xml/AvoidAccessibilityAlteration" /> -->
 <!--     <rule ref="category/java/errorprone.xml/AvoidAssertAsIdentifier" /> -->
     <rule ref="category/java/errorprone.xml/AvoidBranchingStatementAsLastInLoop">
         <priority>1</priority>

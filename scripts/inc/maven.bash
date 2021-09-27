@@ -38,7 +38,7 @@ function pmd_ci_maven_get_project_version() {
 
     RESULT=$(./mvnw --batch-mode --no-transfer-progress \
         org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate \
-        -Dexpression=project.version -q -DforceStdout || echo "pmd_ci_maven_get_project_version_failed")
+        -Dexpression=project.version -q -DforceStdout -Dtycho.mode=maven || echo "pmd_ci_maven_get_project_version_failed")
 
     if [[ "$RESULT" == *pmd_ci_maven_get_project_version_failed ]]; then
         pmd_ci_log_error "$RESULT"
@@ -51,7 +51,7 @@ function pmd_ci_maven_get_project_version() {
 function pmd_ci_maven_get_project_name() {
     RESULT=$(./mvnw --batch-mode --no-transfer-progress \
         org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate \
-        -Dexpression=project.name -q -DforceStdout || echo "pmd_ci_maven_get_project_name_failed")
+        -Dexpression=project.name -q -DforceStdout -Dtycho.mode=maven || echo "pmd_ci_maven_get_project_name_failed")
 
     if [[ "$RESULT" == *pmd_ci_maven_get_project_name_failed ]]; then
         pmd_ci_log_error "$RESULT"

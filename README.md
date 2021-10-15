@@ -202,14 +202,14 @@ Functions:
 
 Used global vars:
 
-*   GITHUB_OAUTH_TOKEN
+*   GITHUB_TOKEN - this is the default github actions token
 *   GITHUB_BASE_URL
 
 Test with: 
 
 ```
 bash -c 'set -x ; \
-         export GITHUB_OAUTH_TOKEN=.... ; \
+         export GITHUB_TOKEN=.... ; \
          export GITHUB_BASE_URL=https://api.github.com/repos/pmd/pmd ; \
          export PMD_CI_DEBUG=false ; \
          source inc/github-releases-api.bash ; \
@@ -466,10 +466,12 @@ export PMD_SF_APIKEY=...
 # https://sourceforge.net/auth/oauth/
 export PMD_SF_BEARER_TOKEN=...
 
-# Token for github actions to push as <https://github.com/pmd-bot>
-# The token needs the scope "public_repo".
-export GITHUB_OAUTH_TOKEN=...
+# https://sonarcloud.io/dashboard?id=net.sourceforge.pmd%3Apmd
+# The token can be configured here: https://sonarcloud.io/account/security/
 export SONAR_TOKEN=...
+
+# https://coveralls.io/github/pmd/pmd
+# when logged in, the token is display on that page
 export COVERALLS_REPO_TOKEN=...
 
 # for pmd-regression-tester
@@ -477,7 +479,6 @@ export COVERALLS_REPO_TOKEN=...
 export GEM_HOST_API_KEY=...
 
 # These are also in public-env:
-export DANGER_GITHUB_API_TOKEN=...
 export PMD_CI_CHUNK_TOKEN=...
 ```
 

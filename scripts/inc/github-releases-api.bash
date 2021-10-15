@@ -11,12 +11,6 @@ source "$(dirname "$0")/inc/fetch_ci_scripts.bash" && fetch_ci_scripts
 # GITHUB_BASE_URL
 #
 
-# backwards compatibility:
-if [ -n "${GITHUB_TOKEN}" ];
-    export GITHUB_TOKEN="${GITHUB_OAUTH_TOKEN}"
-fi
-
-
 #
 # Creates a new release on github with the given tag and target_commit.
 # The release is draft and not published.

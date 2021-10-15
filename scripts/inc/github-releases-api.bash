@@ -7,7 +7,7 @@ source "$(dirname "$0")/inc/fetch_ci_scripts.bash" && fetch_ci_scripts
 
 #
 # The functions here require the following environment variables:
-# GITHUB_OAUTH_TOKEN
+# GITHUB_TOKEN - this is the default github actions token
 # GITHUB_BASE_URL
 #
 
@@ -38,7 +38,7 @@ EOF
 
     pmd_ci_log_debug "POST $GITHUB_BASE_URL/releases"
     pmd_ci_log_info "Creating github draft release"
-    RESULT=$(curl --fail -s -H "Authorization: token ${GITHUB_OAUTH_TOKEN}" \
+    RESULT=$(curl --fail -s -H "Authorization: token ${GITHUB_TOKEN}" \
                 -H "Content-Type: application/json" \
                 -X POST \
                 --data "${request}" \
@@ -60,7 +60,7 @@ EOF
 function pmd_ci_gh_releases_getLatestDraftRelease() {
     pmd_ci_log_debug "${FUNCNAME[0]}"
     pmd_ci_log_debug "GET $GITHUB_BASE_URL/releases?per_page=1"
-    RESULT=$(curl --fail -s -H "Authorization: token ${GITHUB_OAUTH_TOKEN}" \
+    RESULT=$(curl --fail -s -H "Authorization: token ${GITHUB_TOKEN}" \
                 "$GITHUB_BASE_URL/releases?per_page=1" | jq ".[0]")
     pmd_ci_log_debug " -> response: $RESULT"
 
@@ -89,7 +89,7 @@ function pmd_ci_gh_releases_deleteRelease() {
     pmd_ci_log_debug "DELETE $GITHUB_BASE_URL/releases/$releaseId"
     pmd_ci_log_info "Deleting github release $releaseId"
     local response
-    response=$(curl --fail -s -H "Authorization: token ${GITHUB_OAUTH_TOKEN}" \
+    response=$(curl --fail -s -H "Authorization: token ${GITHUB_TOKEN}" \
         -X DELETE \
         "$GITHUB_BASE_URL/releases/$releaseId")
     pmd_ci_log_debug " -> response: $response"
@@ -140,7 +140,7 @@ function pmd_ci_gh_releases_uploadAsset() {
     pmd_ci_log_debug "POST $uploadUrl"
     pmd_ci_log_info "Uploading $filename to github release $releaseId"
     local response
-    response=$(curl --fail -s -H "Authorization: token ${GITHUB_OAUTH_TOKEN}" \
+    response=$(curl --fail -s -H "Authorization: token ${GITHUB_TOKEN}" \
                         -H "Content-Type: application/zip" \
                         --data-binary "@$filename" \
                         -X POST \
@@ -186,7 +186,7 @@ EOF
     pmd_ci_log_debug " -> request: $request"
     pmd_ci_log_info "Updating github release $releaseId"
     local response
-    response=$(curl --fail -s -H "Authorization: token ${GITHUB_OAUTH_TOKEN}" \
+    response=$(curl --fail -s -H "Authorization: token ${GITHUB_TOKEN}" \
                          -H "Content-Type: application/json" \
                          --data "${request}" \
                          -X PATCH \
@@ -214,7 +214,7 @@ function pmd_ci_gh_releases_publishRelease() {
     pmd_ci_log_debug " -> request: $request"
     pmd_ci_log_info "Publishing github release $releaseId"
     local response
-    response=$(curl --fail -s -H "Authorization: token ${GITHUB_OAUTH_TOKEN}" \
+    response=$(curl --fail -s -H "Authorization: token ${GITHUB_TOKEN}" \
                          -H "Content-Type: application/json" \
                          --data "${request}" \
                          -X PATCH \

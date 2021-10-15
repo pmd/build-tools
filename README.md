@@ -27,6 +27,8 @@ Artifact containing configuration data and scripts to build and release pmd/pmd 
     *   [release-signing-key-D0BF1D737C9A1C22.asc](#release-signing-key-d0bf1d737c9a1c22asc)
     *   [id_rsa.asc](#id_rsaasc)
     *   [id_rsa.pub](#id_rsapub)
+    *   [pmd.github.io_deploy_key.asc](#pmdgithubio_deploy_keyasc)
+    *   [pmd-eclipse-plugin-p2-site_deploy_key.asc](#pmd-eclipse-plugin-p2-site_deploy_keyasc)
     *   [maven-settings.xml](#maven-settingsxml)
 *   [Testing](#testing)
 *   [Miscellaneous](#miscellaneous)
@@ -202,14 +204,14 @@ Functions:
 
 Used global vars:
 
-*   GITHUB_OAUTH_TOKEN
+*   GITHUB_TOKEN - this is the default github actions token
 *   GITHUB_BASE_URL
 
 Test with: 
 
 ```
 bash -c 'set -x ; \
-         export GITHUB_OAUTH_TOKEN=.... ; \
+         export GITHUB_TOKEN=.... ; \
          export GITHUB_BASE_URL=https://api.github.com/repos/pmd/pmd ; \
          export PMD_CI_DEBUG=false ; \
          source inc/github-releases-api.bash ; \
@@ -466,10 +468,12 @@ export PMD_SF_APIKEY=...
 # https://sourceforge.net/auth/oauth/
 export PMD_SF_BEARER_TOKEN=...
 
-# Token for github actions to push as <https://github.com/pmd-bot>
-# The token needs the scope "public_repo".
-export GITHUB_OAUTH_TOKEN=...
+# https://sonarcloud.io/dashboard?id=net.sourceforge.pmd%3Apmd
+# The token can be configured here: https://sonarcloud.io/account/security/
 export SONAR_TOKEN=...
+
+# https://coveralls.io/github/pmd/pmd
+# when logged in, the token is display on that page
 export COVERALLS_REPO_TOKEN=...
 
 # for pmd-regression-tester
@@ -477,7 +481,6 @@ export COVERALLS_REPO_TOKEN=...
 export GEM_HOST_API_KEY=...
 
 # These are also in public-env:
-export DANGER_GITHUB_API_TOKEN=...
 export PMD_CI_CHUNK_TOKEN=...
 ```
 
@@ -496,7 +499,7 @@ and http://pool.sks-keyservers.net:11371/pks/lookup?search=0xD0BF1D737C9A1C22&fi
 
 ### id_rsa.asc
 
-That's the private SSH key used for committing on github as pmd-bot and to access sourceforge and pmd-code.org.
+That's the private SSH key used for accessing sourceforge and pmd-code.org.
 
 Encrypt it with PMD_CI_SECRET_PASSPHRASE:
 
@@ -509,6 +512,46 @@ printenv PMD_CI_SECRET_PASSPHRASE | gpg --symmetric --cipher-algo AES256 --batch
 ### id_rsa.pub
 
 The corresponding public key, here for convenience.
+
+### pmd.github.io_deploy_key.asc
+
+Created with `ssh-keygen -t ed25519 -C "ssh key for pmd. used for github actions to push to pmd.github.io" -f pmd.github.io_deploy_key`.
+
+Encrypt it with PMD_CI_SECRET_PASSPHRASE:
+
+```
+printenv PMD_CI_SECRET_PASSPHRASE | gpg --symmetric --cipher-algo AES256 --batch --armor \
+  --passphrase-fd 0 \
+  pmd.github.io_deploy_key
+```
+
+The corresponding public key `pmd.github.io_deploy_key.pub` is here for convenience. It is configured as a
+deploy key for the repository [pmd.github.io](https://github.com/pmd/pmd.github.io/settings/keys) with
+write access.
+
+In order to use this key to push, you need to clone the repo with
+this url: `git@github.com-pmd.github.io:pmd/pmd.github.io.git`.
+
+### pmd-eclipse-plugin-p2-site_deploy_key.asc
+
+Created with `ssh-keygen -t ed25519 -C "ssh key for pmd. used for github actions to push to pmd-eclipse-plugin-p2-site" -f pmd-eclipse-plugin-p2-site_deploy_key`.
+
+Encrypt it with PMD_CI_SECRET_PASSPHRASE:
+
+```
+printenv PMD_CI_SECRET_PASSPHRASE | gpg --symmetric --cipher-algo AES256 --batch --armor \
+  --passphrase-fd 0 \
+  pmd-eclipse-plugin-p2-site_deploy_key
+```
+
+The corresponding public key `pmd-eclipse-plugin-p2-site_deploy_key.pub` is here for convenience.
+It is configured as a
+deploy key for the repository [pmd-eclipse-plugin-p2-site](https://github.com/pmd/pmd-eclipse-plugin-p2-site/settings/keys)
+with write access.
+
+In order to use this key to push, you need to clone the repo with
+this url: `git@github.com-pmd-eclipse-plugin-p2-site:pmd/pmd-eclipse-plugin-p2-site.git`.
+
 
 ### maven-settings.xml
 

@@ -27,6 +27,8 @@ Artifact containing configuration data and scripts to build and release pmd/pmd 
     *   [release-signing-key-D0BF1D737C9A1C22.asc](#release-signing-key-d0bf1d737c9a1c22asc)
     *   [id_rsa.asc](#id_rsaasc)
     *   [id_rsa.pub](#id_rsapub)
+    *   [pmd.github.io_deploy_key.asc](#pmdgithubio_deploy_keyasc)
+    *   [pmd-eclipse-plugin-p2-site_deploy_key.asc](#pmd-eclipse-plugin-p2-site_deploy_keyasc)
     *   [maven-settings.xml](#maven-settingsxml)
 *   [Testing](#testing)
 *   [Miscellaneous](#miscellaneous)
@@ -529,6 +531,27 @@ write access.
 
 In order to use this key to push, you need to clone the repo with
 this url: `git@github.com-pmd.github.io:pmd/pmd.github.io.git`.
+
+### pmd-eclipse-plugin-p2-site_deploy_key.asc
+
+Created with `ssh-keygen -t ed25519 -C "ssh key for pmd. used for github actions to push to pmd-eclipse-plugin-p2-site" -f pmd-eclipse-plugin-p2-site_deploy_key`.
+
+Encrypt it with PMD_CI_SECRET_PASSPHRASE:
+
+```
+printenv PMD_CI_SECRET_PASSPHRASE | gpg --symmetric --cipher-algo AES256 --batch --armor \
+  --passphrase-fd 0 \
+  pmd-eclipse-plugin-p2-site_deploy_key
+```
+
+The corresponding public key `pmd-eclipse-plugin-p2-site_deploy_key.pub` is here for convenience.
+It is configured as a
+deploy key for the repository [pmd-eclipse-plugin-p2-site](https://github.com/pmd/pmd-eclipse-plugin-p2-site/settings/keys)
+with write access.
+
+In order to use this key to push, you need to clone the repo with
+this url: `git@github.com-pmd-eclipse-plugin-p2-site:pmd/pmd-eclipse-plugin-p2-site.git`.
+
 
 ### maven-settings.xml
 

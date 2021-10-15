@@ -39,19 +39,34 @@ function pmd_ci_setup_secrets_gpg_key() {
     rm "${fullpath%.asc}"
 }
 
-function pmd_ci_setup_secrets_ssh() {
-    pmd_ci_log_info "Setting up .ssh/id_rsa..."
-    pmd_ci_utils_fetch_ci_file "id_rsa.asc"
-    local -r fullpath="$RESULT"
+function pmd_ci_setup_secrets_ssh_privkey() {
+    local -r name="$1"
 
+    pmd_ci_log_info "Setting up .ssh/${name}..."
+    pmd_ci_utils_fetch_ci_file "${name}.asc"
+    local -r fullpath="$RESULT"
     printenv PMD_CI_SECRET_PASSPHRASE | gpg --batch --yes --decrypt \
         --passphrase-fd 0 \
         --output "${fullpath%.asc}" "${fullpath}"
     chmod 600 "${fullpath%.asc}"
+    mv "${fullpath%.asc}" "${HOME}/.ssh/${name}"
+}
 
+function pmd_ci_setup_secrets_ssh() {
     mkdir -p "${HOME}/.ssh"
     chmod 700 "${HOME}/.ssh"
-    mv "${fullpath%.asc}" "${HOME}/.ssh/id_rsa"
+
+    pmd_ci_setup_secrets_ssh_privkey "id_rsa"
+    pmd_ci_setup_secrets_ssh_privkey "pmd.github.io_deploy_key"
+
+    pmd_ci_log_info "Setting up .ssh/config..."
+    echo "
+
+Host github.com-pmd.github.io
+        Hostname github.com
+        IdentityFile=$HOME/.ssh/pmd.github.io_deploy_key
+
+" > "$HOME/.ssh/config"
 
     pmd_ci_log_info "Setting up .ssh/known_hosts..."
     # cleanup old keys

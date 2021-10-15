@@ -496,7 +496,7 @@ and http://pool.sks-keyservers.net:11371/pks/lookup?search=0xD0BF1D737C9A1C22&fi
 
 ### id_rsa.asc
 
-That's the private SSH key used for committing on github as pmd-bot and to access sourceforge and pmd-code.org.
+That's the private SSH key used for accessing sourceforge and pmd-code.org.
 
 Encrypt it with PMD_CI_SECRET_PASSPHRASE:
 
@@ -509,6 +509,25 @@ printenv PMD_CI_SECRET_PASSPHRASE | gpg --symmetric --cipher-algo AES256 --batch
 ### id_rsa.pub
 
 The corresponding public key, here for convenience.
+
+### pmd.github.io_deploy_key.asc
+
+Created with `ssh-keygen -t ed25519 -C "ssh key for pmd. used for github actions to push to pmd.github.io" -f pmd.github.io_deploy_key`.
+
+Encrypt it with PMD_CI_SECRET_PASSPHRASE:
+
+```
+printenv PMD_CI_SECRET_PASSPHRASE | gpg --symmetric --cipher-algo AES256 --batch --armor \
+  --passphrase-fd 0 \
+  pmd.github.io_deploy_key
+```
+
+The corresponding public key `pmd.github.io_deploy_key.pub` is here for convenience. It is configured as a
+deploy key for the repository [pmd.github.io](https://github.com/pmd/pmd.github.io/settings/keys) with
+write access.
+
+In order to use this key to push, you need to clone the repo with
+this url: `git@github.com-pmd.github.io:pmd/pmd.github.io.git`.
 
 ### maven-settings.xml
 

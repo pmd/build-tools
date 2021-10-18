@@ -56,7 +56,6 @@ function pmd_ci_setup_secrets_ssh() {
     mkdir -p "${HOME}/.ssh"
     chmod 700 "${HOME}/.ssh"
 
-    pmd_ci_setup_secrets_ssh_privkey "id_rsa"
     pmd_ci_setup_secrets_ssh_privkey "pmd.github.io_deploy_key"
     pmd_ci_setup_secrets_ssh_privkey "pmd-eclipse-plugin-p2-site_deploy_key"
     pmd_ci_setup_secrets_ssh_privkey "pmd-code.org_deploy_key"

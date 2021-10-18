@@ -25,8 +25,6 @@ Artifact containing configuration data and scripts to build and release pmd/pmd 
 *   [files](#user-content-files)
     *   [private-env.asc](#private-envasc)
     *   [release-signing-key-D0BF1D737C9A1C22.asc](#release-signing-key-d0bf1d737c9a1c22asc)
-    *   [id_rsa.asc](#id_rsaasc)
-    *   [id_rsa.pub](#id_rsapub)
     *   [pmd.github.io_deploy_key.asc](#pmdgithubio_deploy_keyasc)
     *   [pmd-eclipse-plugin-p2-site_deploy_key.asc](#pmd-eclipse-plugin-p2-site_deploy_keyasc)
     *   [pmd-code.org_deploy_key.asc](#pmdcodeorg_deploy_keyasc)
@@ -498,22 +496,6 @@ printenv PMD_CI_SECRET_PASSPHRASE | gpg --symmetric --cipher-algo AES256 --batch
 
 The public key is available here: https://keys.openpgp.org/vks/v1/by-fingerprint/EBB241A545CB17C87FACB2EBD0BF1D737C9A1C22
 and http://pool.sks-keyservers.net:11371/pks/lookup?search=0xD0BF1D737C9A1C22&fingerprint=on&op=index
-
-### id_rsa.asc
-
-That's the private SSH key used for accessing sourceforge and pmd-code.org.
-
-Encrypt it with PMD_CI_SECRET_PASSPHRASE:
-
-```
-printenv PMD_CI_SECRET_PASSPHRASE | gpg --symmetric --cipher-algo AES256 --batch --armor \
-  --passphrase-fd 0 \
-  id_rsa
-```
-
-### id_rsa.pub
-
-The corresponding public key, here for convenience.
 
 ### pmd.github.io_deploy_key.asc
 

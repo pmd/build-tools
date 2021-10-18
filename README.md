@@ -29,6 +29,8 @@ Artifact containing configuration data and scripts to build and release pmd/pmd 
     *   [id_rsa.pub](#id_rsapub)
     *   [pmd.github.io_deploy_key.asc](#pmdgithubio_deploy_keyasc)
     *   [pmd-eclipse-plugin-p2-site_deploy_key.asc](#pmd-eclipse-plugin-p2-site_deploy_keyasc)
+    *   [pmd-code.org_deploy_key.asc](#pmdcodeorg_deploy_keyasc)
+    *   [web.sourceforge.net_deploy_key.asc](#websourceforgenet_deploy_keyasc)
     *   [maven-settings.xml](#maven-settingsxml)
 *   [Testing](#testing)
 *   [Miscellaneous](#miscellaneous)
@@ -552,6 +554,38 @@ with write access.
 In order to use this key to push, you need to clone the repo with
 this url: `git@github.com-pmd-eclipse-plugin-p2-site:pmd/pmd-eclipse-plugin-p2-site.git`.
 
+### pmd-code.org_deploy_key.asc
+
+Created with `ssh-keygen -t ed25519 -C "ssh key for pmd. used for github actions push to pmd-code.org" -f pmd-code.org_deploy_key`.
+
+Encrypt it with PMD_CI_SECRET_PASSPHRASE:
+
+```
+printenv PMD_CI_SECRET_PASSPHRASE | gpg --symmetric --cipher-algo AES256 --batch --armor \
+  --passphrase-fd 0 \
+  pmd-code.org_deploy_key
+```
+
+The corresponding public key `pmd-code.org_deploy_key.pub` is here for convenience.
+It is configured in `~/.ssh/authorized_keys` on pmd@pmd-code.org.
+
+### web.sourceforge.net_deploy_key.asc
+
+Created with `ssh-keygen -t ed25519 -C "ssh key for pmd. used for github actions push to web.sourceforge.net" -f web.sourceforge.net_deploy_key`.
+
+Encrypt it with PMD_CI_SECRET_PASSPHRASE:
+
+```
+printenv PMD_CI_SECRET_PASSPHRASE | gpg --symmetric --cipher-algo AES256 --batch --armor \
+  --passphrase-fd 0 \
+  web.sourceforge.net_deploy_key
+```
+
+The corresponding public key `web.sourceforge.net_deploy_key.pub` is here for convenience.
+It is configured in for user "PMD_SF_USER" (see private-env)
+on sourceforge: <https://sourceforge.net/auth/shell_services>.
+
+Note: The same key is used to push to "git.code.sf.net" as user "PMD_SF_USER".
 
 ### maven-settings.xml
 

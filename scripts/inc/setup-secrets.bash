@@ -59,6 +59,8 @@ function pmd_ci_setup_secrets_ssh() {
     pmd_ci_setup_secrets_ssh_privkey "id_rsa"
     pmd_ci_setup_secrets_ssh_privkey "pmd.github.io_deploy_key"
     pmd_ci_setup_secrets_ssh_privkey "pmd-eclipse-plugin-p2-site_deploy_key"
+    pmd_ci_setup_secrets_ssh_privkey "pmd-code.org_deploy_key"
+    pmd_ci_setup_secrets_ssh_privkey "web.sourceforge.net_deploy_key"
 
     pmd_ci_log_info "Setting up .ssh/config..."
     echo "
@@ -70,6 +72,15 @@ Host github.com-pmd.github.io
 Host github.com-pmd-eclipse-plugin-p2-site
         Hostname github.com
         IdentityFile=$HOME/.ssh/pmd-eclipse-plugin-p2-site_deploy_key
+
+Host pmd-code.org
+        IdentityFile=$HOME/.ssh/pmd-code.org_deploy_key
+
+Host web.sourceforge.net
+        IdentityFile=$HOME/.ssh/web.sourceforge.net_deploy_key
+
+Host git.code.sf.net
+        IdentityFile=$HOME/.ssh/web.sourceforge.net_deploy_key
 
 " > "$HOME/.ssh/config"
 

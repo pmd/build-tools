@@ -179,15 +179,21 @@ function pmd_ci_sourceforge_createDraftBlogPost() {
       labels="labels=${labels}"
     fi
 
+    # Release notes might be too big for --form or contain quotes
+    # that must be encoded. Use a temp file instead and send this.
+    local tempFile=$(mktemp tmp-sf-release-notes.XXXXXXXXXX)
+    echo "$text" > "$tempFile"
+
     RESULT=$(curl --silent --include --request POST \
       --header "Authorization: Bearer ${PMD_SF_BEARER_TOKEN}" \
       "${labels_arg}" "${labels}" \
       --form "state=draft" \
-      --form "text=$text" \
+      --form "text=<$tempFile" \
       --form "title=$title" \
       https://sourceforge.net/rest/p/pmd/news | grep -i "location: "|cut -d " " -f 2|tr -d "\r\n")
 
     pmd_ci_log_success "Created sourceforge blog post: ${RESULT}"
+    rm -f "$tempFile"
 }
 
 #

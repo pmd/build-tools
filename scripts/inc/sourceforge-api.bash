@@ -181,7 +181,8 @@ function pmd_ci_sourceforge_createDraftBlogPost() {
 
     # Release notes might be too big for --form or contain quotes
     # that must be encoded. Use a temp file instead and send this.
-    local tempFile=$(mktemp tmp-sf-release-notes.XXXXXXXXXX)
+    local tempFile
+    tempFile=$(mktemp tmp-sf-release-notes.XXXXXXXXXX)
     echo "$text" > "$tempFile"
 
     RESULT=$(curl --silent --include --request POST \

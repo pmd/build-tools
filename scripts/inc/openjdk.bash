@@ -6,10 +6,10 @@ SCRIPT_INCLUDES="log.bash utils.bash"
 source "$(dirname "$0")/inc/fetch_ci_scripts.bash" && fetch_ci_scripts
 
 #
-# Downloads openjdk from AdoptOpenJDK by accessing the API.
-# The API is documented at https://api.adoptopenjdk.net/swagger-ui/
+# Downloads openjdk from Adoptium by accessing the API.
+# The API is documented at https://api.adoptium.net/q/swagger-ui/
 #
-function pmd_ci_openjdk_install_adoptopenjdk() {
+function pmd_ci_openjdk_install_adoptium() {
     local openjdk_version=$1
     local -r jdk_os=$(pmd_ci_utils_get_os)
 
@@ -25,7 +25,7 @@ function pmd_ci_openjdk_install_adoptopenjdk() {
         openjdk_version=${openjdk_version%-ea}
     fi
 
-    pmd_ci_log_info "Installing Adopt OpenJDK Version ${openjdk_version}-${release_type} (${jdk_os})"
+    pmd_ci_log_info "Installing Adoptium OpenJDK Version ${openjdk_version}-${release_type} (${jdk_os})"
 
     local components_to_strip
     case "${jdk_os}" in
@@ -44,7 +44,7 @@ function pmd_ci_openjdk_install_adoptopenjdk() {
         ;;
     esac
 
-    local -r api_url="https://api.adoptopenjdk.net/v3/assets/feature_releases/${openjdk_version}/${release_type}?architecture=x64&heap_size=normal&image_type=jdk&jvm_impl=hotspot&os=${jdk_os}&page=0&page_size=1&project=jdk&sort_method=DEFAULT&sort_order=DESC&vendor=adoptopenjdk"
+    local -r api_url="https://api.adoptium.net/v3/assets/feature_releases/${openjdk_version}/${release_type}?architecture=x64&heap_size=normal&image_type=jdk&jvm_impl=hotspot&os=${jdk_os}&page=0&page_size=1&project=jdk&sort_method=DEFAULT&sort_order=DESC&vendor=eclipse"
     pmd_ci_log_debug "api: ${api_url}"
     local -r download_url=$(curl --silent -X GET "${api_url}" \
         -H "accept: application/json" \
@@ -86,6 +86,14 @@ function pmd_ci_openjdk_install_adoptopenjdk() {
             return 1
             ;;
     esac
+}
+
+#
+# Backwards compatible function for pmd_ci_openjdk_install_adoptium
+#
+function pmd_ci_openjdk_install_adoptopenjdk() {
+    pmd_ci_log_info "adoptopenjdk is deprecated. Please use pmd_ci_openjdk_install_adoptium instead"
+    pmd_ci_openjdk_install_adoptium "$@"
 }
 
 #

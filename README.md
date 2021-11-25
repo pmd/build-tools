@@ -179,12 +179,12 @@ Namespace: pmd_ci_openjdk
 
 Functions:
 
-*   pmd_ci_openjdk_install_adoptopenjdk. Usage e.g. `pmd_ci_openjdk_install_adoptopenjdk 11`
-    Supports also EA builds, e.g. `pmd_ci_openjdk_install_adoptopenjdk 16-ea`
+*   pmd_ci_openjdk_install_adoptium. Usage e.g. `pmd_ci_openjdk_install_adoptium 11`
+    Supports also EA builds, e.g. `pmd_ci_openjdk_install_adoptium 16-ea`
 *   pmd_ci_openjdk_install_zuluopenjdk. Usage e.g. `pmd_ci_openjdk_install_zuluopenjdk 7`
 *   pmd_ci_openjdk_setdefault. Usage e.g. `pmd_ci_openjdk_setdefault 11`
 
-Test with: `bash -c "source inc/openjdk.bash; pmd_ci_openjdk_install_adoptopenjdk 11" $(pwd)/test.sh`
+Test with: `bash -c "source inc/openjdk.bash; pmd_ci_openjdk_install_adoptium 11" $(pwd)/test.sh`
 
 #### inc/github-releases-api.bash
 

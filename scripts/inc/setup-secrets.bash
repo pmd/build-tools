@@ -26,9 +26,10 @@ function pmd_ci_setup_secrets_private_env() {
 }
 
 function pmd_ci_setup_secrets_gpg_key() {
+    local -r keyname="D0BF1D737C9A1C22"
     pmd_ci_log_info "Setting up GPG release signing key..."
 
-    pmd_ci_utils_fetch_ci_file "release-signing-key-D0BF1D737C9A1C22.asc"
+    pmd_ci_utils_fetch_ci_file "release-signing-key-${keyname}.asc"
     local -r fullpath="$RESULT"
 
     mkdir -p "${HOME}/.gpg"
@@ -37,6 +38,9 @@ function pmd_ci_setup_secrets_gpg_key() {
         --output "${fullpath%.asc}" "${fullpath}"
     gpg --batch --import "${fullpath%.asc}"
     rm "${fullpath%.asc}"
+
+    gpg --fingerprint --list-sigs "${keyname}"
+    gpg --list-secret-keys "${keyname}"
 }
 
 function pmd_ci_setup_secrets_ssh_privkey() {

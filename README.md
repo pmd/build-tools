@@ -486,7 +486,7 @@ export PMD_CI_CHUNK_TOKEN=...
 
 ### release-signing-key-D0BF1D737C9A1C22.asc
 
-Export the private key and encrypt it with PMD_CI_SECRET_PASSPHRASE:
+Export the private key as "release-signing-key-D0BF1D737C9A1C22" and encrypt it with PMD_CI_SECRET_PASSPHRASE:
 
 ```
 printenv PMD_CI_SECRET_PASSPHRASE | gpg --symmetric --cipher-algo AES256 --batch --armor \
@@ -495,7 +495,33 @@ printenv PMD_CI_SECRET_PASSPHRASE | gpg --symmetric --cipher-algo AES256 --batch
 ```
 
 The public key is available here: https://keys.openpgp.org/vks/v1/by-fingerprint/EBB241A545CB17C87FACB2EBD0BF1D737C9A1C22
-and http://pool.sks-keyservers.net:11371/pks/lookup?search=0xD0BF1D737C9A1C22&fingerprint=on&op=index
+and http://pgp.mit.edu/pks/lookup?search=0xD0BF1D737C9A1C22&fingerprint=on&op=index
+
+**Updating the key:**
+
+From time to time the key needs to be renewed. Import the private and public key into your local gpg keystore
+and renew it. Make sure to renew all subkeys. Then export it again.
+
+*Note:* The private key is additionally secured by a passphrase - see "CI_SIGN_PASSPHRASE".
+
+You can verify the expiration date with `gpg --fingerprint --list-sigs D0BF1D737C9A1C22`:
+
+```
+pub   rsa4096 2019-12-16 [SC] [expires: 2022-12-31]
+      EBB2 41A5 45CB 17C8 7FAC  B2EB D0BF 1D73 7C9A 1C22
+uid           [ultimate] PMD Release Signing Key <releases@pmd-code.org>
+sig 3        D0BF1D737C9A1C22 2021-11-25  PMD Release Signing Key <releases@pmd-code.org>
+sig 3        93450DF2DF9A3FA3 2019-12-16  Andreas Dangel <andreas.dangel@adangel.org>
+sig 3        D0BF1D737C9A1C22 2019-12-16  PMD Release Signing Key <releases@pmd-code.org>
+sig 3        D0BF1D737C9A1C22 2020-11-02  PMD Release Signing Key <releases@pmd-code.org>
+sub   rsa4096 2019-12-16 [E] [expires: 2022-12-31]
+sig          D0BF1D737C9A1C22 2021-11-25  PMD Release Signing Key <releases@pmd-code.org>
+```
+
+Upload the exported *public* key to
+
+* https://keys.openpgp.org/upload
+* http://pgp.mit.edu/
 
 ### pmd.github.io_deploy_key.asc
 

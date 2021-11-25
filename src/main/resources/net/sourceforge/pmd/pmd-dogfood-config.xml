@@ -614,4 +614,23 @@ PrimarySuffix/Arguments/ArgumentList/Expression/PrimaryExpression[
         </properties>
     </rule>
 
+    <!-- Idea from https://github.com/pmd/pmd/pull/3609#discussion_r748292071 -->
+    <rule name="ReuseInvocationMatcher"
+          language="java"
+          message="Reuse InvocationMatcher"
+          typeResolution="true"
+          class="net.sourceforge.pmd.lang.rule.XPathRule">
+        <description>Share the invocation matcher and not create a new one every time</description>
+        <priority>1</priority>
+        <properties>
+            <property name="version" value="2.0" />
+            <property name="xpath">
+                <value>
+<![CDATA[
+//PrimaryExpression[PrimaryPrefix/Name/@Image = 'InvocationMatcher.parse'][PrimarySuffix[not(Arguments)]]
+]]>
+                </value>
+            </property>
+        </properties>
+    </rule>
 </ruleset>

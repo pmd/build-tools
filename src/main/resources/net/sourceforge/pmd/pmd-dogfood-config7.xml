@@ -7,6 +7,14 @@
 
     <rule ref="net/sourceforge/pmd/pmd-dogfood-base.xml" />
 
+    <!-- adjusted in PMD 7 -->
+    <rule ref="category/java/errorprone.xml/CompareObjectsWithEquals">
+        <priority>1</priority>
+        <properties>
+            <property name="typesThatCompareByReference" value="java.lang.Enum,java.lang.Class,net.sourceforge.pmd.lang.ast.Node,net.sourceforge.pmd.lang.ast.GenericToken"/>
+        </properties>
+    </rule>
+
     <!-- Note: These are the custom rule ported to PMD 7 -->
 
     <!-- PMD specific custom rules -->

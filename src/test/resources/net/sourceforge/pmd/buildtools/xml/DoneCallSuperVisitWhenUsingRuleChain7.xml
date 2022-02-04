@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test-data xmlns="http://pmd.sourceforge.net/rule-tests"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://pmd.sourceforge.net/rule-tests http://pmd.sourceforge.net/rule-tests_1_0_0.xsd">
+   <test-code>
+      <description>rulechain with super</description>
+      <expected-problems>2</expected-problems>
+      <expected-linenumbers>5,15</expected-linenumbers>
+      <code><![CDATA[
+import net.sourceforge.pmd.lang.java.ast.ASTClassOrInterfaceDeclaration;
+import net.sourceforge.pmd.lang.java.rule.AbstractJavaRulechainRule;
+import net.sourceforge.pmd.lang.rule.AbstractRule;
+
+class AbstractClassWithoutAbstractMethodRule extends AbstractJavaRulechainRule {
+    public AbstractClassWithoutAbstractMethodRule() {
+        super(ASTClassOrInterfaceDeclaration.class);
+    }
+
+    public Object visit(ASTClassOrInterfaceDeclaration node, Object data) {
+        return super.visit(node, data);
+    }
+}
+
+class MyRule extends AbstractRule {
+    @Override
+    protected RuleTargetSelector buildTargetSelector() {
+        return RuleTargetSelector.forTypes(ASTClassOrInterfaceDeclaration.class);
+    }
+
+    public Object visit(ASTClassOrInterfaceDeclaration node, Object data) {
+        return super.visit(node, data);
+    }
+}
+        ]]></code>
+   </test-code>
+   <test-code>
+      <description>rulechain without super</description>
+      <expected-problems>0</expected-problems>
+      <code><![CDATA[
+import net.sourceforge.pmd.lang.java.ast.ASTClassOrInterfaceDeclaration;
+import net.sourceforge.pmd.lang.java.rule.AbstractJavaRulechainRule;
+import net.sourceforge.pmd.lang.rule.AbstractRule;
+
+class AbstractClassWithoutAbstractMethodRule extends AbstractJavaRulechainRule {
+    public AbstractClassWithoutAbstractMethodRule() {
+        super(ASTClassOrInterfaceDeclaration.class);
+    }
+
+    public Object visit(ASTClassOrInterfaceDeclaration node, Object data) {
+        return data;
+    }
+}
+
+class MyRule extends AbstractRule {
+    @Override
+    protected RuleTargetSelector buildTargetSelector() {
+        return RuleTargetSelector.forTypes(ASTClassOrInterfaceDeclaration.class);
+    }
+
+    public Object visit(ASTClassOrInterfaceDeclaration node, Object data) {
+        return data;
+    }
+}
+        ]]></code>
+   </test-code>
+</test-data>

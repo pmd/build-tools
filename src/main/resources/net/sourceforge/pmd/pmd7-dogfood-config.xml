@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<ruleset name="dogfood-for-pmd7" 
+    xmlns="http://pmd.sourceforge.net/ruleset/2.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 http://pmd.sourceforge.net/ruleset_2_0_0.xsd">
+    <description>Rules that apply to pmd7 code base only. The rules must be executable with pmd6 and pmd7</description>
+
+    <!-- PMD specific custom rules -->
+    <rule name="DoNotUseJavaUtilLogging"
+          language="java"
+          since="7.0.0"
+          message="Use slf4j: LoggerFactory.getLogger(MyClass.class)"
+          class="net.sourceforge.pmd.lang.rule.XPathRule">
+        <description>Use slf4j: LoggerFactory.getLogger(MyClass.class)</description>
+        <!--  priority 3 for now until migration is finished - https://github.com/pmd/pmd/issues/896 -->
+        <priority>3</priority>
+        <properties>
+            <property name="version" value="2.0"/>
+            <property name="xpath">
+                <value>
+<![CDATA[
+//ImportDeclaration[@ImportedName = 'java.util.logging.Logger']
+]]>
+                </value>
+            </property>
+        </properties>
+    </rule>
+</ruleset>

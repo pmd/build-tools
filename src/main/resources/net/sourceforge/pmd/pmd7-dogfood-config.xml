@@ -19,7 +19,7 @@
             <property name="xpath">
                 <value>
 <![CDATA[
-//ImportDeclaration[@ImportedName = 'java.util.logging.Logger']
+//ClassOrInterfaceDeclaration[//ImportDeclaration[@ImportedName = 'java.util.logging.Logger']]
 ]]>
                 </value>
             </property>

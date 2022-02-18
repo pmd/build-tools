@@ -12,8 +12,7 @@
           message="Use slf4j: LoggerFactory.getLogger(MyClass.class)"
           class="net.sourceforge.pmd.lang.rule.XPathRule">
         <description>Use slf4j: LoggerFactory.getLogger(MyClass.class)</description>
-        <!--  priority 3 for now until migration is finished - https://github.com/pmd/pmd/issues/896 -->
-        <priority>3</priority>
+        <priority>1</priority>
         <properties>
             <property name="version" value="2.0"/>
             <property name="xpath">

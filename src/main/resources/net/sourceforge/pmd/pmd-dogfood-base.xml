@@ -318,7 +318,7 @@
     <rule ref="category/java/errorprone.xml/CloseResource">
         <priority>1</priority>
         <properties>
-            <property name="closeTargets" value="close,IOUtils.closeQuietly" />
+            <property name="closeTargets" value="close,IOUtils.closeQuietly,IOUtil.closeQuietly" />
         </properties>
     </rule>
     <rule ref="category/java/errorprone.xml/CompareObjectsWithEquals">

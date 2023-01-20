@@ -8,6 +8,7 @@ import org.apache.maven.plugin.surefire.log.api.ConsoleLogger;
 
 class MockedConsoleLogger implements ConsoleLogger {
     private StringBuilder info = new StringBuilder();
+    private StringBuilder error = new StringBuilder();
 
     @Override
     public boolean isDebugEnabled() {
@@ -46,7 +47,7 @@ class MockedConsoleLogger implements ConsoleLogger {
 
     @Override
     public void error(String message) {
-
+        error.append(message).append(System.lineSeparator());
     }
 
     @Override
@@ -62,7 +63,12 @@ class MockedConsoleLogger implements ConsoleLogger {
     public void assertInfoContains(String s) {
         assertThat(info.toString(), containsString(s));
     }
+
     public void assertInfo(String s) {
         assertThat(info.toString(), equalTo(s));
+    }
+
+    public void assertError(String s) {
+        assertThat(error.toString(), equalTo(s));
     }
 }

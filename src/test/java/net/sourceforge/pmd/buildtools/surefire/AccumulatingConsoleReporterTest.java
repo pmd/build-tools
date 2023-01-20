@@ -5,6 +5,7 @@
 package net.sourceforge.pmd.buildtools.surefire;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.maven.plugin.surefire.report.ReportEntryType;
@@ -54,15 +55,16 @@ public class AccumulatingConsoleReporterTest {
 
         TestSetStats testSetStats = new TestSetStats(true, true);
         testSetStats.testFailure(new WrappedReportEntry(testCase, ReportEntryType.FAILURE, 1, null, null));
-        WrappedReportEntry wrappedReportEntry = new WrappedReportEntry(testSet, ReportEntryType.FAILURE, 1, null, null);
+        WrappedReportEntry wrappedReportEntry = new WrappedReportEntry(testSet, null, 1, null, null);
 
         reporter.testSetStarting(testSet);
-        reporter.testSetCompleted(wrappedReportEntry, testSetStats, EMPTY);
+        reporter.testSetCompleted(wrappedReportEntry, testSetStats, Arrays.asList("Stacktrace..."));
 
         logger.assertInfo(
                 "Running net.sourceforge.pmd.test.Simple" + NL
                  + "    └─ ✘ testFail" + NL
                  + "Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.001 s <<< FAILURE! - in net.sourceforge.pmd.test.Simple" + NL);
+        logger.assertError("Stacktrace..." + NL);
     }
 
     @Test

@@ -1,5 +1,5 @@
 # https://hub.docker.com/_/ubuntu/
-FROM ubuntu:18.04
+FROM ubuntu:22.04
 
 RUN export DEBIAN_FRONTEND=noninteractive && \
     apt-get update && \
@@ -49,33 +49,39 @@ RUN /bin/bash -c 'echo "UTC" > /etc/timezone && \
     update-locale LANG=en_US.UTF-8'
 ENV LANG=en_US.UTF-8
 
-# install maven
-ARG maven_version=3.6.3
+# install maven: https://maven.apache.org/download.cgi
+ARG maven_version=3.9.1
 RUN /bin/bash -c 'set -o pipefail && \
     cd opt && \
-    curl https://mirror.checkdomain.de/apache/maven/maven-3/${maven_version}/binaries/apache-maven-${maven_version}-bin.tar.gz | tar xz && \
+    curl https://dlcdn.apache.org/maven/maven-3/${maven_version}/binaries/apache-maven-${maven_version}-bin.tar.gz | tar xz && \
     ln -sf /opt/apache-maven-${maven_version}/bin/mvn /usr/local/bin/mvn && \
     cd ..'
 
-# install ruby
-ARG ruby_version=2.7
+# install ruby: https://rvm.io/
+# see for available pre-built versions: https://github.com/rvm/rvm/blob/master/config/sha512
+# other available pre-builts: https://github.com/ruby/ruby-builder/releases
+# for compilation of ruby 2.7, openssl 1 is needed: see https://stackoverflow.com/questions/72179373/cant-install-ruby-via-rvm-error-running-rvm-make-j4-on-ubuntu-22-04
+ARG ruby_version=2.7.8
 RUN /bin/bash -c 'set -o pipefail && \
-    gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB && \
+    gpg --keyserver keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB && \
     curl -sSL https://get.rvm.io | bash -s stable && \
     source /etc/profile.d/rvm.sh && \
-    rvm install ${ruby_version} && \
+    rvm pkg install openssl && \
+    rvm install ${ruby_version} --with-openssl-dir=/usr/local/rvm/usr && \
     rvm use ${ruby_version} --default && \
     ruby -v'
 
 RUN groupadd pmd-ci && useradd --gid pmd-ci --groups sudo,rvm \
              --shell /bin/bash --create-home --password "" \
              pmd-ci
-USER pmd-ci:pmd-ci
-WORKDIR /home/pmd-ci
-RUN sudo mkdir -p /workspaces/pmd/pmd && \
-    sudo chown -R pmd-ci:pmd-ci /workspaces && \
+RUN mkdir -p /workspaces/pmd/pmd && \
+    chown -R pmd-ci:pmd-ci /workspaces && \
     ln -sf /workspaces /home/pmd-ci/workspaces
 COPY create-gh-actions-env.sh /home/pmd-ci
+RUN chown -R pmd-ci:pmd-ci /home/pmd-ci/create-gh-actions-env.sh
+
+USER pmd-ci
+WORKDIR /home/pmd-ci
 
 # setup ruby for current user "pmd-ci"
 RUN /bin/bash --login -c 'rvm user gemsets && \

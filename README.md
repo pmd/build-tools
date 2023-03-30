@@ -38,7 +38,7 @@ Artifact containing configuration data and scripts to build and release pmd/pmd 
 
 ## build-env
 
-Ubuntu Linux based, same as github actions runner, see [Virtual Environment](https://github.com/actions/virtual-environments).
+Ubuntu Linux based, same as github actions runner, see [Runner Images](https://github.com/actions/runner-images).
 It can be used to test the scripts and perform the builds without github actions.
 
 Once build the docker container: 
@@ -652,7 +652,10 @@ pmd-ci@6cc27446ef02:~/workspaces/pmd/build-tools$ .ci/build.sh
 ...
 ```
 
-Note, that `MAVEN_OPTS` contains `-DskipRemoteStaging=true`, so that no maven artifacts are not deployed.
+Note, that `create-gh-actions-env.sh` sets up `MAVEN_OPTS` with `-DskipRemoteStaging=true`, so that no maven
+artifacts are deployed automatically. You need to remove this, if you really want to perform a release.
+Also note, that the property `autoReleaseAfterClose` is not configured and the default is `false`, so that
+you would need to manually publish the staging repo. See also the section below about "Nexus Staging Maven Plugin".
 
 ## Miscellaneous
 

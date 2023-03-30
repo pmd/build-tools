@@ -31,9 +31,7 @@ function pmd_ci_gh_releases_createDraftRelease() {
     "tag_name": "${tagName}",
     "target_commitish": "${targetCommitish}",
     "name": "${tagName}",
-    "draft": true,
-    "make_latest": true,
-    "prerelease": false
+    "draft": true
 }
 EOF
     )
@@ -192,9 +190,7 @@ function pmd_ci_gh_releases_updateRelease() {
 {
     "tag_name": "${tagName}",
     "name": "${name}",
-    "body": "${body}",
-    "make_latest": true,
-    "prerelease": false
+    "body": "${body}"
 }
 EOF
     )
@@ -218,7 +214,7 @@ EOF
 #
 # Publish a release by setting draft="false".
 # Note: This will send out the notification emails if somebody
-# watched the releases.
+# watches the releases.
 #
 # See: https://docs.github.com/en/rest/releases/releases?apiVersion=2022-11-28#update-a-release
 #
@@ -229,7 +225,8 @@ function pmd_ci_gh_releases_publishRelease() {
     local releaseId="$RESULT"
     pmd_ci_log_debug "${FUNCNAME[0]} releaseId=$releaseId"
 
-    local request='{"draft":false,"make_latest":true,"prerelease":false}'
+    # Warning: Latest release cannot be draft or prerelease.
+    local request='{"draft":false,"make_latest":"true","prerelease":false}'
     pmd_ci_log_debug "PATCH $GITHUB_BASE_URL/releases/${releaseId}"
     pmd_ci_log_debug " -> request: $request"
     pmd_ci_log_info "Publishing github release $releaseId"

@@ -216,6 +216,7 @@ bash -c 'set -x ; \
          export PMD_CI_DEBUG=false ; \
          source inc/github-releases-api.bash ; \
          pmd_ci_gh_releases_createDraftRelease "pmd_releases/6.30.0" "d2e4fb4ca370e7d5612dcc96fb74c29767a7671e" ; \
+         sleep 1; \
          pmd_ci_gh_releases_getLatestDraftRelease ; \
          export therelease="$RESULT" ; \
          pmd_ci_gh_releases_uploadAsset "$therelease" "inc/github-releases-api.bash"

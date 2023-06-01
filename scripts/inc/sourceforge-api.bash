@@ -124,7 +124,7 @@ function pmd_ci_sourceforge_selectDefault() {
             -X PUT \
             -d "api_key=${PMD_SF_APIKEY}" \
             -d "default=windows&default=mac&default=linux&default=bsd&default=solaris&default=others" \
-            "https://sourceforge.net/projects/pmd/files/pmd/${pmdVersion}/pmd-bin-${pmdVersion}.zip")
+            "https://sourceforge.net/projects/pmd/files/pmd/${pmdVersion}/pmd-dist-${pmdVersion}-bin.zip")
         pmd_ci_log_debug " -> response: $response"
         response=$(echo "$response" | jq -e ".result")
         pmd_ci_log_success "Successfully selected $pmdVersion as new default on sourceforge: ${targetUrl}"

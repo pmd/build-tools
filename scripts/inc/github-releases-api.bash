@@ -17,7 +17,7 @@ source "$(dirname "$0")/inc/fetch_ci_scripts.bash" && fetch_ci_scripts
 #
 # $RESULT = release json string
 #
-# See: https://developer.github.com/v3/repos/releases/#create-a-release
+# See: https://docs.github.com/en/rest/releases/releases?apiVersion=2022-11-28#create-a-release
 #
 function pmd_ci_gh_releases_createDraftRelease() {
     local tagName="$1"
@@ -38,8 +38,11 @@ EOF
 
     pmd_ci_log_debug "POST $GITHUB_BASE_URL/releases"
     pmd_ci_log_info "Creating github draft release"
-    RESULT=$(curl --fail -s -H "Authorization: token ${GITHUB_TOKEN}" \
+    RESULT=$(curl --fail -s -L \
+                -H "Accept: application/vnd.github+json" \
+                -H "Authorization: token ${GITHUB_TOKEN}" \
                 -H "Content-Type: application/json" \
+                -H "X-GitHub-Api-Version: 2022-11-28" \
                 -X POST \
                 --data "${request}" \
                 "$GITHUB_BASE_URL/releases")
@@ -49,18 +52,22 @@ EOF
 }
 
 #
-# Gets the latest release, if it is a draft and returns with 0.
+# Gets the latest draft release and returns with 0.
 # Returns with 1, if the latest release is not a draft - meaning, there is no
 # draft release (yet?).
 # 
-# RESULT = release json string
+# RESULT = release json string (or empty, if there is no draft release)
 #
-# See: https://developer.github.com/v3/repos/releases/#list-releases-for-a-repository
+# See: https://docs.github.com/en/rest/releases/releases?apiVersion=2022-11-28#list-releases
 #
 function pmd_ci_gh_releases_getLatestDraftRelease() {
     pmd_ci_log_debug "${FUNCNAME[0]}"
     pmd_ci_log_debug "GET $GITHUB_BASE_URL/releases?per_page=1"
-    RESULT=$(curl --fail -s -H "Authorization: token ${GITHUB_TOKEN}" \
+    RESULT=$(curl --fail -s -L \
+                -H "Accept: application/vnd.github+json" \
+                -H "Authorization: token ${GITHUB_TOKEN}" \
+                -H "Content-Type: application/json" \
+                -H "X-GitHub-Api-Version: 2022-11-28" \
                 "$GITHUB_BASE_URL/releases?per_page=1" | jq ".[0]")
     pmd_ci_log_debug " -> response: $RESULT"
 
@@ -78,7 +85,7 @@ function pmd_ci_gh_releases_getLatestDraftRelease() {
 #
 # Deletes a release.
 #
-# See: https://developer.github.com/v3/repos/releases/#delete-a-release
+# See: https://docs.github.com/en/rest/releases/releases?apiVersion=2022-11-28#delete-a-release
 #
 function pmd_ci_gh_releases_deleteRelease() {
     local release="$1"
@@ -89,7 +96,10 @@ function pmd_ci_gh_releases_deleteRelease() {
     pmd_ci_log_debug "DELETE $GITHUB_BASE_URL/releases/$releaseId"
     pmd_ci_log_info "Deleting github release $releaseId"
     local response
-    response=$(curl --fail -s -H "Authorization: token ${GITHUB_TOKEN}" \
+    response=$(curl --fail -s -L \
+        -H "Accept: application/vnd.github+json" \
+        -H "Authorization: token ${GITHUB_TOKEN}" \
+        -H "X-GitHub-Api-Version: 2022-11-28" \
         -X DELETE \
         "$GITHUB_BASE_URL/releases/$releaseId")
     pmd_ci_log_debug " -> response: $response"
@@ -121,7 +131,7 @@ function pmd_ci_gh_releases_getTagNameFromData() {
 #
 # Uploads a asset to an existing release.
 #
-# See: https://developer.github.com/v3/repos/releases/#upload-a-release-asset
+# See: https://docs.github.com/en/rest/releases/assets?apiVersion=2022-11-28#upload-a-release-asset
 #
 function pmd_ci_gh_releases_uploadAsset() {
     local release="$1"
@@ -140,8 +150,11 @@ function pmd_ci_gh_releases_uploadAsset() {
     pmd_ci_log_debug "POST $uploadUrl"
     pmd_ci_log_info "Uploading $filename to github release $releaseId"
     local response
-    response=$(curl --fail -s -H "Authorization: token ${GITHUB_TOKEN}" \
+    response=$(curl --fail -s -L \
+                        -H "Accept: application/vnd.github+json" \
+                        -H "Authorization: token ${GITHUB_TOKEN}" \
                         -H "Content-Type: application/zip" \
+                        -H "X-GitHub-Api-Version: 2022-11-28" \
                         --data-binary "@$filename" \
                         -X POST \
                         "${uploadUrl}")
@@ -154,7 +167,7 @@ function pmd_ci_gh_releases_uploadAsset() {
 # The body is escaped to fit into JSON, so it is allowed for the body to be
 # a multi-line string.
 #
-# See: https://developer.github.com/v3/repos/releases/#edit-a-release
+# See: https://docs.github.com/en/rest/releases/releases?apiVersion=2022-11-28#update-a-release
 #
 function pmd_ci_gh_releases_updateRelease() {
     local release="$1"
@@ -186,8 +199,11 @@ EOF
     pmd_ci_log_debug " -> request: $request"
     pmd_ci_log_info "Updating github release $releaseId"
     local response
-    response=$(curl --fail -s -H "Authorization: token ${GITHUB_TOKEN}" \
+    response=$(curl --fail -s -L \
+                         -H "Accept: application/vnd.github+json" \
+                         -H "Authorization: token ${GITHUB_TOKEN}" \
                          -H "Content-Type: application/json" \
+                         -H "X-GitHub-Api-Version: 2022-11-28" \
                          --data "${request}" \
                          -X PATCH \
                          "$GITHUB_BASE_URL/releases/${releaseId}")
@@ -198,9 +214,9 @@ EOF
 #
 # Publish a release by setting draft="false".
 # Note: This will send out the notification emails if somebody
-# watched the releases.
+# watches the releases.
 #
-# See: https://developer.github.com/v3/repos/releases/#edit-a-release
+# See: https://docs.github.com/en/rest/releases/releases?apiVersion=2022-11-28#update-a-release
 #
 function pmd_ci_gh_releases_publishRelease() {
     local release="$1"
@@ -209,13 +225,17 @@ function pmd_ci_gh_releases_publishRelease() {
     local releaseId="$RESULT"
     pmd_ci_log_debug "${FUNCNAME[0]} releaseId=$releaseId"
 
-    local request='{"draft":false}'
+    # Warning: Latest release cannot be draft or prerelease.
+    local request='{"draft":false,"make_latest":"true","prerelease":false}'
     pmd_ci_log_debug "PATCH $GITHUB_BASE_URL/releases/${releaseId}"
     pmd_ci_log_debug " -> request: $request"
     pmd_ci_log_info "Publishing github release $releaseId"
     local response
-    response=$(curl --fail -s -H "Authorization: token ${GITHUB_TOKEN}" \
+    response=$(curl --fail -s -L \
+                         -H "Accept: application/vnd.github+json" \
+                         -H "Authorization: token ${GITHUB_TOKEN}" \
                          -H "Content-Type: application/json" \
+                         -H "X-GitHub-Api-Version: 2022-11-28" \
                          --data "${request}" \
                          -X PATCH \
                          "$GITHUB_BASE_URL/releases/${releaseId}")

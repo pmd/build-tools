@@ -743,3 +743,6 @@ More information about configuring this can be found at [wagon-http](https://mav
 Therefore, the property to configure the timeouts changed to `-Daether.connector.http.connectionMaxTtl=180`.
 Retry count is by default 3 and can be omitted.
 See <https://maven.apache.org/resolver/configuration.html> for all available properties.
+
+Note: This system property only works with Maven 3.9.2 or later!
+

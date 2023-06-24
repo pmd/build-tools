@@ -735,3 +735,11 @@ This has the consequence, that for each dependency, that is being downloaded, a 
 established.
 
 More information about configuring this can be found at [wagon-http](https://maven.apache.org/wagon/wagon-providers/wagon-http/).
+
+**Update: Since [Maven 3.9.0](https://maven.apache.org/docs/3.9.0/release-notes.html)**, the native transport instead of wagon is used:
+
+> The Maven Resolver transport has changed from Wagon to “native HTTP”, see [Resolver Transport guide](https://maven.apache.org/guides/mini/guide-resolver-transport.html).
+
+Therefore, the property to configure the timeouts changed to `-Daether.connector.http.connectionMaxTtl=180`.
+Retry count is by default 3 and can be omitted.
+See <https://maven.apache.org/resolver/configuration.html> for all available properties.

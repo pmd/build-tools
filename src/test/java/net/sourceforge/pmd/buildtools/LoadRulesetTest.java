@@ -25,6 +25,11 @@ public class LoadRulesetTest {
     }
 
     @Test
+    public void testLoadTestDogFoodRuleset() throws RuleSetLoadException {
+        assertRuleset("net/sourceforge/pmd/pmd-test-dogfood-config.xml");
+    }
+
+    @Test
     public void testLoadUiDogFoodRuleset() throws RuleSetLoadException {
         assertRuleset("net/sourceforge/pmd/pmd-ui-dogfood-config.xml");
     }

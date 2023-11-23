@@ -495,8 +495,12 @@ printenv PMD_CI_SECRET_PASSPHRASE | gpg --symmetric --cipher-algo AES256 --batch
   release-signing-key-D0BF1D737C9A1C22
 ```
 
-The public key is available here: https://keys.openpgp.org/vks/v1/by-fingerprint/EBB241A545CB17C87FACB2EBD0BF1D737C9A1C22
-and http://pgp.mit.edu/pks/lookup?search=0xD0BF1D737C9A1C22&fingerprint=on&op=index
+The public key is available here:
+* <https://keys.openpgp.org/search?q=0xEBB241A545CB17C87FACB2EBD0BF1D737C9A1C22>
+* <https://keyserver.ubuntu.com/pks/lookup?search=0xEBB241A545CB17C87FACB2EBD0BF1D737C9A1C22&fingerprint=on&op=index>
+* <http://pgp.mit.edu/pks/lookup?search=0xD0BF1D737C9A1C22&fingerprint=on&op=index>
+
+And in the file `release-signing-key-D0BF1D737C9A1C22-public.asc`.
 
 **Updating the key:**
 
@@ -508,21 +512,29 @@ and renew it. Make sure to renew all subkeys. Then export it again.
 You can verify the expiration date with `gpg --fingerprint --list-sigs D0BF1D737C9A1C22`:
 
 ```
-pub   rsa4096 2019-12-16 [SC] [expires: 2022-12-31]
+pub   rsa4096 2019-12-16 [SC] [expires: 2024-12-31]
       EBB2 41A5 45CB 17C8 7FAC  B2EB D0BF 1D73 7C9A 1C22
 uid           [ultimate] PMD Release Signing Key <releases@pmd-code.org>
-sig 3        D0BF1D737C9A1C22 2021-11-25  PMD Release Signing Key <releases@pmd-code.org>
+sig 3        D0BF1D737C9A1C22 2023-11-23  PMD Release Signing Key <releases@pmd-code.org>
 sig 3        93450DF2DF9A3FA3 2019-12-16  Andreas Dangel <andreas.dangel@adangel.org>
 sig 3        D0BF1D737C9A1C22 2019-12-16  PMD Release Signing Key <releases@pmd-code.org>
 sig 3        D0BF1D737C9A1C22 2020-11-02  PMD Release Signing Key <releases@pmd-code.org>
-sub   rsa4096 2019-12-16 [E] [expires: 2022-12-31]
-sig          D0BF1D737C9A1C22 2021-11-25  PMD Release Signing Key <releases@pmd-code.org>
+sub   rsa4096 2019-12-16 [E] [expires: 2024-12-31]
+sig          D0BF1D737C9A1C22 2023-11-23  PMD Release Signing Key <releases@pmd-code.org>
 ```
 
 Upload the exported *public* key to
 
-* https://keys.openpgp.org/upload
-* http://pgp.mit.edu/
+* <https://keys.openpgp.org/upload>
+* <https://keyserver.ubuntu.com/#submitKey>
+* <http://pgp.mit.edu/>
+
+Verify the uploaded key expiration date:
+
+`gpg --show-keys release-signing-key-D0BF1D737C9A1C22-public.asc`
+`curl 'https://keys.openpgp.org/vks/v1/by-fingerprint/EBB241A545CB17C87FACB2EBD0BF1D737C9A1C22' | gpg --show-keys`
+`curl 'https://keyserver.ubuntu.com/pks/lookup?search=0xEBB241A545CB17C87FACB2EBD0BF1D737C9A1C22&fingerprint=on&exact=on&options=mr&op=get' | gpg --show-keys`
+`curl 'http://pgp.mit.edu/pks/lookup?op=get&search=0xD0BF1D737C9A1C22' | gpg --show-keys`
 
 ### pmd.github.io_deploy_key.asc
 

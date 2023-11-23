@@ -9,6 +9,6 @@ import net.sourceforge.pmd.testframework.SimpleAggregatorTst;
 public class DoNotUseJavaUtilLoggingTest extends SimpleAggregatorTst {
     @Override
     public void setUp() {
-        addRule("net/sourceforge/pmd/pmd7-dogfood-config.xml", "DoNotUseJavaUtilLogging");
+        addRule("net/sourceforge/pmd/pmd-dogfood-config.xml", "DoNotUseJavaUtilLogging");
     }
 }

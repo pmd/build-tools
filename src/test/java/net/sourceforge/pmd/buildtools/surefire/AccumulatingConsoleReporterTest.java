@@ -13,8 +13,8 @@ import org.apache.maven.plugin.surefire.report.TestSetStats;
 import org.apache.maven.plugin.surefire.report.WrappedReportEntry;
 import org.apache.maven.surefire.api.report.RunMode;
 import org.apache.maven.surefire.api.report.SimpleReportEntry;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class AccumulatingConsoleReporterTest {
     private static long testRunId = 1L;
@@ -25,15 +25,15 @@ public class AccumulatingConsoleReporterTest {
 
     private MockedConsoleLogger logger;
     private AccumulatingConsoleReporter reporter;
-    @Before
-    public void setup() {
+    @BeforeEach
+    void setup() {
         logger = new MockedConsoleLogger();
         reporter = new AccumulatingConsoleReporter(logger, false, true, true);
     }
 
 
     @Test
-    public void testSimpleJUnitTestSuccess() {
+    void testSimpleJUnitTestSuccess() {
         SimpleReportEntry testSet = createTestSet("net.sourceforge.pmd.test.Simple");
         SimpleReportEntry testCase = createTestCase(testSet, "testMethod");
 
@@ -49,7 +49,7 @@ public class AccumulatingConsoleReporterTest {
     }
 
     @Test
-    public void testSimpleJUnitTestFailure() {
+    void testSimpleJUnitTestFailure() {
         SimpleReportEntry testSet = createTestSet("net.sourceforge.pmd.test.Simple");
         SimpleReportEntry testCase = createTestCase(testSet, "testFail");
 
@@ -68,7 +68,7 @@ public class AccumulatingConsoleReporterTest {
     }
 
     @Test
-    public void testNestedTestSets() {
+    void testNestedTestSets() {
         SimpleReportEntry testSet = createTestSet("net.sourceforge.pmd.test.Simple");
         SimpleReportEntry testSetNested = createTestSet("net.sourceforge.pmd.test.Simple", "net.sourceforge.pmd.test.Simple Nested Group 1");
         SimpleReportEntry testSetNested2 = createTestSet("net.sourceforge.pmd.test.Simple", "net.sourceforge.pmd.test.Simple Nested Group 1 Another Level");
@@ -97,7 +97,7 @@ public class AccumulatingConsoleReporterTest {
     }
 
     @Test
-    public void testNestedTestSetsUnnamed() {
+    void testNestedTestSetsUnnamed() {
         SimpleReportEntry testSet = createTestSet("net.sourceforge.pmd.test.Simple");
         SimpleReportEntry testSetNested = createTestSet("net.sourceforge.pmd.test.Simple", "net.sourceforge.pmd.test.Simple Nested Group 1");
         SimpleReportEntry testSetNested2 = createTestSet("net.sourceforge.pmd.test.Simple", "net.sourceforge.pmd.test.Simple Nested Group 1 Another Level");

@@ -4,44 +4,46 @@
 
 package net.sourceforge.pmd.buildtools;
 
-import org.junit.Assert;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.contrib.java.lang.system.SystemErrRule;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.Test;
 
 import net.sourceforge.pmd.RulePriority;
 import net.sourceforge.pmd.RuleSet;
-import net.sourceforge.pmd.RuleSetLoadException;
 import net.sourceforge.pmd.RuleSetLoader;
 
-public class LoadRulesetTest {
+import com.github.stefanbirkner.systemlambda.SystemLambda;
 
-    @Rule
-    public SystemErrRule systemerr = new SystemErrRule().enableLog();
+class LoadRulesetTest {
 
     @Test
-    public void testLoadDogFoodRuleset() throws RuleSetLoadException {
+    void testLoadDogFoodRuleset() throws Exception {
         assertRuleset("net/sourceforge/pmd/pmd-dogfood-config.xml");
     }
 
     @Test
-    public void testLoadTestDogFoodRuleset() throws RuleSetLoadException {
+    void testLoadTestDogFoodRuleset() throws Exception {
         assertRuleset("net/sourceforge/pmd/pmd-test-dogfood-config.xml");
     }
 
     @Test
-    public void testLoadUiDogFoodRuleset() throws RuleSetLoadException {
+    void testLoadUiDogFoodRuleset() throws Exception {
         assertRuleset("net/sourceforge/pmd/pmd-ui-dogfood-config.xml");
     }
 
-    private void assertRuleset(String rulesetName) throws RuleSetLoadException {
+    private void assertRuleset(String rulesetName) throws Exception {
         RuleSetLoader ruleSetLoader = new RuleSetLoader()
                 .filterAbovePriority(RulePriority.LOW)
                 .warnDeprecated(true)
                 .enableCompatibility(false);
-        RuleSet ruleset = ruleSetLoader.loadFromResource(rulesetName);
-        Assert.assertNotNull(ruleset);
-        Assert.assertFalse(ruleset.getRules().isEmpty());
-        Assert.assertTrue(systemerr.getLog().isEmpty()); // there should be no deprecation warnings...
+        String syserr = SystemLambda.tapSystemErr(() -> {
+            RuleSet ruleset = ruleSetLoader.loadFromResource(rulesetName);
+            assertNotNull(ruleset);
+            assertFalse(ruleset.getRules().isEmpty());
+        });
+        assertTrue(syserr.isEmpty()); // there should be no deprecation warnings...
     }
 }

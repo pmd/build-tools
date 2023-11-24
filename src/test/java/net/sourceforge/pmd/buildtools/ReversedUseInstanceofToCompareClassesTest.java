@@ -6,9 +6,9 @@ package net.sourceforge.pmd.buildtools;
 
 import net.sourceforge.pmd.testframework.SimpleAggregatorTst;
 
-public class ReversedUseInstanceofToCompareClassesTest extends SimpleAggregatorTst {
+class ReversedUseInstanceofToCompareClassesTest extends SimpleAggregatorTst {
     @Override
-    public void setUp() {
+    protected void setUp() {
         addRule("net/sourceforge/pmd/pmd-dogfood-config.xml", "ReversedUseInstanceofToCompareClasses");
     }
 }

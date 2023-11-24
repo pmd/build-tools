@@ -8,7 +8,7 @@ import net.sourceforge.pmd.testframework.SimpleAggregatorTst;
 
 public class DontCallSuperVisitWhenUsingRuleChainTest extends SimpleAggregatorTst {
     @Override
-    public void setUp() {
+    protected void setUp() {
         addRule("net/sourceforge/pmd/pmd-dogfood-config.xml", "DontCallSuperVisitWhenUsingRuleChain");
     }
 }

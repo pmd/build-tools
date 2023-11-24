@@ -45,7 +45,7 @@ public class AccumulatingConsoleReporterTest {
         reporter.testSetCompleted(wrappedReportEntry, testSetStats, EMPTY);
 
         logger.assertInfoContains("Running net.sourceforge.pmd.test.Simple");
-        logger.assertInfoContains("Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.123 s - in net.sourceforge.pmd.test.Simple");
+        logger.assertInfoContains("Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.123 s -- in net.sourceforge.pmd.test.Simple");
     }
 
     @Test
@@ -63,7 +63,7 @@ public class AccumulatingConsoleReporterTest {
         logger.assertInfo(
                 "Running net.sourceforge.pmd.test.Simple" + NL
                  + "    └─ ✘ testFail" + NL
-                 + "Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.001 s <<< FAILURE! - in net.sourceforge.pmd.test.Simple" + NL);
+                 + "Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.001 s <<< FAILURE! -- in net.sourceforge.pmd.test.Simple" + NL);
         logger.assertError("Stacktrace..." + NL);
     }
 
@@ -92,7 +92,7 @@ public class AccumulatingConsoleReporterTest {
                  + "    └─ Nested Group 1" + NL
                  + "        └─ Another Level" + NL
                  + "            └─ ✘  The actual test case name" + NL
-                 + "Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.003 s <<< FAILURE! - in net.sourceforge.pmd.test.Simple" + NL
+                 + "Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.003 s <<< FAILURE! -- in net.sourceforge.pmd.test.Simple" + NL
         );
     }
 
@@ -121,7 +121,7 @@ public class AccumulatingConsoleReporterTest {
                         + "    └─ Nested Group 1" + NL
                         + "        └─ Another Level" + NL
                         + "            └─ ✘ [unnamed test case]" + NL
-                        + "Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.003 s <<< FAILURE! - in net.sourceforge.pmd.test.Simple" + NL
+                        + "Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.003 s <<< FAILURE! -- in net.sourceforge.pmd.test.Simple" + NL
         );
     }
 

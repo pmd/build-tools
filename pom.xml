@@ -50,7 +50,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.release>8</maven.compiler.release>
         <pmd.version>7.0.0-rc4</pmd.version> <!-- pmd version used for tests -->
-        <surefire.version>3.0.0-M8</surefire.version>
+        <surefire.version>3.2.2</surefire.version>
     </properties>
 
     <dependencyManagement>

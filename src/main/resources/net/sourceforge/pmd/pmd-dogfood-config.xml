@@ -520,7 +520,6 @@
         <description>replace o.getClass().equals(MyClass.class) with o instanceof MyClass. Make sure MyClass doesn't have descendants</description>
         <priority>1</priority>
         <properties>
-            <property name="version" value="2.0"/>
             <property name="xpath">
                 <value>
                     <![CDATA[
@@ -561,7 +560,6 @@
         <description>Calling super.visit breaks the rulechain, by starting a full visitor run from the passed node downwards. Add all needed nodes to the rulechain instead.</description>
         <priority>1</priority>
         <properties>
-            <property name="version" value="2.0"/>
             <property name="xpath">
                 <value>
                     <![CDATA[
@@ -589,7 +587,6 @@
         <description>Just returning without calling super stops visiting of nested nodes like inner classes.</description>
         <priority>3</priority>
         <properties>
-            <property name="version" value="2.0"/>
             <property name="xpath">
                 <value>
                     <![CDATA[
@@ -613,7 +610,6 @@
         <description>Share the invocation matcher and not create a new one every time</description>
         <priority>1</priority>
         <properties>
-            <property name="version" value="2.0" />
             <property name="xpath">
                 <value>
                     <![CDATA[
@@ -633,7 +629,6 @@
         <description>Use slf4j: LoggerFactory.getLogger(MyClass.class)</description>
         <priority>1</priority>
         <properties>
-            <property name="version" value="2.0"/>
             <property name="xpath">
                 <value>
                     <![CDATA[

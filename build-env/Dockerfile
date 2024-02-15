@@ -60,14 +60,13 @@ RUN /bin/bash -c 'set -o pipefail && \
 # install ruby: https://rvm.io/
 # see for available pre-built versions: https://github.com/rvm/rvm/blob/master/config/sha512
 # other available pre-builts: https://github.com/ruby/ruby-builder/releases
-# for compilation of ruby 2.7, openssl 1 is needed: see https://stackoverflow.com/questions/72179373/cant-install-ruby-via-rvm-error-running-rvm-make-j4-on-ubuntu-22-04
-ARG ruby_version=2.7.8
+# and https://rubies.travis-ci.org/
+ARG ruby_version=3.3.0
 RUN /bin/bash -c 'set -o pipefail && \
     gpg --keyserver keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB && \
     curl -sSL https://get.rvm.io | bash -s stable && \
     source /etc/profile.d/rvm.sh && \
-    rvm pkg install openssl && \
-    rvm install ${ruby_version} --with-openssl-dir=/usr/local/rvm/usr && \
+    rvm install ${ruby_version} && \
     rvm use ${ruby_version} --default && \
     ruby -v'
 

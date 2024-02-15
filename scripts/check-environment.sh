@@ -25,7 +25,7 @@ function check_environment() {
 
     case "$(uname)" in
         Linux*)
-            check "ruby" "ruby --version" "ruby 2.7"
+            check "ruby" "ruby --version" "ruby 3"
             check "gpg" "gpg --version" "gpg (GnuPG) 2."
             check "printenv" "printenv --version" "printenv (GNU coreutils)"
             check "rsync" "rsync --version" "version"

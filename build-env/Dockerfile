@@ -1,4 +1,5 @@
 # https://hub.docker.com/_/ubuntu/
+# see also https://github.com/actions/runner-images
 FROM ubuntu:22.04
 
 RUN export DEBIAN_FRONTEND=noninteractive && \
@@ -50,7 +51,7 @@ RUN /bin/bash -c 'echo "UTC" > /etc/timezone && \
 ENV LANG=en_US.UTF-8
 
 # install maven: https://maven.apache.org/download.cgi
-ARG maven_version=3.9.1
+ARG maven_version=3.9.6
 RUN /bin/bash -c 'set -o pipefail && \
     cd opt && \
     curl https://dlcdn.apache.org/maven/maven-3/${maven_version}/binaries/apache-maven-${maven_version}-bin.tar.gz | tar xz && \

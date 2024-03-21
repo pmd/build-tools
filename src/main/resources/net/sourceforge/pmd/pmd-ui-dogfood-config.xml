@@ -11,7 +11,7 @@
           language="java"
           since="6.5.0"
           message="Injected FXML fields should be suffixed by their type, eg 'HelloButton'"
-          class="net.sourceforge.pmd.lang.rule.XPathRule" >
+          class="net.sourceforge.pmd.lang.rule.xpath.XPathRule" >
         <description>
             Injected FXML fields should be suffixed by their type
         </description>

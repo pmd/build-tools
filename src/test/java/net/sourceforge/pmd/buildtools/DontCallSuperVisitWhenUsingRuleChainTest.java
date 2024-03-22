@@ -4,7 +4,7 @@
 
 package net.sourceforge.pmd.buildtools;
 
-import net.sourceforge.pmd.testframework.SimpleAggregatorTst;
+import net.sourceforge.pmd.test.SimpleAggregatorTst;
 
 public class DontCallSuperVisitWhenUsingRuleChainTest extends SimpleAggregatorTst {
     @Override

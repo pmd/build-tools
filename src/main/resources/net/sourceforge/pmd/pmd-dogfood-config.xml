@@ -565,10 +565,10 @@
                     <![CDATA[
 (
 (: java rule chain rule :)
-//ClassOrInterfaceDeclaration[pmd-java:typeIs('net.sourceforge.pmd.lang.java.rule.AbstractJavaRulechainRule')]
+//ClassDeclaration[pmd-java:typeIs('net.sourceforge.pmd.lang.java.rule.AbstractJavaRulechainRule')]
 |
 (: generic rule that implements buildTargetSelector :)
-//ClassOrInterfaceDeclaration[pmd-java:typeIs('net.sourceforge.pmd.lang.rule.AbstractRule')]
+//ClassDeclaration[pmd-java:typeIs('net.sourceforge.pmd.lang.rule.AbstractRule')]
     [*/MethodDeclaration[@Name = 'buildTargetSelector']]
 )
   (: but calling super.visit! :)
@@ -590,9 +590,9 @@
             <property name="xpath">
                 <value>
                     <![CDATA[
-//ClassOrInterfaceDeclaration
-    [ExtendsList/ClassOrInterfaceType[pmd-java:typeIs('net.sourceforge.pmd.lang.rule.AbstractRule')]]
-    [not(ExtendsList/ClassOrInterfaceType[pmd-java:typeIs('net.sourceforge.pmd.lang.java.rule.AbstractJavaRulechainRule')])]
+//ClassDeclaration
+    [ExtendsList/ClassType[pmd-java:typeIs('net.sourceforge.pmd.lang.rule.AbstractRule')]]
+    [not(ExtendsList/ClassType[pmd-java:typeIs('net.sourceforge.pmd.lang.java.rule.AbstractJavaRulechainRule')])]
     [not(*/MethodDeclaration[@Name = 'buildTargetSelector'])]
     [*/MethodDeclaration[@Name = 'visit'][not(.//MethodCall[@MethodName = 'visit']/SuperExpression)]]
 ]]>
@@ -632,7 +632,7 @@
             <property name="xpath">
                 <value>
                     <![CDATA[
-//ClassOrInterfaceDeclaration[//ImportDeclaration[@ImportedName = 'java.util.logging.Logger']]
+//ClassDeclaration[//ImportDeclaration[@ImportedName = 'java.util.logging.Logger']]
 ]]>
                 </value>
             </property>

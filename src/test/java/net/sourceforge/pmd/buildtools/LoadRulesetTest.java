@@ -11,9 +11,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
-import net.sourceforge.pmd.RulePriority;
-import net.sourceforge.pmd.RuleSet;
-import net.sourceforge.pmd.RuleSetLoader;
+import net.sourceforge.pmd.lang.rule.RulePriority;
+import net.sourceforge.pmd.lang.rule.RuleSet;
+import net.sourceforge.pmd.lang.rule.RuleSetLoader;
 
 import com.github.stefanbirkner.systemlambda.SystemLambda;
 
@@ -37,8 +37,7 @@ class LoadRulesetTest {
     private void assertRuleset(String rulesetName) throws Exception {
         RuleSetLoader ruleSetLoader = new RuleSetLoader()
                 .filterAbovePriority(RulePriority.LOW)
-                .warnDeprecated(true)
-                .enableCompatibility(false);
+                .warnDeprecated(true);
         String syserr = SystemLambda.tapSystemErr(() -> {
             RuleSet ruleset = ruleSetLoader.loadFromResource(rulesetName);
             assertNotNull(ruleset);

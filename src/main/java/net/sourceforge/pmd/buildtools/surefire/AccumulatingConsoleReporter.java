@@ -125,6 +125,10 @@ class AccumulatingConsoleReporter extends StatelessTestsetInfoConsoleReportEvent
             }
         }
 
+        if (nesting.size() == 1) {
+            prefix = indentation + prefix;
+        }
+
         String testSetName = getTestSetName(report);
         // individual tests
         for (WrappedReportEntry entry : testSetStats.getReportEntries()) {

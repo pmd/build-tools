@@ -49,6 +49,25 @@ public class AccumulatingConsoleReporterTest {
     }
 
     @Test
+    void simpleJUnitTestSuccessWithShowSuccessful() {
+        reporter = new AccumulatingConsoleReporter(logger, true, true, true);
+        SimpleReportEntry testSet = createTestSet("net.sourceforge.pmd.test.Simple");
+        SimpleReportEntry testCase = createTestCase(testSet, "testMethod");
+
+        TestSetStats testSetStats = new TestSetStats(true, true);
+        testSetStats.testSucceeded(new WrappedReportEntry(testCase, ReportEntryType.SUCCESS, 120, null, null));
+        WrappedReportEntry wrappedReportEntry = new WrappedReportEntry(testSet, ReportEntryType.SUCCESS, 123, null, null);
+
+        reporter.testSetStarting(testSet);
+        reporter.testSetCompleted(wrappedReportEntry, testSetStats, EMPTY);
+
+        logger.assertInfo(
+                "Running net.sourceforge.pmd.test.Simple" + NL
+                        + "    └─ ✔ testMethod" + NL
+                        + "Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.123 s -- in net.sourceforge.pmd.test.Simple" + NL);
+    }
+
+    @Test
     void testSimpleJUnitTestFailure() {
         SimpleReportEntry testSet = createTestSet("net.sourceforge.pmd.test.Simple");
         SimpleReportEntry testCase = createTestCase(testSet, "testFail");
@@ -155,7 +174,7 @@ public class AccumulatingConsoleReporterTest {
         logger.assertInfo(
                 "Running net.sourceforge.pmd.test.Suite" + NL +
                 "    Running net.sourceforge.pmd.test.Simple1" + NL +
-                "    └─ ✘ testFailMethod" + NL +
+                "        └─ ✘ testFailMethod" + NL +
                 "    Tests run: 2, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.122 s <<< FAILURE! -- in net.sourceforge.pmd.test.Simple1" + NL +
                 "    Running net.sourceforge.pmd.test.Simple2" + NL +
                 "    Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.124 s -- in net.sourceforge.pmd.test.Simple2" + NL +

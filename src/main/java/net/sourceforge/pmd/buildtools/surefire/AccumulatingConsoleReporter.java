@@ -4,6 +4,7 @@
 
 package net.sourceforge.pmd.buildtools.surefire;
 
+import java.util.ArrayDeque;
 import java.util.Collection;
 import java.util.Deque;
 import java.util.HashMap;
@@ -14,6 +15,7 @@ import java.util.Map;
 import org.apache.maven.plugin.surefire.log.api.ConsoleLogger;
 import org.apache.maven.plugin.surefire.report.TestSetStats;
 import org.apache.maven.plugin.surefire.report.WrappedReportEntry;
+import org.apache.maven.surefire.api.report.ReportEntry;
 import org.apache.maven.surefire.api.report.TestSetReportEntry;
 import org.apache.maven.surefire.extensions.StatelessTestsetInfoConsoleReportEventListener;
 import org.apache.maven.surefire.shared.utils.logging.MessageBuilder;
@@ -33,6 +35,10 @@ class AccumulatingConsoleReporter extends StatelessTestsetInfoConsoleReportEvent
         this.showSkippedTests = showSkippedTests;
     }
 
+    private final Deque<ReportEntry> testSets = new ArrayDeque<>();
+    private final Map<ReportEntry, TestSetStats> accStats = new HashMap<>();
+    private final Map<ReportEntry, Integer> accTime = new HashMap<>();
+
     private final Map<String, Deque<String>> nestedTestSetNames = new HashMap<>();
     private final Map<String, TestSetStats> accumulatedTestSetStats = new HashMap<>();
     private final Map<String, Integer> totalElapsedTimeMillis = new HashMap<>();
@@ -40,6 +46,12 @@ class AccumulatingConsoleReporter extends StatelessTestsetInfoConsoleReportEvent
 
     @Override
     public void testSetStarting(TestSetReportEntry report) {
+        testSets.addLast(report);
+        accStats.put(report, new TestSetStats(true, true));
+        accTime.put(report, 0);
+        boolean isNested = testSets.size() > 1;
+        String prefix = isNested ? "    " : "";
+
         String outerTestClass = getOuterTestClass(report);
         if (!nestedTestSetNames.containsKey(outerTestClass)) {
             nestedTestSetNames.put(outerTestClass, new LinkedList<String>());
@@ -51,7 +63,7 @@ class AccumulatingConsoleReporter extends StatelessTestsetInfoConsoleReportEvent
             totalElapsedTimeMillis.put(outerTestClass, 0);
             accumulatedTestResults.put(outerTestClass, new LinkedList<String>());
             MessageBuilder buffer = MessageUtils.buffer();
-            getConsoleLogger().info("Running " + buffer.strong(outerTestClass));
+            getConsoleLogger().info(prefix + "Running " + buffer.strong(outerTestClass));
         } else {
             String fullName = report.getSourceText();
             if (fullName == null) {
@@ -72,6 +84,24 @@ class AccumulatingConsoleReporter extends StatelessTestsetInfoConsoleReportEvent
 
         TestSetStats accumulated = accumulatedTestSetStats.get(outerTestClass);
         accumulateTestSetStats(accumulated, testSetStats.getReportEntries());
+
+        boolean isNested = testSets.size() > 1;
+        String indentation = isNested ? "    " : "";
+
+        if (isNested) {
+            TestSetStats acc  = accStats.get(testSets.peekFirst());
+            accumulateTestSetStats(acc, testSetStats.getReportEntries());
+
+            int time = accTime.get(testSets.peekFirst()) + report.getElapsed();
+            accTime.put(testSets.peekFirst(), time);
+        } else {
+            accumulated = accStats.get(testSets.peekFirst());
+            accumulateTestSetStats(accumulated, testSetStats.getReportEntries());
+            elapsedMillis = accTime.get(testSets.peekFirst()) + report.getElapsed();
+        }
+        ReportEntry finishedReport = testSets.removeLast();
+        accStats.remove(finishedReport);
+        accTime.remove(finishedReport);
 
         accumulatedTestResults.get(outerTestClass).addAll(testResults);
 
@@ -115,7 +145,7 @@ class AccumulatingConsoleReporter extends StatelessTestsetInfoConsoleReportEvent
         if (nesting.size() == 1) {
             WrappedReportEntry reportWithTotalElapsedMillis = new WrappedReportEntry(report,
                     report.getReportEntryType(), elapsedMillis, null, null);
-            getConsoleLogger().info(accumulated.getColoredTestSetSummary(reportWithTotalElapsedMillis, false));
+            getConsoleLogger().info(indentation + accumulated.getColoredTestSetSummary(reportWithTotalElapsedMillis, false));
 
             printTestResults(accumulated, accumulatedTestResults.get(outerTestClass));
 

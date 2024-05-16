@@ -125,6 +125,44 @@ public class AccumulatingConsoleReporterTest {
         );
     }
 
+    @Test
+    void junitSuiteReport() {
+        SimpleReportEntry testSuite = createTestSet("net.sourceforge.pmd.test.Suite");
+        SimpleReportEntry testSet1 = createTestSet("net.sourceforge.pmd.test.Simple1");
+        SimpleReportEntry testSet2 = createTestSet("net.sourceforge.pmd.test.Simple2");
+        SimpleReportEntry testCase1 = createTestCase(testSet1, "testMethod");
+        SimpleReportEntry testCase2 = createTestCase(testSet1, "testFailMethod");
+        SimpleReportEntry testCase3 = createTestCase(testSet2, "testMethod");
+
+        TestSetStats testSet1Stats = new TestSetStats(true, true);
+        testSet1Stats.testSucceeded(new WrappedReportEntry(testCase1, ReportEntryType.SUCCESS, 120, null, null));
+        testSet1Stats.testFailure(new WrappedReportEntry(testCase2, ReportEntryType.FAILURE, 121, null, null));
+        WrappedReportEntry testSet1Report = new WrappedReportEntry(testSet1, ReportEntryType.FAILURE, 122, null, null);
+
+        TestSetStats testSet2Stats = new TestSetStats(true, true);
+        testSet2Stats.testSucceeded(new WrappedReportEntry(testCase3, ReportEntryType.SUCCESS, 123, null, null));
+        WrappedReportEntry testSet2Report = new WrappedReportEntry(testSet2, ReportEntryType.SUCCESS, 124, null, null);
+
+        WrappedReportEntry testSuiteReport = new WrappedReportEntry(testSuite, ReportEntryType.SUCCESS, 125, null, null);
+
+        reporter.testSetStarting(testSuite);
+        reporter.testSetStarting(testSet1);
+        reporter.testSetCompleted(testSet1Report, testSet1Stats, EMPTY);
+        reporter.testSetStarting(testSet2);
+        reporter.testSetCompleted(testSet2Report, testSet2Stats, EMPTY);
+        reporter.testSetCompleted(testSuiteReport, EMPTY_STATS, EMPTY);
+
+        logger.assertInfo(
+                "Running net.sourceforge.pmd.test.Suite" + NL +
+                "    Running net.sourceforge.pmd.test.Simple1" + NL +
+                "    └─ ✘ testFailMethod" + NL +
+                "    Tests run: 2, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.122 s <<< FAILURE! -- in net.sourceforge.pmd.test.Simple1" + NL +
+                "    Running net.sourceforge.pmd.test.Simple2" + NL +
+                "    Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.124 s -- in net.sourceforge.pmd.test.Simple2" + NL +
+                "Tests run: 3, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.371 s <<< FAILURE! -- in net.sourceforge.pmd.test.Suite" + NL
+        );
+    }
+
     private SimpleReportEntry createTestSet(String className) {
         return createTestSet(className, null);
     }

@@ -182,6 +182,24 @@ public class AccumulatingConsoleReporterTest {
         );
     }
 
+    @Test
+    void failForEmptyTestSet() {
+        SimpleReportEntry testSet = createTestSet("net.sourceforge.pmd.test.Simple");
+
+        WrappedReportEntry wrappedReportEntry = new WrappedReportEntry(testSet, ReportEntryType.SUCCESS, 123, null, null);
+
+        reporter.testSetStarting(testSet);
+        reporter.testSetCompleted(wrappedReportEntry, EMPTY_STATS, EMPTY);
+
+        logger.assertInfo(
+                "Running net.sourceforge.pmd.test.Simple" + NL +
+                        "Tests run: 0, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.123 s -- in net.sourceforge.pmd.test.Simple" + NL
+        );
+        logger.assertError(
+                "No tests were executed! Test class: net.sourceforge.pmd.test.Simple" + NL
+        );
+    }
+
     private SimpleReportEntry createTestSet(String className) {
         return createTestSet(className, null);
     }

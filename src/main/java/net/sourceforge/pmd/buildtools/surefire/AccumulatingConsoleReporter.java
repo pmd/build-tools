@@ -147,6 +147,10 @@ class AccumulatingConsoleReporter extends StatelessTestsetInfoConsoleReportEvent
         }
 
         if (nesting.size() == 1) {
+            if (accumulated.getCompletedCount() == 0) {
+                accumulatedTestResults.get(outerTestClass).add("No tests were executed! Test class: " + outerTestClass);
+            }
+
             WrappedReportEntry reportWithTotalElapsedMillis = new WrappedReportEntry(report,
                     report.getReportEntryType(), elapsedMillis, null, null);
             getConsoleLogger().info(indentation + accumulated.getColoredTestSetSummary(reportWithTotalElapsedMillis, false));
@@ -163,7 +167,7 @@ class AccumulatingConsoleReporter extends StatelessTestsetInfoConsoleReportEvent
     }
 
     private void printTestResults(TestSetStats accumulated, List<String> testResults) {
-        if (accumulated.getErrors() > 0 || accumulated.getFailures() > 0) {
+        if (accumulated.getErrors() > 0 || accumulated.getFailures() > 0 || accumulated.getCompletedCount() == 0) {
             for (String line : testResults) {
                 getConsoleLogger().error(line);
             }

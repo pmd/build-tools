@@ -35,10 +35,12 @@ class AccumulatingConsoleReporter extends StatelessTestsetInfoConsoleReportEvent
         this.showSkippedTests = showSkippedTests;
     }
 
+    // Tracks nesting across different test classes, e.g. through suites
     private final Deque<ReportEntry> testSets = new ArrayDeque<>();
-    private final Map<ReportEntry, TestSetStats> accStats = new HashMap<>();
-    private final Map<ReportEntry, Integer> accTime = new HashMap<>();
+    private TestSetStats rootTestSetStats;
+    private int rootTestSetElapsedTimeMillis;
 
+    // Track nesting within the same test class, e.g. through @Nested or kotest containers
     private final Map<String, Deque<String>> nestedTestSetNames = new HashMap<>();
     private final Map<String, TestSetStats> accumulatedTestSetStats = new HashMap<>();
     private final Map<String, Integer> totalElapsedTimeMillis = new HashMap<>();
@@ -46,22 +48,24 @@ class AccumulatingConsoleReporter extends StatelessTestsetInfoConsoleReportEvent
 
     @Override
     public void testSetStarting(TestSetReportEntry report) {
+        if (testSets.isEmpty()) {
+            rootTestSetStats = new TestSetStats(true, true);
+            rootTestSetElapsedTimeMillis = 0;
+        }
         testSets.addLast(report);
-        accStats.put(report, new TestSetStats(true, true));
-        accTime.put(report, 0);
         boolean isNested = testSets.size() > 1;
         String prefix = isNested ? "    " : "";
 
         String outerTestClass = getOuterTestClass(report);
         if (!nestedTestSetNames.containsKey(outerTestClass)) {
-            nestedTestSetNames.put(outerTestClass, new LinkedList<String>());
+            nestedTestSetNames.put(outerTestClass, new LinkedList<>());
         }
         Deque<String> nesting = nestedTestSetNames.get(outerTestClass);
         if (nesting.isEmpty()) {
             nesting.addLast(outerTestClass);
             accumulatedTestSetStats.put(outerTestClass, new TestSetStats(true, true));
             totalElapsedTimeMillis.put(outerTestClass, 0);
-            accumulatedTestResults.put(outerTestClass, new LinkedList<String>());
+            accumulatedTestResults.put(outerTestClass, new LinkedList<>());
             MessageBuilder buffer = MessageUtils.buffer();
             getConsoleLogger().info(prefix + "Running " + buffer.strong(outerTestClass));
         } else {
@@ -89,19 +93,15 @@ class AccumulatingConsoleReporter extends StatelessTestsetInfoConsoleReportEvent
         String indentation = isNested ? "    " : "";
 
         if (isNested) {
-            TestSetStats acc  = accStats.get(testSets.peekFirst());
-            accumulateTestSetStats(acc, testSetStats.getReportEntries());
+            accumulateTestSetStats(rootTestSetStats, testSetStats.getReportEntries());
 
-            int time = accTime.get(testSets.peekFirst()) + report.getElapsed();
-            accTime.put(testSets.peekFirst(), time);
+            rootTestSetElapsedTimeMillis = rootTestSetElapsedTimeMillis + report.getElapsed();
         } else {
-            accumulated = accStats.get(testSets.peekFirst());
+            accumulated = rootTestSetStats;
             accumulateTestSetStats(accumulated, testSetStats.getReportEntries());
-            elapsedMillis = accTime.get(testSets.peekFirst()) + report.getElapsed();
+            elapsedMillis = rootTestSetElapsedTimeMillis + report.getElapsed();
         }
-        ReportEntry finishedReport = testSets.removeLast();
-        accStats.remove(finishedReport);
-        accTime.remove(finishedReport);
+        testSets.removeLast();
 
         accumulatedTestResults.get(outerTestClass).addAll(testResults);
 

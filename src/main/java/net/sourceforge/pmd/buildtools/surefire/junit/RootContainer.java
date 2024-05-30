@@ -1,5 +1,6 @@
 package net.sourceforge.pmd.buildtools.surefire.junit;
 
+import org.junit.platform.engine.UniqueId;
 import org.junit.platform.launcher.TestIdentifier;
 
 class RootContainer {
@@ -19,6 +20,7 @@ class RootContainer {
     }
 
     public boolean hasNoTests() {
-        return !hasTests;
+        return !testIdentifier.getUniqueIdObject().hasPrefix(UniqueId.forEngine("junit-platform-suite"))
+            && !hasTests;
     }
 }

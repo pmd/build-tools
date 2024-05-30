@@ -72,6 +72,26 @@ class TestExecutionListenerTest {
     }
 
     @Test
+    void ignoreEmptySuiteTests() {
+        // [engine:junit-platform-suite]/[suite:net.sourceforge.pmd.renderers.RenderersTests]
+        TestOutputReportEntryTestReportListener testReportListener = new TestOutputReportEntryTestReportListener();
+        TestDescriptor testSuite = new MyTestDescriptor(UniqueId.forEngine("junit-platform-suite").append("suite", "MyTestClass"), "MyTestClass");
+        TestDescriptor testSet = new MyTestDescriptor("NestedTestClass");
+        TestDescriptor testCase = new MyTestDescriptor("NestedTestClass", "testMethod");
+
+        TestExecutionListener listener = new TestExecutionListener(testReportListener);
+        listener.executionStarted(TestIdentifier.from(testSuite));
+        listener.executionStarted(TestIdentifier.from(testSet));
+        listener.executionStarted(TestIdentifier.from(testCase));
+        listener.executionFinished(TestIdentifier.from(testCase), TestExecutionResult.successful());
+        listener.executionFinished(TestIdentifier.from(testSet), TestExecutionResult.successful());
+        listener.executionFinished(TestIdentifier.from(testSuite), TestExecutionResult.successful());
+
+        testReportListener.assertTestSets(2, 2);
+        testReportListener.assertTests(1, 1, 0, 0, 0);
+    }
+
+    @Test
     void failedTest() {
         TestOutputReportEntryTestReportListener testReportListener = new TestOutputReportEntryTestReportListener();
         TestDescriptor testSet = new MyTestDescriptor("MyTestClass");
@@ -281,6 +301,13 @@ class TestExecutionListenerTest {
             this.testClass = testClass;
             this.type = Type.CONTAINER;
             this.uniqueId = UniqueId.forEngine("jupiter").append("class", testClass);
+            this.source = ClassSource.from(testClass);
+        }
+
+        public MyTestDescriptor(UniqueId uniqueId, String testClass) {
+            this.testClass = testClass;
+            this.type = Type.CONTAINER;
+            this.uniqueId = uniqueId;
             this.source = ClassSource.from(testClass);
         }
 

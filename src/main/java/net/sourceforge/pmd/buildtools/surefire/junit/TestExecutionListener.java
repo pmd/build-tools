@@ -147,10 +147,11 @@ class TestExecutionListener implements org.junit.platform.launcher.TestExecution
     }
 
     private SimpleReportEntry toTestSetReportEntry(TestIdentifier testIdentifier) {
+        String testClass = determineRootClass(testIdentifier).orElse(testIdentifier.getDisplayName());
         return new SimpleReportEntry(
                 RunMode.NORMAL_RUN,
                 determineRunId(testIdentifier),
-                testIdentifier.getDisplayName(),
+                testClass,
                 testIdentifier.getDisplayName(),
                 null, null
         );

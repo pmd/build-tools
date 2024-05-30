@@ -9,8 +9,10 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.apache.maven.surefire.api.report.LegacyPojoStackTraceWriter;
+import org.apache.maven.surefire.api.report.OutputReportEntry;
 import org.apache.maven.surefire.api.report.RunMode;
 import org.apache.maven.surefire.api.report.SimpleReportEntry;
+import org.apache.maven.surefire.api.report.TestOutputReceiver;
 import org.apache.maven.surefire.api.report.TestOutputReportEntry;
 import org.apache.maven.surefire.api.report.TestReportListener;
 import org.junit.platform.engine.TestExecutionResult;
@@ -18,9 +20,10 @@ import org.junit.platform.engine.support.descriptor.ClassSource;
 import org.junit.platform.engine.support.descriptor.MethodSource;
 import org.junit.platform.launcher.TestIdentifier;
 
-class TestExecutionListener implements org.junit.platform.launcher.TestExecutionListener {
+class TestExecutionListener implements org.junit.platform.launcher.TestExecutionListener, TestOutputReceiver<OutputReportEntry> {
     private final AtomicLong testIdGenerator = new AtomicLong();
     private final Map<String, Long> testIdMapping = new ConcurrentHashMap<>();
+    private final ThreadLocal<Long> currentRunId = new ThreadLocal<>();
     private final ConcurrentMap<String, RootContainer> rootContainers = new ConcurrentHashMap<>();
 
     private final TestReportListener<TestOutputReportEntry> testReportListener;
@@ -96,7 +99,11 @@ class TestExecutionListener implements org.junit.platform.launcher.TestExecution
     }
 
     private long determineRunId(TestIdentifier testIdentifier) {
-        return testIdMapping.computeIfAbsent(testIdentifier.getUniqueId(), (id) -> testIdGenerator.incrementAndGet());
+        return testIdMapping.computeIfAbsent(testIdentifier.getUniqueId(), (id) -> {
+            long runId = testIdGenerator.incrementAndGet();
+            currentRunId.set(runId);
+            return runId;
+        });
     }
 
     private Optional<String> determineRootClass(TestIdentifier testIdentifier) {
@@ -147,5 +154,11 @@ class TestExecutionListener implements org.junit.platform.launcher.TestExecution
                 testIdentifier.getDisplayName(),
                 null, null
         );
+    }
+
+    @Override
+    public void writeTestOutput(OutputReportEntry reportEntry) {
+        Long testRunId = currentRunId.get();
+        testReportListener.writeTestOutput(new TestOutputReportEntry(reportEntry, RunMode.NORMAL_RUN, testRunId));
     }
 }

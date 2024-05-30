@@ -6,10 +6,9 @@ import java.lang.reflect.InvocationTargetException;
 
 import org.apache.maven.surefire.api.provider.AbstractProvider;
 import org.apache.maven.surefire.api.provider.ProviderParameters;
+import org.apache.maven.surefire.api.report.ConsoleOutputCapture;
 import org.apache.maven.surefire.api.report.ReporterException;
 import org.apache.maven.surefire.api.report.ReporterFactory;
-import org.apache.maven.surefire.api.report.TestOutputReportEntry;
-import org.apache.maven.surefire.api.report.TestReportListener;
 import org.apache.maven.surefire.api.suite.RunResult;
 import org.apache.maven.surefire.api.testset.TestListResolver;
 import org.apache.maven.surefire.api.testset.TestSetFailedException;
@@ -46,8 +45,11 @@ public class JUnitPlatformProvider extends AbstractProvider {
     }
 
     @Override
-    public RunResult invoke(Object forkTestSet) throws TestSetFailedException, ReporterException, InvocationTargetException {
+    public RunResult invoke(Object forkTestSet) throws TestSetFailedException, ReporterException {
         ReporterFactory reporterFactory = parameters.getReporterFactory();
+
+        TestExecutionListener testExecutionListener = new TestExecutionListener(reporterFactory.createTestReportListener());
+        ConsoleOutputCapture.startCapture(testExecutionListener);
 
         final RunResult result;
         try (LauncherSession session = LauncherFactory.openSession()) {
@@ -62,7 +64,7 @@ public class JUnitPlatformProvider extends AbstractProvider {
                 throw new IllegalArgumentException("Invalid forkTestSet parameter: " + forkTestSet);
             }
 
-            runTests(session, testsToRun, reporterFactory.createTestReportListener());
+            runTests(session, testsToRun, testExecutionListener);
 
         } finally {
             result = reporterFactory.close();
@@ -71,13 +73,13 @@ public class JUnitPlatformProvider extends AbstractProvider {
         return result;
     }
 
-    private void runTests(LauncherSession session, TestsToRun testsToRun, TestReportListener<TestOutputReportEntry> testReportListener) {
+    private void runTests(LauncherSession session, TestsToRun testsToRun, TestExecutionListener testExecutionListener) {
         Launcher launcher = session.getLauncher();
         testsToRun.iterator().forEachRemaining(testClass -> {
             TestPlan testPlan = launcher.discover(LauncherDiscoveryRequestBuilder.request()
                     .selectors(selectClass(testClass))
                     .build());
-            launcher.execute(testPlan, new TestExecutionListener(testReportListener));
+            launcher.execute(testPlan, testExecutionListener);
         });
     }
 

@@ -16,6 +16,7 @@ import org.apache.maven.surefire.api.report.TestOutputReceiver;
 import org.apache.maven.surefire.api.report.TestOutputReportEntry;
 import org.apache.maven.surefire.api.report.TestReportListener;
 import org.junit.platform.engine.TestExecutionResult;
+import org.junit.platform.engine.UniqueId;
 import org.junit.platform.engine.support.descriptor.ClassSource;
 import org.junit.platform.engine.support.descriptor.MethodSource;
 import org.junit.platform.launcher.TestIdentifier;
@@ -115,11 +116,19 @@ class TestExecutionListener implements org.junit.platform.launcher.TestExecution
                 .filter(MethodSource.class::isInstance)
                 .map(MethodSource.class::cast)
                 .map(MethodSource::getClassName);
+        Optional<String> classNameFromUniqueId = testIdentifier.getUniqueIdObject()
+                .getSegments().stream()
+                .filter(s -> "class".equals(s.getType()))
+                .map(UniqueId.Segment::getValue)
+                .findFirst();
 
         if (classNameFromMethodSource.isPresent()) {
             return classNameFromMethodSource;
         }
-        return classNameFromClassSource;
+        if (classNameFromClassSource.isPresent()) {
+            return classNameFromClassSource;
+        }
+        return classNameFromUniqueId;
     }
 
     private Optional<RootContainer> determineRootContainer(TestIdentifier testIdentifier) {

@@ -2,7 +2,8 @@ package net.sourceforge.pmd.buildtools.surefire.junit;
 
 import static org.junit.platform.engine.discovery.DiscoverySelectors.selectClass;
 
-import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.maven.surefire.api.provider.AbstractProvider;
 import org.apache.maven.surefire.api.provider.ProviderParameters;
@@ -14,6 +15,7 @@ import org.apache.maven.surefire.api.testset.TestListResolver;
 import org.apache.maven.surefire.api.testset.TestSetFailedException;
 import org.apache.maven.surefire.api.util.ScanResult;
 import org.apache.maven.surefire.api.util.TestsToRun;
+import org.junit.platform.engine.DiscoverySelector;
 import org.junit.platform.engine.FilterResult;
 import org.junit.platform.engine.discovery.ClassNameFilter;
 import org.junit.platform.launcher.Launcher;
@@ -74,13 +76,14 @@ public class JUnitPlatformProvider extends AbstractProvider {
     }
 
     private void runTests(LauncherSession session, TestsToRun testsToRun, TestExecutionListener testExecutionListener) {
+        List<DiscoverySelector> selectors = new ArrayList<>();
+        testsToRun.iterator().forEachRemaining(testClass -> selectors.add(selectClass(testClass)));
+
         Launcher launcher = session.getLauncher();
-        testsToRun.iterator().forEachRemaining(testClass -> {
-            TestPlan testPlan = launcher.discover(LauncherDiscoveryRequestBuilder.request()
-                    .selectors(selectClass(testClass))
-                    .build());
-            launcher.execute(testPlan, testExecutionListener);
-        });
+        TestPlan testPlan = launcher.discover(LauncherDiscoveryRequestBuilder.request()
+                .selectors(selectors)
+                .build());
+        launcher.execute(testPlan, testExecutionListener);
     }
 
     /**

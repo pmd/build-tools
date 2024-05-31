@@ -26,6 +26,7 @@ class TestExecutionListener implements org.junit.platform.launcher.TestExecution
     private final Map<String, Long> testIdMapping = new ConcurrentHashMap<>();
     private final ThreadLocal<Long> currentRunId = new ThreadLocal<>();
     private final ConcurrentMap<String, RootContainer> rootContainers = new ConcurrentHashMap<>();
+    private final ConcurrentMap<TestIdentifier, Long> startTimes = new ConcurrentHashMap<>();
 
     private final TestReportListener<TestOutputReportEntry> testReportListener;
 
@@ -41,12 +42,13 @@ class TestExecutionListener implements org.junit.platform.launcher.TestExecution
 
     @Override
     public void executionStarted(TestIdentifier testIdentifier) {
+        startTimes.put(testIdentifier, System.currentTimeMillis());
         if (testIdentifier.isContainer()) {
             Optional<String> rootClass = determineRootClass(testIdentifier);
             if (rootClass.isPresent()) {
                 RootContainer previous = rootContainers.putIfAbsent(rootClass.get(), new RootContainer(testIdentifier));
                 if (previous == null) {
-                    testReportListener.testSetStarting(toTestSetReportEntry(testIdentifier));
+                    testReportListener.testSetStarting(toTestSetReportEntry(testIdentifier, null));
                 }
             }
         } else {
@@ -58,6 +60,11 @@ class TestExecutionListener implements org.junit.platform.launcher.TestExecution
     @Override
     public void executionFinished(TestIdentifier testIdentifier, TestExecutionResult testExecutionResult) {
         Map<String, String> systemProps = ManagementFactory.getRuntimeMXBean().getSystemProperties();
+        Long startTime = startTimes.remove(testIdentifier);
+        Integer elapsed = null;
+        if (startTime != null) {
+            elapsed = (int) (System.currentTimeMillis() - startTime);
+        }
 
         if (testIdentifier.isContainer()) {
             Optional<String> rootClass = determineRootClass(testIdentifier);
@@ -68,9 +75,10 @@ class TestExecutionListener implements org.junit.platform.launcher.TestExecution
                     if (removed != null) {
                         if (removed.hasNoTests()) {
                             String message = "No Tests have been executed in Test Set";
-                            testReportListener.testError(toReportEntry(testIdentifier, message, new IllegalStateException(message), Collections.emptyMap()));
+                            testReportListener.testError(toReportEntry(testIdentifier, message,
+                                    new IllegalStateException(message), Collections.emptyMap(), null));
                         }
-                        testReportListener.testSetCompleted(toTestSetReportEntry(testIdentifier));
+                        testReportListener.testSetCompleted(toTestSetReportEntry(testIdentifier, elapsed));
                     }
                 }
             }
@@ -78,7 +86,7 @@ class TestExecutionListener implements org.junit.platform.launcher.TestExecution
             String message = testExecutionResult.getThrowable().map(Throwable::getMessage).orElse(null);
             boolean isAssertionError = testExecutionResult.getThrowable().map(AssertionError.class::isInstance).orElse(false);
             SimpleReportEntry reportEntry = toReportEntry(testIdentifier, message,
-                    testExecutionResult.getThrowable().orElse(null), systemProps);
+                    testExecutionResult.getThrowable().orElse(null), systemProps, elapsed);
 
             determineRootContainer(testIdentifier).ifPresent(RootContainer::markHasAtLeastOneTest);
             switch (testExecutionResult.getStatus()) {
@@ -136,11 +144,11 @@ class TestExecutionListener implements org.junit.platform.launcher.TestExecution
     }
 
     private SimpleReportEntry toReportEntry(TestIdentifier testIdentifier) {
-        return toReportEntry(testIdentifier, null, null, Collections.emptyMap());
+        return toReportEntry(testIdentifier, null, null, Collections.emptyMap(), null);
     }
 
     private SimpleReportEntry toReportEntry(TestIdentifier testIdentifier, String message, Throwable throwable,
-                                            Map<String, String> systemProps) {
+                                            Map<String, String> systemProps, Integer elapsed) {
         return new SimpleReportEntry(
                 RunMode.NORMAL_RUN,
                 determineRunId(testIdentifier),
@@ -148,21 +156,21 @@ class TestExecutionListener implements org.junit.platform.launcher.TestExecution
                 testIdentifier.getDisplayName(),
                 testIdentifier.getUniqueId(),
                 testIdentifier.getUniqueId(),
-                new LegacyPojoStackTraceWriter(testIdentifier.getDisplayName(), null, throwable),
-                0,
+                throwable != null ? new LegacyPojoStackTraceWriter(testIdentifier.getDisplayName(), null, throwable) : null,
+                elapsed,
                 message,
                 systemProps
         );
     }
 
-    private SimpleReportEntry toTestSetReportEntry(TestIdentifier testIdentifier) {
+    private SimpleReportEntry toTestSetReportEntry(TestIdentifier testIdentifier, Integer elapsed) {
         String testClass = determineRootClass(testIdentifier).orElse(testIdentifier.getDisplayName());
         return new SimpleReportEntry(
                 RunMode.NORMAL_RUN,
                 determineRunId(testIdentifier),
                 testClass,
                 testIdentifier.getDisplayName(),
-                null, null
+                null, null, elapsed
         );
     }
 

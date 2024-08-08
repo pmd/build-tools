@@ -131,6 +131,7 @@
     </module>
     <module name="RedundantModifier">
       <property name="severity" value="error"/>
+      <property name="jdkVersion" value="8"/>
     </module>
     <module name="EmptyBlock">
       <property name="severity" value="warning"/>

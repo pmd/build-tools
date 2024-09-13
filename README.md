@@ -1,4 +1,4 @@
-[![Build Status](https://github.com/pmd/build-tools/workflows/build/badge.svg?branch=master)](https://github.com/pmd/build-tools/actions?query=workflow%3Abuild+branch%3Amaster)
+[![Build Status](https://github.com/pmd/build-tools/workflows/build/badge.svg?branch=main)](https://github.com/pmd/build-tools/actions?query=workflow%3Abuild+branch%3Amaster)
 
 # PMD build tools
 
@@ -129,7 +129,7 @@ other scripts can be fetched as needed.
 
 Used global vars:
 
-*   PMD_CI_SCRIPTS_URL - defaults to https://raw.githubusercontent.com/pmd/build-tools/master/scripts
+*   PMD_CI_SCRIPTS_URL - defaults to https://raw.githubusercontent.com/pmd/build-tools/main/scripts
 
 #### inc/log.bash
 
@@ -168,7 +168,7 @@ Used global vars:
 
 *   PMD_CI_SCRIPTS_URL: This is the base url from where to fetch additional files. For setting up
     secrets, the file `private-env.asc` is fetched from there.
-    Defaults to https://raw.githubusercontent.com/pmd/build-tools/master/scripts
+    Defaults to https://raw.githubusercontent.com/pmd/build-tools/main/scripts
     The files are fetched from the sub directory "files".
 
 Test with: `bash -c "source inc/utils.bash; pmd_ci_utils_get_os" $(pwd)/test.sh`
@@ -414,7 +414,7 @@ Usage in github actions step:
   run: |
     echo "LANG=en_US.UTF-8" >> $GITHUB_ENV
     echo "MAVEN_OPTS=-Dmaven.wagon.httpconnectionManager.ttlSeconds=180 -Dmaven.wagon.http.retryHandler.count=3" >> $GITHUB_ENV
-    echo "PMD_CI_SCRIPTS_URL=https://raw.githubusercontent.com/pmd/build-tools/master/scripts" >> $GITHUB_ENV
+    echo "PMD_CI_SCRIPTS_URL=https://raw.githubusercontent.com/pmd/build-tools/main/scripts" >> $GITHUB_ENV
 - name: Check Environment
   shell: bash
   run: |
@@ -719,7 +719,7 @@ Just add the following step into the job:
         uses: mxschmitt/action-tmate@v3
 ```
 
-The workflow [`troubleshooting`](https://github.com/pmd/pmd/blob/master/.github/workflows/troubleshooting.yml)
+The workflow [`troubleshooting`](https://github.com/pmd/pmd/blob/main/.github/workflows/troubleshooting.yml)
 in PMD can be started manually, which already contains the tmate action.
 
 **Note**: This is dangerous for push/pull builds on repositories of pmd itself, because these have access

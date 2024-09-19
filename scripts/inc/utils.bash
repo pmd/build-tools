@@ -35,7 +35,7 @@ function pmd_ci_utils_get_os() {
 #   only present for pushes
 # * PMD_CI_TAG, e.g. pmd_releases/1.2.3
 #   may only be present for pushes. If present, then PMD_CI_BRANCH is unset
-# * PMD_CI_BRANCH, e.g. master
+# * PMD_CI_BRANCH, e.g. main
 #   for pushes, that's the target branch. If present, then PMD_CI_TAG is unset
 #   for pull requests, that's the base branch
 # * PMD_CI_PULL_REQUEST_NUMBER
@@ -126,7 +126,7 @@ function pmd_ci_utils_is_fork_or_pull_request() {
 
 function pmd_ci_utils_fetch_ci_file() {
     local -r file="$1"
-    local -r files_url="${PMD_CI_SCRIPTS_URL:-https://raw.githubusercontent.com/pmd/build-tools/master/scripts}/files"
+    local -r files_url="${PMD_CI_SCRIPTS_URL:-https://raw.githubusercontent.com/pmd/build-tools/main/scripts}/files"
     local files_dir
     files_dir="$(dirname "$0")/files"
     files_dir="$(realpath "$files_dir")"

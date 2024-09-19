@@ -3,7 +3,7 @@ Release Howto for pmd-build
 
 Step by step
 -------------
-1. Checkout master branch:
+1. Checkout main branch:
 
 ``` shell
 git clone https://github.com/pmd/build-tools.git

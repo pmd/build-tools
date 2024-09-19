@@ -32,6 +32,6 @@ export GITHUB_EVENT_NAME=\"$1\"
 export GITHUB_EVENT_PATH=\"$GITHUB_EVENT_PATH\"
 export GITHUB_REPOSITORY=\"$2\"
 export GITHUB_REF=\"$ref\"
-export GITHUB_BASE_REF=master
+export GITHUB_BASE_REF=main
 export MAVEN_OPTS=\"-Dmaven.wagon.httpconnectionManager.ttlSeconds=180 -Dmaven.wagon.http.retryHandler.count=3 -DskipRemoteStaging=true\"
 "

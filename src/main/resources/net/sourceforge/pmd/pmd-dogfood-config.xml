@@ -33,18 +33,18 @@
     <rule ref="category/java/bestpractices.xml/ConstantsInInterface">
         <priority>1</priority>
     </rule>
-    <rule ref="category/java/bestpractices.xml/DefaultLabelNotLastInSwitchStmt">
+    <rule ref="category/java/bestpractices.xml/DefaultLabelNotLastInSwitch">
         <priority>1</priority>
     </rule>
     <!--     <rule ref="category/java/bestpractices.xml/ForLoopCanBeForeach" /> -->
     <!--     <rule ref="category/java/bestpractices.xml/GuardLogStatement" /> -->
     <!--     <rule ref="category/java/bestpractices.xml/JUnit4SuitesShouldUseSuiteAnnotation" /> -->
-    <!--     <rule ref="category/java/bestpractices.xml/JUnit4TestShouldUseAfterAnnotation" /> -->
-    <!--     <rule ref="category/java/bestpractices.xml/JUnit4TestShouldUseBeforeAnnotation" /> -->
-    <!--     <rule ref="category/java/bestpractices.xml/JUnit4TestShouldUseTestAnnotation" /> -->
-    <!--     <rule ref="category/java/bestpractices.xml/JUnitAssertionsShouldIncludeMessage" /> -->
-    <!--     <rule ref="category/java/bestpractices.xml/JUnitTestContainsTooManyAsserts" /> -->
-    <!--     <rule ref="category/java/bestpractices.xml/JUnitTestsShouldIncludeAssert" /> -->
+    <!--     <rule ref="category/java/bestpractices.xml/UnitTestShouldUseAfterAnnotation" /> -->
+    <!--     <rule ref="category/java/bestpractices.xml/UnitTestShouldUseBeforeAnnotation" /> -->
+    <!--     <rule ref="category/java/bestpractices.xml/UnitTestShouldUseTestAnnotation" /> -->
+    <!--     <rule ref="category/java/bestpractices.xml/UnitTestAssertionsShouldIncludeMessage" /> -->
+    <!--     <rule ref="category/java/bestpractices.xml/UnitTestContainsTooManyAsserts" /> -->
+    <!--     <rule ref="category/java/bestpractices.xml/UnitTestShouldIncludeAssert" /> -->
     <!--     <rule ref="category/java/bestpractices.xml/JUnitUseExpected" /> -->
     <rule ref="category/java/bestpractices.xml/LooseCoupling">
         <priority>1</priority>
@@ -67,7 +67,7 @@
     <!--     <rule ref="category/java/bestpractices.xml/ReplaceHashtableWithMap" /> -->
     <!--     <rule ref="category/java/bestpractices.xml/ReplaceVectorWithList" /> -->
     <!--     <rule ref="category/java/bestpractices.xml/SimplifiableTestAssertion" /> -->
-    <rule ref="category/java/bestpractices.xml/SwitchStmtsShouldHaveDefault">
+    <rule ref="category/java/bestpractices.xml/NonExhaustiveSwitch">
         <priority>1</priority>
     </rule>
     <!--     <rule ref="category/java/bestpractices.xml/SystemPrintln" /> -->
@@ -391,7 +391,7 @@
         <priority>1</priority>
     </rule>
     <!--     <rule ref="category/java/errorprone.xml/MoreThanOneLogger" /> -->
-    <rule ref="category/java/errorprone.xml/NonCaseLabelInSwitchStatement">
+    <rule ref="category/java/errorprone.xml/NonCaseLabelInSwitch">
         <priority>1</priority>
     </rule>
     <rule ref="category/java/errorprone.xml/NonStaticInitializer">
@@ -495,7 +495,7 @@
     <!-- <rule ref="category/java/performance.xml/SimplifyStartsWith" /> -->
     <!-- <rule ref="category/java/performance.xml/StringInstantiation" /> -->
     <!-- <rule ref="category/java/performance.xml/StringToString" /> -->
-    <rule ref="category/java/performance.xml/TooFewBranchesForASwitchStatement">
+    <rule ref="category/java/performance.xml/TooFewBranchesForSwitch">
         <priority>1</priority>
     </rule>
     <!-- <rule ref="category/java/performance.xml/UnnecessaryWrapperObjectCreation" /> -->

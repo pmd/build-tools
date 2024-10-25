@@ -11,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
+import net.sourceforge.pmd.PMDConfiguration;
 import net.sourceforge.pmd.lang.rule.RulePriority;
 import net.sourceforge.pmd.lang.rule.RuleSet;
 import net.sourceforge.pmd.lang.rule.RuleSetLoader;
@@ -35,7 +36,8 @@ class LoadRulesetTest {
     }
 
     private void assertRuleset(String rulesetName) throws Exception {
-        RuleSetLoader ruleSetLoader = new RuleSetLoader()
+        PMDConfiguration pmdConfiguration = new PMDConfiguration();
+        RuleSetLoader ruleSetLoader = RuleSetLoader.fromPmdConfig(pmdConfiguration)
                 .filterAbovePriority(RulePriority.LOW)
                 .warnDeprecated(true);
         String syserr = SystemLambda.tapSystemErr(() -> {
@@ -43,6 +45,6 @@ class LoadRulesetTest {
             assertNotNull(ruleset);
             assertFalse(ruleset.getRules().isEmpty());
         });
-        assertTrue(syserr.isEmpty()); // there should be no deprecation warnings...
+        assertTrue(syserr.isEmpty(), "Expected no messages on syserr, but got: " + syserr); // there should be no deprecation warnings...
     }
 }

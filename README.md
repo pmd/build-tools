@@ -512,15 +512,15 @@ and renew it. Make sure to renew all subkeys. Then export it again.
 You can verify the expiration date with `gpg --fingerprint --list-sigs D0BF1D737C9A1C22`:
 
 ```
-pub   rsa4096 2019-12-16 [SC] [expires: 2024-12-31]
+pub   rsa4096 2019-12-16 [SC] [expires: 2025-12-31]
       EBB2 41A5 45CB 17C8 7FAC  B2EB D0BF 1D73 7C9A 1C22
 uid           [ultimate] PMD Release Signing Key <releases@pmd-code.org>
-sig 3        D0BF1D737C9A1C22 2023-11-23  PMD Release Signing Key <releases@pmd-code.org>
+sig 3        D0BF1D737C9A1C22 2024-11-22  PMD Release Signing Key <releases@pmd-code.org>
 sig 3        93450DF2DF9A3FA3 2019-12-16  Andreas Dangel <andreas.dangel@adangel.org>
 sig 3        D0BF1D737C9A1C22 2019-12-16  PMD Release Signing Key <releases@pmd-code.org>
 sig 3        D0BF1D737C9A1C22 2020-11-02  PMD Release Signing Key <releases@pmd-code.org>
-sub   rsa4096 2019-12-16 [E] [expires: 2024-12-31]
-sig          D0BF1D737C9A1C22 2023-11-23  PMD Release Signing Key <releases@pmd-code.org>
+sub   rsa4096 2019-12-16 [E] [expires: 2025-12-31]
+sig          D0BF1D737C9A1C22 2024-11-22  PMD Release Signing Key <releases@pmd-code.org>
 ```
 
 Upload the exported *public* key to

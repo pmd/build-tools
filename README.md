@@ -462,6 +462,10 @@ export CI_DEPLOY_PASSWORD=...
 export CI_SIGN_KEYNAME=...
 export CI_SIGN_PASSPHRASE=...
 
+# The GPG key passphrase is also exported as env variable MAVEN_GPG_PASSPHRASE to be used
+# by maven-gpg-plugin (https://maven.apache.org/plugins/maven-gpg-plugin/usage.html#sign-artifacts-with-gnupg)
+export MAVEN_GPG_PASSPHRASE="${CI_SIGN_PASSPHRASE}"
+
 export PMD_SF_USER=...
 # https://sourceforge.net/p/forge/documentation/Using%20the%20Release%20API/
 export PMD_SF_APIKEY=...
@@ -610,12 +614,8 @@ Note: The same key is used to push to "git.code.sf.net" as user "PMD_SF_USER".
 
 ### maven-settings.xml
 
-The maven-settings.xml file contains a profile `sign`, which brings in the configuration for
-`maven-gpg-plugin` to sign the artifacts prior to uploading it to maven central. The configuration
-comes in via environment variables: `CI_SIGN_KEYNAME` and `CI_SIGN_PASSPHRASE`.
-
-It also contains the credentials for uploading the artifacts to maven-central for the server `ossrh`. Again,
-the actual configuration comes in via environment variables: `CI_DEPLOY_USERNAME` and `CI_DEPLOY_PASSWORD`.
+It contains the credentials for uploading the artifacts to maven-central for the server `ossrh`.
+The actual configuration comes in via environment variables: `CI_DEPLOY_USERNAME` and `CI_DEPLOY_PASSWORD`.
 
 ## Testing
 

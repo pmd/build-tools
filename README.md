@@ -243,12 +243,15 @@ Used global vars:
 *   PMD_CI_SECRET_PASSPHRASE: This is provided as a github secret
     (`PMD_CI_SECRET_PASSPHRASE: ${{ secrets.PMD_CI_SECRET_PASSPHRASE }}`) in github actions workflow.
     It is used to decrypt further secrets used by other scripts (github releases api, ...)
+*   PMD_CI_GPG_PRIVATE_KEY: The exported private key used for release signing, provided as a secret
+    (`PMD_CI_GPG_PRIVATE_KEY: ${{ secrets.PMD_CI_GPG_PRIVATE_KEY }}`) in github actions workflow.
 
 Test with:
 
 ```
 bash -c 'set -e; \
          export PMD_CI_SECRET_PASSPHRASE=.... ; \
+         export PMD_CI_GPG_PRIVATE_KEY=.... ; \
          export PMD_CI_DEBUG=false ; \
          source inc/setup-secrets.bash ; \
          pmd_ci_setup_secrets_private_env ; \
@@ -456,16 +459,6 @@ export PMD_CI_SECRET_PASSPHRASE=...
 export CI_DEPLOY_USERNAME=...
 export CI_DEPLOY_PASSWORD=...
 
-# CI_SIGN_KEYNAME - GPG key used to sign the release jars before uploading to maven central
-# CI_SIGN_PASSPHRASE
-# the passphrase is also used for the keystore password in pmd-eclipse-plugin for JAR signing.
-export CI_SIGN_KEYNAME=...
-export CI_SIGN_PASSPHRASE=...
-
-# The GPG key passphrase is also exported as env variable MAVEN_GPG_PASSPHRASE to be used
-# by maven-gpg-plugin (https://maven.apache.org/plugins/maven-gpg-plugin/usage.html#sign-artifacts-with-gnupg)
-export MAVEN_GPG_PASSPHRASE="${CI_SIGN_PASSPHRASE}"
-
 export PMD_SF_USER=...
 # https://sourceforge.net/p/forge/documentation/Using%20the%20Release%20API/
 export PMD_SF_APIKEY=...
@@ -488,57 +481,6 @@ export GEM_HOST_API_KEY=...
 # These are also in public-env:
 export PMD_CI_CHUNK_TOKEN=...
 ```
-
-### release-signing-key-D0BF1D737C9A1C22.asc
-
-Export the private key as "release-signing-key-D0BF1D737C9A1C22" and encrypt it with PMD_CI_SECRET_PASSPHRASE:
-
-```
-printenv PMD_CI_SECRET_PASSPHRASE | gpg --symmetric --cipher-algo AES256 --batch --armor \
-  --passphrase-fd 0 \
-  release-signing-key-D0BF1D737C9A1C22
-```
-
-The public key is available here:
-* <https://keys.openpgp.org/search?q=0xEBB241A545CB17C87FACB2EBD0BF1D737C9A1C22>
-* <https://keyserver.ubuntu.com/pks/lookup?search=0xEBB241A545CB17C87FACB2EBD0BF1D737C9A1C22&fingerprint=on&op=index>
-* <http://pgp.mit.edu/pks/lookup?search=0xD0BF1D737C9A1C22&fingerprint=on&op=index>
-
-And in the file `release-signing-key-D0BF1D737C9A1C22-public.asc`.
-
-**Updating the key:**
-
-From time to time the key needs to be renewed. Import the private and public key into your local gpg keystore
-and renew it. Make sure to renew all subkeys. Then export it again.
-
-*Note:* The private key is additionally secured by a passphrase - see "CI_SIGN_PASSPHRASE".
-
-You can verify the expiration date with `gpg --fingerprint --list-sigs D0BF1D737C9A1C22`:
-
-```
-pub   rsa4096 2019-12-16 [SC] [expires: 2025-12-31]
-      EBB2 41A5 45CB 17C8 7FAC  B2EB D0BF 1D73 7C9A 1C22
-uid           [ultimate] PMD Release Signing Key <releases@pmd-code.org>
-sig 3        D0BF1D737C9A1C22 2024-11-22  PMD Release Signing Key <releases@pmd-code.org>
-sig 3        93450DF2DF9A3FA3 2019-12-16  Andreas Dangel <andreas.dangel@adangel.org>
-sig 3        D0BF1D737C9A1C22 2019-12-16  PMD Release Signing Key <releases@pmd-code.org>
-sig 3        D0BF1D737C9A1C22 2020-11-02  PMD Release Signing Key <releases@pmd-code.org>
-sub   rsa4096 2019-12-16 [E] [expires: 2025-12-31]
-sig          D0BF1D737C9A1C22 2024-11-22  PMD Release Signing Key <releases@pmd-code.org>
-```
-
-Upload the exported *public* key to
-
-* <https://keys.openpgp.org/upload>
-* <https://keyserver.ubuntu.com/#submitKey>
-* <http://pgp.mit.edu/>
-
-Verify the uploaded key expiration date:
-
-`gpg --show-keys release-signing-key-D0BF1D737C9A1C22-public.asc`
-`curl 'https://keys.openpgp.org/vks/v1/by-fingerprint/EBB241A545CB17C87FACB2EBD0BF1D737C9A1C22' | gpg --show-keys`
-`curl 'https://keyserver.ubuntu.com/pks/lookup?search=0xEBB241A545CB17C87FACB2EBD0BF1D737C9A1C22&fingerprint=on&exact=on&options=mr&op=get' | gpg --show-keys`
-`curl 'http://pgp.mit.edu/pks/lookup?op=get&search=0xD0BF1D737C9A1C22' | gpg --show-keys`
 
 ### pmd.github.io_deploy_key.asc
 
@@ -670,6 +612,90 @@ Also note, that the property `autoReleaseAfterClose` is not configured and the d
 you would need to manually publish the staging repo. See also the section below about "Nexus Staging Maven Plugin".
 
 ## Miscellaneous
+
+### Release Signing Keys
+
+For signing the artifacts, that are published in Maven Central, we use GPG. The key fingerprint
+is `EBB241A545CB17C87FACB2EBD0BF1D737C9A1C22`:
+
+```
+pub   rsa4096/D0BF1D737C9A1C22 2019-12-16 [SC] [expires: 2025-12-31]
+      EBB241A545CB17C87FACB2EBD0BF1D737C9A1C22
+uid                 [ultimate] PMD Release Signing Key <releases@pmd-code.org>
+sub   rsa4096/1DAA314BF520D0A8 2019-12-16 [E] [expires: 2025-12-31]
+```
+
+The public key is available here:
+* <https://keys.openpgp.org/search?q=0xEBB241A545CB17C87FACB2EBD0BF1D737C9A1C22>
+* <https://keyserver.ubuntu.com/pks/lookup?search=0xEBB241A545CB17C87FACB2EBD0BF1D737C9A1C22&fingerprint=on&op=index>
+* <http://pgp.mit.edu/pks/lookup?search=0xD0BF1D737C9A1C22&fingerprint=on&op=index>
+
+And in the file `release-signing-key-D0BF1D737C9A1C22-public.asc`.
+
+**Private key:**
+
+The corresponding private key is configured as a [`secret`](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets)
+for GitHub Action on the organization level. This means, the secret is available for all repositories.
+The secret name is `PMD_CI_GPG_PRIVATE_KEY`.
+
+For setting up, export the secret key and copy-paste it into a new secret:
+
+```
+gpg --armor --export-secret-key EBB241A545CB17C87FACB2EBD0BF1D737C9A1C22 | wl-copy
+```
+
+(instead of wl-copy, use xclip or pbcopy, depending on your os).
+
+This private key will be imported by the script `setup-secrets.bash`.
+
+Note 1: In order to use the key later on, the passphrase is needed. This is also setup as a secret:
+`PMD_CI_GPG_PASSPHRASE`. This secret is then exported as "MAVEN_GPG_PASSPHRASE" where needed
+(`MAVEN_GPG_PASSPHRASE: ${{ secrets.PMD_CI_GPG_PASSPHRASE }}`) in github actions workflows.
+See also <https://maven.apache.org/plugins/maven-gpg-plugin/usage.html#sign-artifacts-with-gnupg>.
+
+
+Note 2: The private key is now only secured by the passphrase. It is stored as a GitHub Actions
+secret and temporarily written to a file in order to import it. It is not anymore committed in
+this build-tools repository and is therefore not encrypted with another key (e.g. PMD_CI_SECRET_PASSPHRASE). 
+
+**Updating the key:**
+
+From time to time the key needs to be renewed, passphrase needs to be changed or a whole key needs to
+be replaced.
+
+For renewing or changing the passphrase, import the private and public key into your local gpg keystore
+and renew it. Make sure to renew all subkeys. Then export it again.
+
+For replacing, generate a new key, just export it.
+
+You can verify the expiration date with `gpg --fingerprint --list-sigs D0BF1D737C9A1C22`:
+
+```
+pub   rsa4096 2019-12-16 [SC] [expires: 2025-12-31]
+      EBB2 41A5 45CB 17C8 7FAC  B2EB D0BF 1D73 7C9A 1C22
+uid           [ultimate] PMD Release Signing Key <releases@pmd-code.org>
+sig 3        D0BF1D737C9A1C22 2024-11-22  PMD Release Signing Key <releases@pmd-code.org>
+sig 3        93450DF2DF9A3FA3 2019-12-16  Andreas Dangel <andreas.dangel@adangel.org>
+sig 3        D0BF1D737C9A1C22 2019-12-16  PMD Release Signing Key <releases@pmd-code.org>
+sig 3        D0BF1D737C9A1C22 2020-11-02  PMD Release Signing Key <releases@pmd-code.org>
+sub   rsa4096 2019-12-16 [E] [expires: 2025-12-31]
+sig          D0BF1D737C9A1C22 2024-11-22  PMD Release Signing Key <releases@pmd-code.org>
+```
+
+Upload the exported *public* key to
+
+* <https://keys.openpgp.org/upload>
+* <https://keyserver.ubuntu.com/#submitKey>
+* <http://pgp.mit.edu/>
+
+Verify the uploaded key expiration date:
+
+`gpg --show-keys release-signing-key-D0BF1D737C9A1C22-public.asc`
+`curl 'https://keys.openpgp.org/vks/v1/by-fingerprint/EBB241A545CB17C87FACB2EBD0BF1D737C9A1C22' | gpg --show-keys`
+`curl 'https://keyserver.ubuntu.com/pks/lookup?search=0xEBB241A545CB17C87FACB2EBD0BF1D737C9A1C22&fingerprint=on&exact=on&options=mr&op=get' | gpg --show-keys`
+`curl 'http://pgp.mit.edu/pks/lookup?op=get&search=0xD0BF1D737C9A1C22' | gpg --show-keys`
+
+Don't forget to update the secret `PMD_CI_GPG_PRIVATE_KEY` with the renewed private key.
 
 ### Nexus Staging Maven Plugin
 

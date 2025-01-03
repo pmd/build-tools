@@ -18,14 +18,6 @@
   </servers>
   <mirrors/>
   <proxies/>
-  <profiles>
-    <profile>
-      <id>sign</id>
-      <properties>
-        <gpg.keyname>${env.CI_SIGN_KEYNAME}</gpg.keyname>
-        <gpg.passphrase>${env.CI_SIGN_PASSPHRASE}</gpg.passphrase>
-      </properties>
-    </profile>
-  </profiles>
+  <profiles/>
   <activeProfiles/>
 </settings>

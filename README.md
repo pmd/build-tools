@@ -714,12 +714,14 @@ The public key is available here:
 * Fingerprint `EBB2 41A5 45CB 17C8 7FAC B2EB D0BF 1D73 7C9A 1C22`
   * Used until December 2024
   * Replaced as the passphrase has been compromised and therefore the key is potentially
-    compromised. Note - as until now (January 2025) we don't have a indication that the key
+    compromised. Note - as until now (January 2025) we don't have any indication that the key
     actually has been misused.
+  * Revoked 2025-01-04.
   * see file `release-signing-key-D0BF1D737C9A1C22-public.asc`.
 
 * Fingerprint `94A5 2756 9CAF 7A47 AFCA  BDE4 86D3 7ECA 8C2E 4C5B`
   * Old key used to sign PMD Designer
+  * Revoked 2025-01-04.
 
 #### Private key
 

@@ -744,17 +744,19 @@ gpg --armor --export-secret-subkeys 2EFA55D0785C31F956F2F87EA0B5CA1A4E086838 | w
 
 This private key will be imported by the script `setup-secrets.bash`.
 
-Note 1: In order to use the key later on, the passphrase is needed. This is also setup as a secret:
+**Note 1:** We use option `--export-secret-subkeys` to only export the subkey and not the master key.
+That way, we don't need to transfer the master key.
+
+**Note 2:** In order to use the key later on, the passphrase is needed. This is also setup as a secret:
 `PMD_CI_GPG_PASSPHRASE`. This secret is then exported as "MAVEN_GPG_PASSPHRASE" where needed
 (`MAVEN_GPG_PASSPHRASE: ${{ secrets.PMD_CI_GPG_PASSPHRASE }}`) in github actions workflows.
 See also <https://maven.apache.org/plugins/maven-gpg-plugin/usage.html#sign-artifacts-with-gnupg>.
 
-
-Note 2: The private key is now only secured by the passphrase. It is stored as a GitHub Actions
-secret and temporarily written to a file in order to import it. It is not anymore committed in
+**Note 3:** The private key is now only secured by the passphrase. It is stored as a GitHub Actions
+secret and available in an environment variable. It is not anymore committed in
 this build-tools repository and is therefore not encrypted with another key (e.g. PMD_CI_SECRET_PASSPHRASE). 
 
-#### Updating the key:
+#### Updating the key
 
 From time to time the key needs to be renewed, passphrase needs to be changed or a whole (sub)key needs to
 be replaced.

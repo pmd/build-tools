@@ -29,14 +29,11 @@ function pmd_ci_setup_secrets_gpg_key() {
     pmd_ci_log_info "Setting up GPG release signing key..."
 
     mkdir -p "${HOME}/.gpg"
+    chmod 700 "${HOME}/.gpg"
+    echo "${PMD_CI_GPG_PRIVATE_KEY}" | gpg --batch --import
 
-    local -r fullpath="${HOME}/.gpg/release-key.asc"
-    echo "${PMD_CI_GPG_PRIVATE_KEY}" > "${fullpath}"
-    gpg --batch --import "${fullpath}"
-    rm "${fullpath}"
-
-    gpg --fingerprint --list-sigs
-    gpg --list-secret-keys --keyid-format=long
+    gpg --list-keys --fingerprint --keyid-format=long
+    gpg --list-secret-keys --fingerprint --keyid-format=long
 }
 
 function pmd_ci_setup_secrets_ssh_privkey() {

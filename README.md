@@ -1,4 +1,4 @@
-[![Build Status](https://github.com/pmd/build-tools/workflows/build/badge.svg?branch=main)](https://github.com/pmd/build-tools/actions?query=workflow%3Abuild+branch%3Amaster)
+[![Build Status](https://github.com/pmd/build-tools/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/pmd/build-tools/actions/workflows/build.yml)
 
 # PMD build tools
 

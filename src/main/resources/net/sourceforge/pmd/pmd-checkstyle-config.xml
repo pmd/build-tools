@@ -38,7 +38,7 @@
     </module>
     <module name="JavadocVariable">
       <property name="severity" value="warning"/>
-      <property name="scope" value="protected"/>
+      <property name="accessModifiers" value="protected"/>
     </module>
     <module name="NonEmptyAtclauseDescription">
       <property name="severity" value="warning"/>

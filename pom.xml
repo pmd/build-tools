@@ -172,7 +172,7 @@
                         <pushChanges>true</pushChanges>
                         <localCheckout>true</localCheckout>
                         <autoVersionSubmodules>true</autoVersionSubmodules>
-                        <tagNameFormat>@{project.version}</tagNameFormat>
+                        <tagNameFormat>releases/@{project.version}</tagNameFormat>
                         <goals>deploy</goals>
                     </configuration>
                 </plugin>

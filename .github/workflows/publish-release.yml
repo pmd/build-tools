@@ -20,7 +20,7 @@ jobs:
     # and only run for _successful_ push workflow runs on tags "releases/**".
     if: ${{ github.repository == 'pmd/build-tools'
       && github.event.workflow_run.event == 'push'
-      && startsWith('releases/', github.event.workflow_run.head_branch)
+      && startsWith(github.event.workflow_run.head_branch, 'releases/')
       && github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     timeout-minutes: 10

@@ -74,7 +74,7 @@ jobs:
 
   deploy-to-maven-central:
     needs: check-version
-    # use environment maven-central, where secrets are configured for OSSRH_*
+    # use environment maven-central, where secrets are configured for MAVEN_CENTRAL_PORTAL_*
     environment:
       name: maven-central
       url: https://repo.maven.apache.org/maven2/net/sourceforge/pmd/pmd-build-tools-config/

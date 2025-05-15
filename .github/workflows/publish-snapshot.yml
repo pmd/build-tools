@@ -67,10 +67,10 @@ jobs:
 
   deploy-to-maven-central:
     needs: check-version
-    # use environment maven-central, where secrets are configured for OSSRH_*
+    # use environment maven-central, where secrets are configured for MAVEN_CENTRAL_PORTAL_*
     environment:
       name: maven-central
-      url: https://oss.sonatype.org/content/repositories/snapshots/net/sourceforge/pmd/pmd-build-tools-config/
+      url: https://central.sonatype.com/service/rest/repository/browse/maven-snapshots/net/sourceforge/pmd/pmd-build-tools-config/
     runs-on: ubuntu-latest
     timeout-minutes: 20
     defaults:

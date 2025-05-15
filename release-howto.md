@@ -20,7 +20,7 @@
     ```
 
 3.  Wait, until release is ready. The maven plugin will directly push the tag. The tag will be
-    built by GitHub Actions workflow [Build](https://github.com/pmd/build-tools/actions/workflows/build.yml)
+    built by GitHub Actions workflow [Build Release](https://github.com/pmd/build-tools/actions/workflows/build-release.yml)
     followed by workflow [Publish Release](https://github.com/pmd/build-tools/actions/workflows/publish-release.yml).  
     After it is done, the new release
     should be available under <https://repo.maven.apache.org/maven2/net/sourceforge/pmd/pmd-build-tools-config/>.

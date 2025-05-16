@@ -796,6 +796,8 @@ Don't forget to update the secret `PMD_CI_GPG_PRIVATE_KEY` with the renewed priv
 
 ### Nexus Staging Maven Plugin
 
+⚠ This is deprecated, see <https://central.sonatype.org/news/20250326_ossrh_sunset/>
+
 See <https://github.com/sonatype/nexus-maven-plugins/tree/master/staging/maven-plugin>.
 
 This plugin is used, to upload maven artifacts to https://oss.sonatype.org/ and eventually to maven central

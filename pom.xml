@@ -42,6 +42,8 @@
         <pmd.version>7.14.0</pmd.version> <!-- pmd version used for tests -->
         <surefire.version>3.5.3</surefire.version>
         <junit.version>5.13.1</junit.version>
+
+        <central-publishing.waitMaxTime>10800</central-publishing.waitMaxTime> <!-- 10800s = 180min = 3h -->
     </properties>
 
     <dependencyManagement>
@@ -278,6 +280,7 @@
                     <autoPublish>true</autoPublish>
                     <waitUntil>published</waitUntil>
                     <deploymentName>${project.artifactId}</deploymentName>
+                    <waitMaxTime>${central-publishing.waitMaxTime}</waitMaxTime>
                 </configuration>
             </plugin>
         </plugins>

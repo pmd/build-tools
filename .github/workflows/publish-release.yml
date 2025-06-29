@@ -79,7 +79,7 @@ jobs:
       name: maven-central
       url: https://repo.maven.apache.org/maven2/net/sourceforge/pmd/pmd-build-tools-config/
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 180
     defaults:
       run:
         shell: bash

@@ -42,6 +42,8 @@
         <pmd.version>7.14.0</pmd.version> <!-- pmd version used for tests -->
         <surefire.version>3.5.3</surefire.version>
         <junit.version>5.13.1</junit.version>
+        <checkstyle.plugin.version>3.6.0</checkstyle.plugin.version>
+        <checkstyle.version>10.26.1</checkstyle.version>
 
         <central-publishing.waitMaxTime>10800</central-publishing.waitMaxTime> <!-- 10800s = 180min = 3h -->
     </properties>
@@ -198,6 +200,35 @@
                     <artifactId>central-publishing-maven-plugin</artifactId>
                     <version>0.8.0</version>
                 </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-checkstyle-plugin</artifactId>
+                    <version>${checkstyle.plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <id>checkstyle-check</id>
+                            <phase>verify</phase>
+                            <goals>
+                                <goal>check</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <dependencies>
+                        <dependency>
+                            <groupId>com.puppycrawl.tools</groupId>
+                            <artifactId>checkstyle</artifactId>
+                            <version>${checkstyle.version}</version>
+                        </dependency>
+                    </dependencies>
+                    <configuration>
+                        <configLocation>${project.basedir}/src/main/resources/net/sourceforge/pmd/pmd-checkstyle-config.xml</configLocation>
+                        <suppressionsLocation>${project.basedir}/src/main/resources/net/sourceforge/pmd/pmd-checkstyle-suppressions.xml</suppressionsLocation>
+                        <includeTestSourceDirectory>true</includeTestSourceDirectory>
+                        <excludeGeneratedSources>true</excludeGeneratedSources>
+                        <includes>**/*.java,**/*.kt</includes>
+                        <resourceIncludes>**/*.properties,**/*.less</resourceIncludes>
+                    </configuration>
+                </plugin>
             </plugins>
         </pluginManagement>
         <plugins>
@@ -270,6 +301,11 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <!-- configuration is in plugin management section -->
             </plugin>
             <plugin>
                 <groupId>org.sonatype.central</groupId>

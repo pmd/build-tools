@@ -1,3 +1,7 @@
+/*
+ * BSD-style license; for more info see http://pmd.sourceforge.net/license.html
+ */
+
 package net.sourceforge.pmd.buildtools.surefire.junit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -297,28 +301,28 @@ class TestExecutionListenerTest {
         private final UniqueId uniqueId;
         private final TestSource source;
 
-        public MyTestDescriptor(String testClass) {
+        MyTestDescriptor(String testClass) {
             this.testClass = testClass;
             this.type = Type.CONTAINER;
             this.uniqueId = UniqueId.forEngine("jupiter").append("class", testClass);
             this.source = ClassSource.from(testClass);
         }
 
-        public MyTestDescriptor(UniqueId uniqueId, String testClass) {
+        MyTestDescriptor(UniqueId uniqueId, String testClass) {
             this.testClass = testClass;
             this.type = Type.CONTAINER;
             this.uniqueId = uniqueId;
             this.source = ClassSource.from(testClass);
         }
 
-        public MyTestDescriptor(String testClass, String testMethod) {
+        MyTestDescriptor(String testClass, String testMethod) {
             this.testClass = testClass;
             this.type = Type.TEST;
             this.uniqueId = UniqueId.forEngine("jupiter").append("class", testClass).append("method", testMethod);
             this.source = MethodSource.from(testClass, testMethod);
         }
 
-        public MyTestDescriptor(String testClass, String[] testMethods, boolean isTest) {
+        MyTestDescriptor(String testClass, String[] testMethods, boolean isTest) {
             this.testClass = testClass;
             this.type = isTest ? Type.TEST : Type.CONTAINER;
             UniqueId uniqueId = UniqueId.forEngine("jupiter").append("class", testClass);

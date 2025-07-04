@@ -1,3 +1,7 @@
+/*
+ * BSD-style license; for more info see http://pmd.sourceforge.net/license.html
+ */
+
 package net.sourceforge.pmd.buildtools.surefire.junit;
 
 import java.lang.management.ManagementFactory;
@@ -30,7 +34,7 @@ class TestExecutionListener implements org.junit.platform.launcher.TestExecution
 
     private final TestReportListener<TestOutputReportEntry> testReportListener;
 
-    public TestExecutionListener(TestReportListener<TestOutputReportEntry> testReportListener) {
+    TestExecutionListener(TestReportListener<TestOutputReportEntry> testReportListener) {
         this.testReportListener = testReportListener;
     }
 
@@ -90,19 +94,21 @@ class TestExecutionListener implements org.junit.platform.launcher.TestExecution
 
             determineRootContainer(testIdentifier).ifPresent(RootContainer::markHasAtLeastOneTest);
             switch (testExecutionResult.getStatus()) {
-                case SUCCESSFUL:
-                    testReportListener.testSucceeded(reportEntry);
-                    break;
-                case FAILED:
-                    if (isAssertionError) {
-                        testReportListener.testFailed(reportEntry);
-                    } else {
-                        testReportListener.testError(reportEntry);
-                    }
-                    break;
-                case ABORTED:
-                    testReportListener.testAssumptionFailure(reportEntry);
-                    break;
+            case SUCCESSFUL:
+                testReportListener.testSucceeded(reportEntry);
+                break;
+            case FAILED:
+                if (isAssertionError) {
+                    testReportListener.testFailed(reportEntry);
+                } else {
+                    testReportListener.testError(reportEntry);
+                }
+                break;
+            case ABORTED:
+                testReportListener.testAssumptionFailure(reportEntry);
+                break;
+            default:
+                throw new IllegalStateException("Unknown execution result status: " + testExecutionResult.getStatus());
             }
         }
     }

@@ -25,6 +25,7 @@ public class AccumulatingConsoleReporterTest {
 
     private MockedConsoleLogger logger;
     private AccumulatingConsoleReporter reporter;
+
     @BeforeEach
     void setup() {
         logger = new MockedConsoleLogger();
@@ -172,13 +173,13 @@ public class AccumulatingConsoleReporterTest {
         reporter.testSetCompleted(testSuiteReport, EMPTY_STATS, EMPTY);
 
         logger.assertInfo(
-                "Running net.sourceforge.pmd.test.Suite" + NL +
-                "    Running net.sourceforge.pmd.test.Simple1" + NL +
-                "        └─ ✘ testFailMethod" + NL +
-                "    Tests run: 2, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.122 s <<< FAILURE! -- in net.sourceforge.pmd.test.Simple1" + NL +
-                "    Running net.sourceforge.pmd.test.Simple2" + NL +
-                "    Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.124 s -- in net.sourceforge.pmd.test.Simple2" + NL +
-                "Tests run: 3, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.371 s <<< FAILURE! -- in net.sourceforge.pmd.test.Suite" + NL
+                "Running net.sourceforge.pmd.test.Suite" + NL
+                + "    Running net.sourceforge.pmd.test.Simple1" + NL
+                + "        └─ ✘ testFailMethod" + NL
+                + "    Tests run: 2, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.122 s <<< FAILURE! -- in net.sourceforge.pmd.test.Simple1" + NL
+                + "    Running net.sourceforge.pmd.test.Simple2" + NL
+                + "    Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.124 s -- in net.sourceforge.pmd.test.Simple2" + NL
+                + "Tests run: 3, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.371 s <<< FAILURE! -- in net.sourceforge.pmd.test.Suite" + NL
         );
     }
 
@@ -192,8 +193,8 @@ public class AccumulatingConsoleReporterTest {
         reporter.testSetCompleted(wrappedReportEntry, EMPTY_STATS, EMPTY);
 
         logger.assertInfo(
-                "Running net.sourceforge.pmd.test.Simple" + NL +
-                        "Tests run: 0, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.123 s -- in net.sourceforge.pmd.test.Simple" + NL
+                "Running net.sourceforge.pmd.test.Simple" + NL
+                + "Tests run: 0, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.123 s -- in net.sourceforge.pmd.test.Simple" + NL
         );
         logger.assertError(
                 "No tests were executed! Test class: net.sourceforge.pmd.test.Simple" + NL
@@ -203,12 +204,15 @@ public class AccumulatingConsoleReporterTest {
     private SimpleReportEntry createTestSet(String className) {
         return createTestSet(className, null);
     }
+
     private SimpleReportEntry createTestSet(String className, String sourceText) {
         return new SimpleReportEntry(RunMode.NORMAL_RUN, testRunId++, className, sourceText, null, null);
     }
+
     private SimpleReportEntry createTestCase(SimpleReportEntry testSet, String methodName) {
         return new SimpleReportEntry(RunMode.NORMAL_RUN, testRunId++, testSet.getSourceName(), null, methodName, null);
     }
+
     private SimpleReportEntry createTestCaseKotest(SimpleReportEntry testSet, String sourceText) {
         return new SimpleReportEntry(RunMode.NORMAL_RUN, testRunId++, testSet.getSourceName(), sourceText, null, null);
     }

@@ -28,7 +28,7 @@ class AccumulatingConsoleReporter extends StatelessTestsetInfoConsoleReportEvent
 
     private final boolean showSkippedTests;
 
-    public AccumulatingConsoleReporter(ConsoleLogger logger, boolean showSuccessfulTests, boolean showFailedTests, boolean showSkippedTests) {
+    AccumulatingConsoleReporter(ConsoleLogger logger, boolean showSuccessfulTests, boolean showFailedTests, boolean showSkippedTests) {
         super(logger);
         this.showSuccessfulTests = showSuccessfulTests;
         this.showFailedTests = showFailedTests;
@@ -213,18 +213,20 @@ class AccumulatingConsoleReporter extends StatelessTestsetInfoConsoleReportEvent
     private static void accumulateTestSetStats(TestSetStats accumulated, Collection<WrappedReportEntry> reportEntries) {
         for (WrappedReportEntry entry : reportEntries) {
             switch (entry.getReportEntryType()) {
-                case SUCCESS:
-                    accumulated.testSucceeded(entry);
-                    break;
-                case SKIPPED:
-                    accumulated.testSkipped(entry);
-                    break;
-                case FAILURE:
-                    accumulated.testFailure(entry);
-                    break;
-                case ERROR:
-                    accumulated.testError(entry);
-                    break;
+            case SUCCESS:
+                accumulated.testSucceeded(entry);
+                break;
+            case SKIPPED:
+                accumulated.testSkipped(entry);
+                break;
+            case FAILURE:
+                accumulated.testFailure(entry);
+                break;
+            case ERROR:
+                accumulated.testError(entry);
+                break;
+            default:
+                throw new IllegalStateException("Unknown report entry type: " + entry.getReportEntryType());
             }
         }
     }

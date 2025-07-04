@@ -1,3 +1,7 @@
+/*
+ * BSD-style license; for more info see http://pmd.sourceforge.net/license.html
+ */
+
 package net.sourceforge.pmd.buildtools.surefire.junit;
 
 import org.junit.platform.engine.UniqueId;
@@ -7,7 +11,7 @@ class RootContainer {
     private final TestIdentifier testIdentifier;
     private boolean hasTests = false;
 
-    public RootContainer(TestIdentifier testIdentifier) {
+    RootContainer(TestIdentifier testIdentifier) {
         this.testIdentifier = testIdentifier;
     }
 

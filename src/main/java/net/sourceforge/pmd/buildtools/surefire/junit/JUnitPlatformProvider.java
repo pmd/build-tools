@@ -1,3 +1,7 @@
+/*
+ * BSD-style license; for more info see http://pmd.sourceforge.net/license.html
+ */
+
 package net.sourceforge.pmd.buildtools.surefire.junit;
 
 import static org.junit.platform.engine.discovery.DiscoverySelectors.selectClass;

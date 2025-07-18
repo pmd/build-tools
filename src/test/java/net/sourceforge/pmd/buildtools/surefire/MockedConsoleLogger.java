@@ -1,3 +1,7 @@
+/*
+ * BSD-style license; for more info see http://pmd.sourceforge.net/license.html
+ */
+
 package net.sourceforge.pmd.buildtools.surefire;
 
 import static org.hamcrest.MatcherAssert.assertThat;

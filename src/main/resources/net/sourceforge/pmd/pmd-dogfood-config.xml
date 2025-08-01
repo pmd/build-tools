@@ -511,6 +511,9 @@
 
     <!--     <rule ref="category/java/security.xml/InsecureCryptoIv" /> -->
 
+    <rule ref="category/xml/bestpractices.xml/MissingEncoding">
+        <priority>1</priority>
+    </rule>
 
     <!-- Note: These are the custom rule ported to PMD 7 -->
 

@@ -264,6 +264,7 @@
         <priority>1</priority>
         <properties>
             <property name="allowWhile" value="true"/>
+            <property name="allowIncrementDecrement" value="true"/>
         </properties>
     </rule>
     <rule ref="category/java/errorprone.xml/AssignmentToNonFinalStatic">

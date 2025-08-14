@@ -58,6 +58,12 @@
             </dependency>
             <dependency>
                 <groupId>net.sourceforge.pmd</groupId>
+                <artifactId>pmd-xml</artifactId>
+                <version>${pmd.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>net.sourceforge.pmd</groupId>
                 <artifactId>pmd-test</artifactId>
                 <version>${pmd.version}</version>
                 <scope>test</scope>
@@ -100,6 +106,11 @@
         <dependency>
             <groupId>net.sourceforge.pmd</groupId>
             <artifactId>pmd-java</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.sourceforge.pmd</groupId>
+            <artifactId>pmd-xml</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>

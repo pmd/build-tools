@@ -36,6 +36,9 @@
     <rule ref="category/java/bestpractices.xml/DefaultLabelNotLastInSwitch">
         <priority>1</priority>
     </rule>
+    <rule ref="category/java/bestpractices.xml/ExhaustiveSwitchHasDefault">
+        <priority>1</priority>
+    </rule>
     <!--     <rule ref="category/java/bestpractices.xml/ForLoopCanBeForeach" /> -->
     <!--     <rule ref="category/java/bestpractices.xml/GuardLogStatement" /> -->
     <!--     <rule ref="category/java/bestpractices.xml/JUnit4SuitesShouldUseSuiteAnnotation" /> -->
@@ -61,6 +64,9 @@
     </rule>
     <!--     <rule ref="category/java/bestpractices.xml/PreserveStackTrace" /> -->
     <rule ref="category/java/bestpractices.xml/PrimitiveWrapperInstantiation">
+        <priority>1</priority>
+    </rule>
+    <rule ref="category/java/bestpractices.xml/RelianceOnDefaultCharset">
         <priority>1</priority>
     </rule>
     <!--     <rule ref="category/java/bestpractices.xml/ReplaceEnumerationWithIterator" /> -->
@@ -141,6 +147,9 @@
     <!--     <rule ref="category/java/codestyle.xml/MDBAndSessionBeanNamingConvention" /> -->
     <!--     <rule ref="category/java/codestyle.xml/MethodArgumentCouldBeFinal" /> -->
     <!--     <rule ref="category/java/codestyle.xml/MethodNamingConventions" /> -->
+    <rule ref="category/java/codestyle.xml/ModifierOrder">
+        <priority>1</priority>
+    </rule>
     <!--     <rule ref="category/java/codestyle.xml/NoPackage" /> -->
     <!--     <rule ref="category/java/codestyle.xml/OnlyOneReturn" /> -->
     <!--     <rule ref="category/java/codestyle.xml/PackageCase" /> -->
@@ -253,6 +262,9 @@
     <!-- <rule ref="category/java/documentation.xml/CommentContent" /> -->
     <!-- <rule ref="category/java/documentation.xml/CommentRequired" /> -->
     <!-- <rule ref="category/java/documentation.xml/CommentSize" /> -->
+    <rule ref="category/java/documentation.xml/DanglingJavadoc">
+        <priority>1</priority>
+    </rule>
     <rule ref="category/java/documentation.xml/UncommentedEmptyConstructor">
         <priority>1</priority>
     </rule>
@@ -305,6 +317,9 @@
     <!--     <rule ref="category/java/errorprone.xml/CallSuperFirst" /> -->
     <!--     <rule ref="category/java/errorprone.xml/CallSuperLast" /> -->
     <rule ref="category/java/errorprone.xml/CheckSkipResult">
+        <priority>1</priority>
+    </rule>
+    <rule ref="category/java/errorprone.xml/CollectionTypeMismatch">
         <priority>1</priority>
     </rule>
     <rule ref="category/java/errorprone.xml/ClassCastExceptionWithToArray">
@@ -403,6 +418,9 @@
     </rule>
     <!--     <rule ref="category/java/errorprone.xml/NullAssignment" /> -->
     <rule ref="category/java/errorprone.xml/OverrideBothEqualsAndHashcode">
+        <priority>1</priority>
+    </rule>
+    <rule ref="category/java/errorprone.xml/OverrideBothEqualsAndHashCodeOnComparable">
         <priority>1</priority>
     </rule>
     <rule ref="category/java/errorprone.xml/ProperCloneImplementation">

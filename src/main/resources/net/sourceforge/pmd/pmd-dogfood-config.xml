@@ -158,7 +158,7 @@
         <priority>1</priority>
     </rule>
     <!--     <rule ref="category/java/codestyle.xml/UnnecessaryFullyQualifiedName" /> -->
-    <rule ref="category/java/codestyle.xml/UnnecessaryLocalBeforeReturn">
+    <rule ref="category/java/codestyle.xml/VariableCanBeInlined">
         <priority>1</priority>
     </rule>
     <rule ref="category/java/codestyle.xml/UnnecessaryModifier">
@@ -444,7 +444,7 @@
     </rule>
     <!--     <rule ref="category/java/errorprone.xml/UseCorrectExceptionLogging" /> -->
     <!--     <rule ref="category/java/errorprone.xml/UseEqualsToCompareStrings" /> -->
-    <rule ref="category/java/errorprone.xml/UselessOperationOnImmutable">
+    <rule ref="category/java/errorprone.xml/UselessPureMethodCall">
         <priority>1</priority>
     </rule>
     <rule ref="category/java/errorprone.xml/UseLocaleWithCaseConversions">

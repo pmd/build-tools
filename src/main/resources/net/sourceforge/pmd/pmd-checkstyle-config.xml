@@ -177,10 +177,6 @@
       <property name="severity" value="warning"/>
       <property name="constantWaiverParentToken" value="TYPECAST,METHOD_CALL,EXPR,ARRAY_INIT,UNARY_MINUS,UNARY_PLUS,ELIST,STAR,ASSIGN,PLUS,MINUS,DIV,LITERAL_NEW"/>
     </module>
-    <module name="MissingSwitchDefault">
-      <!-- The PMD rule NonExhaustiveSwitchStatement is better as it checks for exhaustivity -->
-      <property name="severity" value="warning"/>
-    </module>
     <module name="ModifiedControlVariable">
       <property name="severity" value="error"/>
     </module>

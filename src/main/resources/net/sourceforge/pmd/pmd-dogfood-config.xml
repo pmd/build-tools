@@ -77,9 +77,6 @@
         <priority>1</priority>
     </rule>
     <!--     <rule ref="category/java/bestpractices.xml/SystemPrintln" /> -->
-    <rule ref="category/java/bestpractices.xml/UnnecessaryWarningSuppression">
-        <priority>1</priority>
-    </rule>
     <rule ref="category/java/bestpractices.xml/UnusedFormalParameter">
         <priority>1</priority>
     </rule>

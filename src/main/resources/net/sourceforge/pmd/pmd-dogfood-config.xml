@@ -190,7 +190,12 @@
     </rule>
 
     <!--     <rule ref="category/java/design.xml/AbstractClassWithoutAnyMethod" /> -->
-    <!--     <rule ref="category/java/design.xml/AvoidCatchingGenericException" /> -->
+    <rule ref="category/java/errorprone.xml/AvoidCatchingGenericException">
+        <priority>1</priority>
+        <properties>
+            <property name="typesThatShouldNotBeCaught" value="java.lang.NullPointerException,java.lang.Throwable" />
+        </properties>
+    </rule>
     <!--     <rule ref="category/java/design.xml/AvoidDeeplyNestedIfStmts" /> -->
     <!--     <rule ref="category/java/design.xml/AvoidRethrowingException" /> -->
     <!--     <rule ref="category/java/design.xml/AvoidThrowingNewInstanceOfSameException" /> -->
@@ -291,10 +296,6 @@
         <priority>1</priority>
     </rule>
     <!--     <rule ref="category/java/errorprone.xml/AvoidCallingFinalize" /> -->
-    <!--     <rule ref="category/java/errorprone.xml/AvoidCatchingNPE" /> -->
-    <rule ref="category/java/errorprone.xml/AvoidCatchingThrowable">
-        <priority>1</priority>
-    </rule>
     <rule ref="category/java/errorprone.xml/AvoidDecimalLiteralsInBigDecimalConstructor">
         <priority>1</priority>
     </rule>

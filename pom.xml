@@ -43,7 +43,7 @@
         <surefire.version>3.5.4</surefire.version>
         <junit.version>6.0.0</junit.version>
         <checkstyle.plugin.version>3.6.0</checkstyle.plugin.version>
-        <checkstyle.version>12.1.1</checkstyle.version>
+        <checkstyle.version>12.1.2</checkstyle.version>
 
         <central-publishing.waitMaxTime>10800</central-publishing.waitMaxTime> <!-- 10800s = 180min = 3h -->
     </properties>

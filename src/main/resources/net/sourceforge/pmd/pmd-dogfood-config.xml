@@ -148,10 +148,12 @@
     <!--     <rule ref="category/java/codestyle.xml/MethodArgumentCouldBeFinal" /> -->
     <!--     <rule ref="category/java/codestyle.xml/MethodNamingConventions" /> -->
 
-    <!-- ModifierOrder is disabled for now, see https://github.com/pmd/pmd/issues/6053 -->
-    <!--    <rule ref="category/java/codestyle.xml/ModifierOrder">-->
-    <!--        <priority>1</priority>-->
-    <!--    </rule>-->
+    <rule ref="category/java/codestyle.xml/ModifierOrder">
+        <priority>1</priority>
+        <properties>
+            <property name="typeAnnotations" value="ontype"/>
+        </properties>
+    </rule>
 
     <!--     <rule ref="category/java/codestyle.xml/NoPackage" /> -->
     <!--     <rule ref="category/java/codestyle.xml/OnlyOneReturn" /> -->

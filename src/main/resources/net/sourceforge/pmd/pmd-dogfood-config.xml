@@ -669,4 +669,23 @@
             </property>
         </properties>
     </rule>
+
+    <!-- https://github.com/pmd/pmd/issues/6193 -->
+    <rule name="EnumComparison"
+          language="java"
+          since="36"
+          message="Use == to compare enum values"
+          class="net.sourceforge.pmd.lang.rule.xpath.XPathRule">
+        <description>Enum should be compared using ==, this is more readable. Using equals() is not necessary (and is prone to NPE).</description>
+        <priority>1</priority>
+        <properties>
+            <property name="xpath">
+                <value><![CDATA[
+//MethodCall[pmd-java:matchesSig("_#equals(java.lang.Object)")]
+  [*[pmd-java:typeIs("java.lang.Enum")] or
+   ArgumentList[*[pmd-java:typeIs("java.lang.Enum")]]]
+]]></value>
+            </property>
+        </properties>
+    </rule>
 </ruleset>

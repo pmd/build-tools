@@ -154,7 +154,7 @@
     <rule ref="category/java/codestyle.xml/ModifierOrder">
         <priority>1</priority>
         <properties>
-            <property name="typeAnnotations" value="ontype"/>
+            <property name="typeAnnotations" value="onType"/>
         </properties>
     </rule>
 

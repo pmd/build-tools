@@ -129,7 +129,9 @@
         <priority>1</priority>
     </rule>
     <!--     <rule ref="category/java/codestyle.xml/FieldDeclarationsShouldBeAtStartOfClass" /> -->
-    <!--     <rule ref="category/java/codestyle.xml/FieldNamingConventions" /> -->
+    <rule ref="category/java/codestyle.xml/FieldNamingConventions">
+        <priority>1</priority>
+    </rule>
     <rule ref="category/java/codestyle.xml/ForLoopShouldBeWhileLoop">
         <priority>1</priority>
     </rule>

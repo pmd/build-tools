@@ -3,7 +3,7 @@
 
     <groupId>net.sourceforge.pmd</groupId>
     <artifactId>pmd-build-tools-config</artifactId>
-    <version>37</version>
+    <version>38-SNAPSHOT</version>
 
     <name>PMD Build Tools Configurations</name>
     <url>https://github.com/pmd/build-tools</url>
@@ -30,11 +30,11 @@
         <connection>scm:git:git://github.com/pmd/build-tools.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/pmd/build-tools.git</developerConnection>
         <url>https://github.com/pmd/build-tools</url>
-        <tag>releases/37</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <properties>
-        <project.build.outputTimestamp>2026-02-05T17:14:00Z</project.build.outputTimestamp>
+        <project.build.outputTimestamp>2026-02-05T17:14:26Z</project.build.outputTimestamp>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>

@@ -1,10 +1,12 @@
 <?xml version="1.0"?>
-<ruleset name="dogfood"
+<ruleset name="dogfood-xml"
          xmlns="http://pmd.sourceforge.net/ruleset/2.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 http://pmd.sourceforge.net/ruleset_2_0_0.xsd">
-    <description>Rules to check PMD itself.</description>
+    <description>XML Rules to check PMD itself.</description>
 
-    <rule ref="net/sourceforge/pmd/pmd-dogfood-config-java.xml" />
-    <rule ref="net/sourceforge/pmd/pmd-dogfood-config-xml.xml" />
+    <rule ref="category/xml/bestpractices.xml/MissingEncoding">
+        <priority>1</priority>
+    </rule>
+
 </ruleset>

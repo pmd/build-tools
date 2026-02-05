@@ -5,7 +5,8 @@
     xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 http://pmd.sourceforge.net/ruleset_2_0_0.xsd">
     <description>Rules specific to the UI module.</description>
 
-    <rule ref="net/sourceforge/pmd/pmd-dogfood-config.xml" />
+    <rule ref="net/sourceforge/pmd/pmd-dogfood-config-java.xml" />
+    <rule ref="net/sourceforge/pmd/pmd-dogfood-config-xml.xml" />
 
     <rule name="FxIdNamingConvention"
           language="java"

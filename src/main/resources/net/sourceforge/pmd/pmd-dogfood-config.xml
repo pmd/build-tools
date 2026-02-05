@@ -154,7 +154,7 @@
     <rule ref="category/java/codestyle.xml/ModifierOrder">
         <priority>1</priority>
         <properties>
-            <property name="typeAnnotations" value="ontype"/>
+            <property name="typeAnnotations" value="onType"/>
         </properties>
     </rule>
 
@@ -367,9 +367,6 @@
     <!--     <rule ref="category/java/errorprone.xml/DoNotExtendJavaLangThrowable" /> -->
     <!--     <rule ref="category/java/errorprone.xml/DoNotHardCodeSDCard" /> -->
     <!--     <rule ref="category/java/errorprone.xml/DoNotThrowExceptionInFinally" /> -->
-    <rule ref="category/java/errorprone.xml/DontImportSun">
-        <priority>1</priority>
-    </rule>
     <rule ref="category/java/errorprone.xml/DontUseFloatTypeForLoopIndices">
         <priority>1</priority>
     </rule>
@@ -464,6 +461,9 @@
     <!--     <rule ref="category/java/errorprone.xml/UnnecessaryBooleanAssertion" /> -->
     <!--     <rule ref="category/java/errorprone.xml/UnnecessaryCaseChange" /> -->
     <rule ref="category/java/errorprone.xml/UnnecessaryConversionTemporary">
+        <priority>1</priority>
+    </rule>
+    <rule ref="category/java/errorprone.xml/UnsupportedJdkApiUsage">
         <priority>1</priority>
     </rule>
     <rule ref="category/java/errorprone.xml/UnusedNullCheckInEquals">

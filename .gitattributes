@@ -3,3 +3,4 @@
 *.xml   text
 *.xsl   text
 *.md    text
+mvnw.cmd text eol=crlf

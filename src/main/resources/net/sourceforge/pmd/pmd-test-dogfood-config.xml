@@ -5,13 +5,40 @@
     xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 http://pmd.sourceforge.net/ruleset_2_0_0.xsd">
     <description>Rules to check PMD's test code</description>
 
+    <rule ref="category/java/bestpractices.xml/AssertStatementInTest">
+        <priority>1</priority>
+    </rule>
     <rule ref="category/java/bestpractices.xml/LiteralsFirstInComparisons">
         <priority>1</priority>
     </rule>
     <rule ref="category/java/bestpractices.xml/JUnitJupiterTestShouldBePackagePrivate">
         <priority>1</priority>
     </rule>
+    <rule ref="category/java/bestpractices.xml/UnusedLocalVariable">
+        <priority>1</priority>
+    </rule>
+    <rule ref="category/java/bestpractices.xml/UnusedPrivateField">
+        <priority>1</priority>
+    </rule>
     <rule ref="category/java/bestpractices.xml/UnusedPrivateMethod">
+        <priority>1</priority>
+    </rule>
+    <rule ref="category/java/codestyle.xml/ControlStatementBraces">
+        <priority>1</priority>
+    </rule>
+    <rule ref="category/java/codestyle.xml/UnnecessaryBlock">
+        <priority>1</priority>
+    </rule>
+    <rule ref="category/java/codestyle.xml/UnnecessaryModifier">
+        <priority>1</priority>
+    </rule>
+    <rule ref="category/java/codestyle.xml/UnnecessaryReturn">
+        <priority>1</priority>
+    </rule>
+    <rule ref="category/java/codestyle.xml/UseDiamondOperator">
+        <priority>1</priority>
+    </rule>
+    <rule ref="category/java/codestyle.xml/UselessParentheses">
         <priority>1</priority>
     </rule>
 </ruleset>

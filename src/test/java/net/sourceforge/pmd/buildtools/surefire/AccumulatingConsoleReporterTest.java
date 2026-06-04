@@ -39,8 +39,8 @@ public class AccumulatingConsoleReporterTest {
         SimpleReportEntry testCase = createTestCase(testSet, "testMethod");
 
         TestSetStats testSetStats = new TestSetStats(true, true);
-        testSetStats.testSucceeded(new WrappedReportEntry(testCase, ReportEntryType.SUCCESS, 120, null, null));
-        WrappedReportEntry wrappedReportEntry = new WrappedReportEntry(testSet, ReportEntryType.SUCCESS, 123, null, null);
+        testSetStats.testSucceeded(new WrappedReportEntry(testCase, ReportEntryType.SUCCESS, 0, 120, null, null));
+        WrappedReportEntry wrappedReportEntry = new WrappedReportEntry(testSet, ReportEntryType.SUCCESS, 0, 123, null, null);
 
         reporter.testSetStarting(testSet);
         reporter.testSetCompleted(wrappedReportEntry, testSetStats, EMPTY);
@@ -56,8 +56,8 @@ public class AccumulatingConsoleReporterTest {
         SimpleReportEntry testCase = createTestCase(testSet, "testMethod");
 
         TestSetStats testSetStats = new TestSetStats(true, true);
-        testSetStats.testSucceeded(new WrappedReportEntry(testCase, ReportEntryType.SUCCESS, 120, null, null));
-        WrappedReportEntry wrappedReportEntry = new WrappedReportEntry(testSet, ReportEntryType.SUCCESS, 123, null, null);
+        testSetStats.testSucceeded(new WrappedReportEntry(testCase, ReportEntryType.SUCCESS, 0, 120, null, null));
+        WrappedReportEntry wrappedReportEntry = new WrappedReportEntry(testSet, ReportEntryType.SUCCESS, 0, 123, null, null);
 
         reporter.testSetStarting(testSet);
         reporter.testSetCompleted(wrappedReportEntry, testSetStats, EMPTY);
@@ -74,8 +74,8 @@ public class AccumulatingConsoleReporterTest {
         SimpleReportEntry testCase = createTestCase(testSet, "testFail");
 
         TestSetStats testSetStats = new TestSetStats(true, true);
-        testSetStats.testFailure(new WrappedReportEntry(testCase, ReportEntryType.FAILURE, 1, null, null));
-        WrappedReportEntry wrappedReportEntry = new WrappedReportEntry(testSet, null, 1, null, null);
+        testSetStats.testFailure(new WrappedReportEntry(testCase, ReportEntryType.FAILURE, 0, 1, null, null));
+        WrappedReportEntry wrappedReportEntry = new WrappedReportEntry(testSet, null, 0, 1, null, null);
 
         reporter.testSetStarting(testSet);
         reporter.testSetCompleted(wrappedReportEntry, testSetStats, Arrays.asList("Stacktrace..."));
@@ -95,10 +95,10 @@ public class AccumulatingConsoleReporterTest {
         SimpleReportEntry testCase = createTestCaseKotest(testSetNested2, "net.sourceforge.pmd.test.Simple Nested Group 1 Another Level The actual test case name");
 
         TestSetStats testSetStats = new TestSetStats(true, true);
-        testSetStats.testFailure(new WrappedReportEntry(testCase, ReportEntryType.FAILURE, 1, null, null));
-        WrappedReportEntry wrappedTestSetNested2 = new WrappedReportEntry(testSetNested2, ReportEntryType.FAILURE, 1, null, null);
-        WrappedReportEntry wrappedTestSetNested = new WrappedReportEntry(testSetNested, ReportEntryType.FAILURE, 1, null, null);
-        WrappedReportEntry wrappedTestSet = new WrappedReportEntry(testSet, ReportEntryType.FAILURE, 1, null, null);
+        testSetStats.testFailure(new WrappedReportEntry(testCase, ReportEntryType.FAILURE, 0, 1, null, null));
+        WrappedReportEntry wrappedTestSetNested2 = new WrappedReportEntry(testSetNested2, ReportEntryType.FAILURE, 0, 1, null, null);
+        WrappedReportEntry wrappedTestSetNested = new WrappedReportEntry(testSetNested, ReportEntryType.FAILURE, 0, 1, null, null);
+        WrappedReportEntry wrappedTestSet = new WrappedReportEntry(testSet, ReportEntryType.FAILURE, 0, 1, null, null);
 
         reporter.testSetStarting(testSet);
         reporter.testSetStarting(testSetNested);
@@ -124,10 +124,10 @@ public class AccumulatingConsoleReporterTest {
         SimpleReportEntry testCase = createTestCaseKotest(testSetNested2, "net.sourceforge.pmd.test.Simple Nested Group 1 Another Level");
 
         TestSetStats testSetStats = new TestSetStats(true, true);
-        testSetStats.testFailure(new WrappedReportEntry(testCase, ReportEntryType.FAILURE, 1, null, null));
-        WrappedReportEntry wrappedTestSetNested2 = new WrappedReportEntry(testSetNested2, ReportEntryType.FAILURE, 1, null, null);
-        WrappedReportEntry wrappedTestSetNested = new WrappedReportEntry(testSetNested, ReportEntryType.FAILURE, 1, null, null);
-        WrappedReportEntry wrappedTestSet = new WrappedReportEntry(testSet, ReportEntryType.FAILURE, 1, null, null);
+        testSetStats.testFailure(new WrappedReportEntry(testCase, ReportEntryType.FAILURE, 0, 1, null, null));
+        WrappedReportEntry wrappedTestSetNested2 = new WrappedReportEntry(testSetNested2, ReportEntryType.FAILURE, 0, 1, null, null);
+        WrappedReportEntry wrappedTestSetNested = new WrappedReportEntry(testSetNested, ReportEntryType.FAILURE, 0, 1, null, null);
+        WrappedReportEntry wrappedTestSet = new WrappedReportEntry(testSet, ReportEntryType.FAILURE, 0, 1, null, null);
 
         reporter.testSetStarting(testSet);
         reporter.testSetStarting(testSetNested);
@@ -155,15 +155,15 @@ public class AccumulatingConsoleReporterTest {
         SimpleReportEntry testCase3 = createTestCase(testSet2, "testMethod");
 
         TestSetStats testSet1Stats = new TestSetStats(true, true);
-        testSet1Stats.testSucceeded(new WrappedReportEntry(testCase1, ReportEntryType.SUCCESS, 120, null, null));
-        testSet1Stats.testFailure(new WrappedReportEntry(testCase2, ReportEntryType.FAILURE, 121, null, null));
-        WrappedReportEntry testSet1Report = new WrappedReportEntry(testSet1, ReportEntryType.FAILURE, 122, null, null);
+        testSet1Stats.testSucceeded(new WrappedReportEntry(testCase1, ReportEntryType.SUCCESS, 0, 120, null, null));
+        testSet1Stats.testFailure(new WrappedReportEntry(testCase2, ReportEntryType.FAILURE, 0, 121, null, null));
+        WrappedReportEntry testSet1Report = new WrappedReportEntry(testSet1, ReportEntryType.FAILURE, 0, 122, null, null);
 
         TestSetStats testSet2Stats = new TestSetStats(true, true);
-        testSet2Stats.testSucceeded(new WrappedReportEntry(testCase3, ReportEntryType.SUCCESS, 123, null, null));
-        WrappedReportEntry testSet2Report = new WrappedReportEntry(testSet2, ReportEntryType.SUCCESS, 124, null, null);
+        testSet2Stats.testSucceeded(new WrappedReportEntry(testCase3, ReportEntryType.SUCCESS, 0, 123, null, null));
+        WrappedReportEntry testSet2Report = new WrappedReportEntry(testSet2, ReportEntryType.SUCCESS, 0, 124, null, null);
 
-        WrappedReportEntry testSuiteReport = new WrappedReportEntry(testSuite, ReportEntryType.SUCCESS, 125, null, null);
+        WrappedReportEntry testSuiteReport = new WrappedReportEntry(testSuite, ReportEntryType.SUCCESS, 0, 125, null, null);
 
         reporter.testSetStarting(testSuite);
         reporter.testSetStarting(testSet1);
@@ -187,7 +187,7 @@ public class AccumulatingConsoleReporterTest {
     void failForEmptyTestSet() {
         SimpleReportEntry testSet = createTestSet("net.sourceforge.pmd.test.Simple");
 
-        WrappedReportEntry wrappedReportEntry = new WrappedReportEntry(testSet, ReportEntryType.SUCCESS, 123, null, null);
+        WrappedReportEntry wrappedReportEntry = new WrappedReportEntry(testSet, ReportEntryType.SUCCESS, 0, 123, null, null);
 
         reporter.testSetStarting(testSet);
         reporter.testSetCompleted(wrappedReportEntry, EMPTY_STATS, EMPTY);

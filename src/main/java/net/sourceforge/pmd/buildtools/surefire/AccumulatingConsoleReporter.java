@@ -152,7 +152,7 @@ class AccumulatingConsoleReporter extends StatelessTestsetInfoConsoleReportEvent
             }
 
             WrappedReportEntry reportWithTotalElapsedMillis = new WrappedReportEntry(report,
-                    report.getReportEntryType(), elapsedMillis, null, null);
+                    report.getReportEntryType(), report.getStartTime(), elapsedMillis, null, null);
             getConsoleLogger().info(indentation + accumulated.getColoredTestSetSummary(reportWithTotalElapsedMillis, false));
 
             printTestResults(accumulated, accumulatedTestResults.get(outerTestClass));

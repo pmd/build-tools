@@ -8,7 +8,7 @@
     <rule ref="category/java/bestpractices.xml/LiteralsFirstInComparisons">
         <priority>1</priority>
     </rule>
-    <rule ref="category/java/bestpractices.xml/JUnit5TestShouldBePackagePrivate">
+    <rule ref="category/java/bestpractices.xml/JUnitJupiterTestShouldBePackagePrivate">
         <priority>1</priority>
     </rule>
     <rule ref="category/java/bestpractices.xml/UnusedPrivateMethod">

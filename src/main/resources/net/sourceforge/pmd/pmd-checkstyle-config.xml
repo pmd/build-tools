@@ -27,11 +27,6 @@
       <property name="severity" value="warning"/>
       <property name="accessModifiers" value="public,protected"/>
     </module>
-    <module name="JavadocStyle">
-      <property name="severity" value="warning"/>
-      <property name="scope" value="protected"/>
-      <property name="checkEmptyJavadoc" value="true"/>
-    </module>
     <module name="JavadocType">
       <property name="severity" value="warning"/>
       <property name="scope" value="protected"/>

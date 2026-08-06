@@ -176,6 +176,9 @@
     <rule ref="category/java/codestyle.xml/UnnecessaryBlock">
         <priority>1</priority>
     </rule>
+    <rule ref="category/java/codestyle.xml/UnnecessaryCast">
+        <priority>1</priority>
+    </rule>
     <rule ref="category/java/codestyle.xml/UnnecessaryConstructor">
         <priority>1</priority>
     </rule>

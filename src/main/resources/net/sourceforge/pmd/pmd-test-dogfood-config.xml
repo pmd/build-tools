@@ -41,4 +41,7 @@
     <rule ref="category/java/codestyle.xml/UselessParentheses">
         <priority>1</priority>
     </rule>
+    <rule ref="category/java/errorprone.xml/AssertEqualsArgumentOrder">
+        <priority>1</priority>
+    </rule>
 </ruleset>

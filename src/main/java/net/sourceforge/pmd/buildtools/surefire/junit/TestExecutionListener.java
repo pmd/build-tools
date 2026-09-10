@@ -12,13 +12,13 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicLong;
 
-import org.apache.maven.surefire.api.report.LegacyPojoStackTraceWriter;
 import org.apache.maven.surefire.api.report.OutputReportEntry;
 import org.apache.maven.surefire.api.report.RunMode;
 import org.apache.maven.surefire.api.report.SimpleReportEntry;
 import org.apache.maven.surefire.api.report.TestOutputReceiver;
 import org.apache.maven.surefire.api.report.TestOutputReportEntry;
 import org.apache.maven.surefire.api.report.TestReportListener;
+import org.apache.maven.surefire.junitplatform.DefaultStackTraceWriter;
 import org.junit.platform.engine.TestExecutionResult;
 import org.junit.platform.engine.UniqueId;
 import org.junit.platform.engine.support.descriptor.ClassSource;
@@ -162,7 +162,7 @@ class TestExecutionListener implements org.junit.platform.launcher.TestExecution
                 testIdentifier.getDisplayName(),
                 testIdentifier.getUniqueId(),
                 testIdentifier.getUniqueId(),
-                throwable != null ? new LegacyPojoStackTraceWriter(testIdentifier.getDisplayName(), null, throwable) : null,
+                throwable != null ? new DefaultStackTraceWriter(testIdentifier.getDisplayName(), null, throwable) : null,
                 elapsed,
                 message,
                 systemProps

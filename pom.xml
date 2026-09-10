@@ -96,12 +96,12 @@
             <artifactId>maven-surefire-common</artifactId>
             <version>${surefire.version}</version>
             <scope>compile</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>asm</groupId>
-                    <artifactId>asm</artifactId>
-                </exclusion>
-            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.maven.surefire</groupId>
+            <artifactId>surefire-junit-platform</artifactId>
+            <version>${surefire.version}</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>net.sourceforge.pmd</groupId>
